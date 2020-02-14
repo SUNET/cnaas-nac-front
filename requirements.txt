@@ -1,0 +1,5 @@
+Flask-RESTful==0.3.7
+Flask-RESTPlus==0.13.0
+Flask-JWT-Extended==3.24.0
+Flask-WTF==0.14.2
+WTForms==2.2.1
