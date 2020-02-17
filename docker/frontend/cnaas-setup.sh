@@ -13,6 +13,7 @@ apt-get update && \
       git \
       python3-venv \
       python3-pip \
+      python3-yaml \
       iputils-ping \
       procps \
       bind9-host \
@@ -27,7 +28,6 @@ apt-get update && \
     && apt-get clean
 
 pip3 install uwsgi
-pip3 install requests
 
 # Start venv
 python3 -m venv /opt/cnaas/venv
@@ -35,6 +35,7 @@ cd /opt/cnaas/venv/
 source bin/activate
 
 /opt/cnaas/venv/bin/pip install -U pip
+pip3 install requests
 
 # Fetch the code and install dependencies
 git clone https://github.com/SUNET/cnaas-nac-front.git
