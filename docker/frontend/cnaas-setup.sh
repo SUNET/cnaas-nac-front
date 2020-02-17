@@ -27,6 +27,7 @@ apt-get update && \
     && apt-get clean
 
 pip3 install uwsgi
+pip3 install requests
 
 # Start venv
 python3 -m venv /opt/cnaas/venv
