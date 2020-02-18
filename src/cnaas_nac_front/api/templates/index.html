@@ -38,6 +38,22 @@
 	      }
 	  }
       }
+
+      function toggle_enabled() {
+	  if( document.getElementById("enabled").style.display=='none' ){
+	      document.getElementById("enabled").style.display = '';
+	  }else{
+	      document.getElementById("enabled").style.display = 'none';
+	  }
+      }
+
+      function toggle_disabled() {
+	  if( document.getElementById("disabled").style.display=='none' ){
+	      document.getElementById("disabled").style.display = '';
+	  }else{
+	      document.getElementById("disabled").style.display = 'none';
+	  }
+      }
     </script>
   </head>
   <style>
@@ -67,6 +83,29 @@
 	background-color: #E67527;
 	color: white;
     }
+
+    .enabled {
+	display: block;
+	width: 50%;
+	border: none;
+	background-color: #4CAF50;
+	padding: 14px 28px;
+	font-size: 16px;
+	cursor: pointer;
+	text-align: center;
+    }
+    .disabled {
+	display: block;
+	width: 50%;
+	border: none;
+	background-color: red;
+	padding: 14px 28px;
+	font-size: 16px;
+	cursor: pointer;
+	text-align: center;
+	align: right;
+    }
+
   </style>
 
   <body style="background-color:#d0d0d0;text-align:left">
@@ -74,21 +113,29 @@
       {{ form.hidden_tag() }}
       <table id="default-table">
 	<tr>
-	  <th onclick="sortTable(0)">Select &#8595;</th>
-	  <th onclick="sortTable(1)">Username &#8595;</th>
-	  <th onclick="sortTable(2)">Attribute &#8595;</th>
-	  <th onclick="sortTable(3)">Type &#8595;</th>
-	  <th onclick="sortTable(4)">Value &#8595;</th>
-	  <th onclick="sortTable(5)">Calling Station ID &#8595;</th>
-	  <th onclick="sortTable(6)">Called Station ID &#8595;</th>
-	  <th onclick="sortTable(7)">Port &#8595;</th>
-	  <th onclick="sortTable(8)">Status &#8595;</th>
-	  <th onclick="sortTable(9)">Last seen (UTC) &#8595;</th>
-	  <th onclick="sortTable(10)">Last reply &#8595;</th>
+	  <th>Select <span onclick="sortTable(0)">&#8595;</span></th>
+	  <th>Username <span onclick="sortTable(1)">&#8595;</span></th>
+	  <th>Attribute <span onclick="sortTable(2)">&#8595;</span></th>
+	  <th>Type <span onclick="sortTable(3)">&#8595;</span></th>
+	  <th>Value <span onclick="sortTable(4)">&#8595;</span></th>
+	  <th>Calling Station<span onclick="sortTable(5)">&#8595;</span></th>
+	  <th>Called Station<span onclick="sortTable(6)">&#8595;</span></th>
+	  <th>Port <span onclick="sortTable(7)">&#8595;</span></th>
+	  <th>
+	    Status <span onclick="sortTable(8)">&#8595;</span>
+	    <span onClick="toggle_enabled();">(Enabled</span>
+	    <span onClick="toggle_disabled();">/Disabled)</span>
+	  </th>
+	  <th>Last seen (UTC)<span onclick="sortTable(9)">&#8595;</span></th>
+	  <th>Last reply<span onclick="sortTable(10)">&#8595;</span></th>
 	</tr>
 
 	{% for user in users %}
-	<tr>
+	{% if users[user].active %}
+	<tr id="enabled">
+	{% else %}
+	<tr id="disabled">
+	{% endif %}
 	  <td>{{ form.selected(value=user) }}</td>
 	  <td>{{ user }}</td>
 	  {% for attr in users[user].replies %}
