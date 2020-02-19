@@ -131,11 +131,18 @@
 
   <body style="background-color:#d0d0d0;text-align:left">
     <form action="" method="post" novalidate>
-      {{ form.hidden_tag() }}
       <div class="navbar">
-	<span class="right">{{ form.set_vlan_btn }} {{ form.set_vlan }}</span>
-	<span class="left">{{ form.delete() }} {{ form.enable }} {{ form.disable }} {{ form.bounce_btn }}</span>
-	<hr>
+	{{ form.set_vlan_btn }} {{ form.set_vlan }} {{ form.delete() }} {{ form.enable }} {{ form.disable }} {{ form.bounce_btn }}
+
+	{{ form.hidden_tag() }}
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+	    {% for message in messages %}
+	<font color="red"><b>{{ message }}</b></font>
+	    {% endfor %}
+	  {% endif %}
+	{% endwith %}
+
       </div>
       <div class="main">
 
