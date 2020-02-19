@@ -94,6 +94,7 @@
 	cursor: pointer;
 	text-align: center;
     }
+
     .disabled {
 	display: block;
 	width: 50%;
@@ -106,79 +107,101 @@
 	align: right;
     }
 
+    .navbar {
+	overflow: hidden;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	background-color: darkgrey
+    }
+
+    .navbar a {
+	float: left;
+	display: block;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+    }
+
+    .main {
+	margin-top: 30px;
+    }
+
   </style>
 
   <body style="background-color:#d0d0d0;text-align:left">
     <form action="" method="post" novalidate>
       {{ form.hidden_tag() }}
-      <table id="default-table">
-	<tr>
-	  <th>Select <span onclick="sortTable(0)">&#8595;</span></th>
-	  <th>Username <span onclick="sortTable(1)">&#8595;</span></th>
-	  <th>Attribute <span onclick="sortTable(2)">&#8595;</span></th>
-	  <th>Type <span onclick="sortTable(3)">&#8595;</span></th>
-	  <th>Value <span onclick="sortTable(4)">&#8595;</span></th>
-	  <th>Calling Station<span onclick="sortTable(5)">&#8595;</span></th>
-	  <th>Called Station<span onclick="sortTable(6)">&#8595;</span></th>
-	  <th>Port <span onclick="sortTable(7)">&#8595;</span></th>
-	  <th>
-	    Status <span onclick="sortTable(8)">&#8595;</span>
-	    <span onClick="toggle_enabled();">(Enabled</span>
-	    <span onClick="toggle_disabled();">/Disabled)</span>
-	  </th>
-	  <th>Last seen (UTC)<span onclick="sortTable(9)">&#8595;</span></th>
-	  <th>Last reply<span onclick="sortTable(10)">&#8595;</span></th>
-	</tr>
+      <div class="navbar">
+	<span class="right">{{ form.set_vlan_btn }} {{ form.set_vlan }}</span>
+	<span class="left">{{ form.delete() }} {{ form.enable }} {{ form.disable }} {{ form.bounce_btn }}</span>
+	<hr>
+      </div>
+      <div class="main">
 
-	{% for user in users %}
-	{% if users[user].active %}
-	<tr id="enabled">
-	{% else %}
-	<tr id="disabled">
-	{% endif %}
-	  <td>{{ form.selected(value=user) }}</td>
-	  <td>{{ user }}</td>
-	  {% for attr in users[user].replies %}
-	  <td>
-	    {{ attr.value }}
-	  </td>
-	  {% endfor %}
-	  <td>
-	    {{ users[user].calling_station_id }}
-	  </td>
-	  <td>
-	    {{ users[user].called_station_id }}
-	  </td>
-	  <td>
-	    {{ users[user].nas_port_id }}
-	  </td>
+	<table id="default-table">
+	  <tr>
+	    <th>Select <span onclick="sortTable(0)">&#8595;</span></th>
+	    <th>Username <span onclick="sortTable(1)">&#8595;</span></th>
+	    <th>Attribute <span onclick="sortTable(2)">&#8595;</span></th>
+	    <th>Type <span onclick="sortTable(3)">&#8595;</span></th>
+	    <th>Value <span onclick="sortTable(4)">&#8595;</span></th>
+	    <th>Switch IP address<span onclick="sortTable(5)">&#8595;</span></th>
+	    <th>Switch port <span onclick="sortTable(6)">&#8595;</span></th>
+	    <th>
+	      Status <span onclick="sortTable(7)">&#8595;</span>
+	      <span onClick="toggle_enabled();"><u>(Enabled</u></span>
+	      <span onClick="toggle_disabled();"><u>/Disabled)</u></span>
+	    </th>
+	    <th>Last seen (UTC)<span onclick="sortTable(8)">&#8595;</span></th>
+	    <th>Last reply<span onclick="sortTable(9)">&#8595;</span></th>
+	  </tr>
+
+	  {% for user in users %}
 	  {% if users[user].active %}
-	  <td bgcolor="lightgreen">
-	    Enabled
-	  </td>
-	  {% else %}
-	  <td>
-	    Disabled
-	  </td>
-	  {% endif %}
-	  <td>
-	    {{ users[user].last_seen }}
-	  </td>
-	  <td>
-	    {{ users[user].last_reply }}
-	  </td>
-	</tr>
-	{% endfor %}
-      </table>
-      <span class="right">{{ form.set_vlan_btn }} {{ form.set_vlan }}</span>
-      <span class="left">{{ form.delete() }} {{ form.enable }} {{ form.disable }}</span>
-      <hr>
-      <p>
-	Username: {{ form.username(size=32) }}
-	Password: {{ form.password(size=32) }}
-	VLAN: {{ form.vlan(size=32) }}
-	{{ form.submit() }}
-      </p>
+	  <tr id="enabled">
+	    {% else %}
+	  <tr id="disabled">
+	    {% endif %}
+	    <td>{{ form.selected(value=user) }}</td>
+	    <td>{{ user }}</td>
+	    {% for attr in users[user].replies %}
+	    <td>
+	      {{ attr.value }}
+	    </td>
+	    {% endfor %}
+	    <td>
+	      {{ users[user].nas_ip_address }}
+	    </td>
+	    <td>
+	      {{ users[user].nas_port_id }}
+	    </td>
+	    {% if users[user].active %}
+	    <td bgcolor="lightgreen">
+	      Enabled
+	    </td>
+	    {% else %}
+	    <td>
+	      Disabled
+	    </td>
+	    {% endif %}
+	    <td>
+	      {{ users[user].last_seen }}
+	    </td>
+	    <td>
+	      {{ users[user].last_reply }}
+	    </td>
+	  </tr>
+	  {% endfor %}
+	</table>
+	<hr/>
+	<p>
+	  Username: {{ form.username(size=32) }}
+	  Password: {{ form.password(size=32) }}
+	  VLAN: {{ form.vlan(size=32) }}
+	  {{ form.submit() }}
+	</p>
+      </div>
     </form>
   </body>
 </html>
