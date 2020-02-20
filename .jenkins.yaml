@@ -1,0 +1,17 @@
+#
+# Jenkins pipeline for CNaaS
+#
+
+disabled: false
+
+git:
+  branch: master
+  extensions:
+    shallow_clone: true
+
+extra_jobs:
+  - name: cnaas-nac-front
+    builders:
+      - docker
+    docker_name: cnaas/nac-frontend
+    docker_context_dir: docker/frontend
