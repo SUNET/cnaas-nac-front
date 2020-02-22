@@ -208,7 +208,7 @@
 	      {{ user.last_seen }}
 	    </td>
 	    <td>
-	      {{ user.last_reply }}
+	      {{ user.last_reply }}{% if user.reason %}: {{ user.reason }} {% endif %}
 	    </td>
 	  </tr>
 	  {% endfor %}
