@@ -148,7 +148,7 @@
   <body style="background-color:#d0d0d0;text-align:left">
     <form action="" method="post" novalidate>
       <div class="navbar">
-	{{ form.set_vlan_btn(class_="button") }} {{ form.set_vlan(class_="input") }} {{ form.delete(class_="button") }} {{ form.enable(class_="button") }} {{ form.disable(class_="button") }} {{ form.bounce_btn(class_="button") }}
+	{{ form.set_vlan_btn(class_="button") }} {{ form.set_vlan(class_="input") }} {{ form.delete(class_="button") }} {{ form.enable(class_="button") }} {{ form.disable(class_="button") }} {{ form.move_port(claas_="button") }} {{ form.bounce_btn(class_="button") }}
 
 	{{ form.hidden_tag() }}
 	{% with messages = get_flashed_messages() %}
@@ -205,10 +205,18 @@
 	    </td>
 	    {% endif %}
 	    <td>
+	      {% if user.last_seen == "" %}
+	      None
+	      {% else %}
 	      {{ user.last_seen }}
+	      {% endif %}
 	    </td>
 	    <td>
-	      {{ user.last_reply }}
+	      {% if user.last_seen == "" %}
+	      None
+	      {% else %}
+	      {{ user.last_reply }}{% if user.reason %}: {{ user.reason }} {% endif %}
+	      {% endif %}
 	    </td>
 	  </tr>
 	  {% endfor %}

@@ -30,6 +30,7 @@ class UserForm(FlaskForm):
     set_vlan_btn = SubmitField('Set VLAN')
     set_vlan = StringField()
     bounce_btn = SubmitField('Bounce port(s)')
+    move_btn = SubmitField('Change port')
 
 
 def get_users(api_url, token, username=''):
@@ -119,6 +120,22 @@ def disable_user(api_url, token, username):
 def vlan_user(api_url, token, username, vlan):
     try:
         user = {'vlan': vlan}
+        res = requests.put('{}/{}'.format(api_url, username), json=user,
+                           headers={'Authorization': 'Bearer ' + token},
+                           verify=False)
+        json = res.json()
+    except Exception as e:
+        print(str(e))
+        return {}
+
+    if 'data' in json:
+        return json['data']
+    return {}
+
+
+def move_user(api_url, token, username):
+    try:
+        user = {'move': True}
         res = requests.put('{}/{}'.format(api_url, username), json=user,
                            headers={'Authorization': 'Bearer ' + token},
                            verify=False)
@@ -253,6 +270,11 @@ class WebAdmin(Resource):
                     selected = request.form.getlist('selected')
                     for user in selected:
                         vlan_user(api_url, token, user, set_vlan)
+            elif 'move_btn' in result:
+                selected = request.form.getlist('selected')
+                for user in selected:
+                    move_user(api_url, token, user)
+
             return redirect('/admin')
 
         return render_template('index.html', users=users,
