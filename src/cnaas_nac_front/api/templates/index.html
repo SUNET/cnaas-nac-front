@@ -148,7 +148,7 @@
   <body style="background-color:#d0d0d0;text-align:left">
     <form action="" method="post" novalidate>
       <div class="navbar">
-	{{ form.set_vlan_btn(class_="button") }} {{ form.set_vlan(class_="input") }} {{ form.delete(class_="button") }} {{ form.enable(class_="button") }} {{ form.disable(class_="button") }} {{ form.move_port(claas_="button") }} {{ form.bounce_btn(class_="button") }}
+	{{ form.set_vlan_btn(class_="button") }} {{ form.set_vlan(class_="input") }} {{ form.delete(class_="button") }} {{ form.enable(class_="button") }} {{ form.disable(class_="button") }} {{ form.bounce_btn(class_="button") }}
 
 	{{ form.hidden_tag() }}
 	{% with messages = get_flashed_messages() %}
@@ -170,7 +170,6 @@
 	    <th><span onclick="sortTable(3)">Switch IP address &#8595;</span></th>
 	    <th><span onclick="sortTable(4)">Switch port &#8595;</span></th>
 	    <th><span onclick="sortTable(5)">Status &#8595;</span></th>
-	    <th><span onclick="sortTable(6)">Last seen (UTC) &#8595;</span></th>
 	    <th><span onclick="sortTable(7)">Last reply &#8595;</span></th>
 	  </tr>
 
@@ -205,17 +204,10 @@
 	    </td>
 	    {% endif %}
 	    <td>
-	      {% if user.last_seen == "" %}
-	      None
+	      {% if user.reason %}
+	      {{ user.reason }}
 	      {% else %}
-	      {{ user.last_seen }}
-	      {% endif %}
-	    </td>
-	    <td>
-	      {% if user.last_seen == "" %}
 	      None
-	      {% else %}
-	      {{ user.last_reply }}{% if user.reason %}: {{ user.reason }} {% endif %}
 	      {% endif %}
 	    </td>
 	  </tr>
