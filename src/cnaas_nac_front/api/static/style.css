@@ -1,0 +1,86 @@
+#default-table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#default-table td, #default-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#default-table tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+#default-table tr:hover {
+    background-color: #ddd;
+}
+
+#default-table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #E67527;
+    color: white;
+}
+
+.enabled {
+    display: block;
+    width: 50%;
+    border: none;
+    background-color: #4CAF50;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.disabled {
+    display: block;
+    width: 50%;
+    border: none;
+    background-color: red;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    align: right;
+}
+
+.navbar {
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: darkgrey
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.main {
+    margin-top: 30px;
+}
+
+.button {
+    background-color: #E67527;
+    border: none;
+    color: white;
+    padding: 10px 28px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+input[type=text] {
+    padding: 8px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}

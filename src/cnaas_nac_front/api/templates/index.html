@@ -1,150 +1,10 @@
 <html>
   <head>
     <title>CNaaS</title>
-    <script>
-      function sortTable(n) {
-	  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-	  table = document.getElementById("default-table");
-	  switching = true;
-	  dir = "asc";
-	  while (switching) {
-	      switching = false;
-	      rows = table.rows;
-	      for (i = 1; i < (rows.length - 1); i++) {
-		  shouldSwitch = false;
-		  x = rows[i].getElementsByTagName("TD")[n];
-		  y = rows[i + 1].getElementsByTagName("TD")[n];
-		  if (dir == "asc") {
-		      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-			  shouldSwitch= true;
-			  break;
-		      }
-		  } else if (dir == "desc") {
-		      if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-			  shouldSwitch = true;
-			  break;
-		      }
-		  }
-	      }
-	      if (shouldSwitch) {
-		  rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-		  switching = true;
-		  switchcount ++;
-	      } else {
-		  if (switchcount == 0 && dir == "asc") {
-		      dir = "desc";
-		      switching = true;
-		  }
-	      }
-	  }
-      }
-
-      function toggle_enabled() {
-	  if( document.getElementById("enabled").style.display=='none' ){
-	      document.getElementById("enabled").style.display = '';
-	  }else{
-	      document.getElementById("enabled").style.display = 'none';
-	  }
-      }
-
-      function toggle_disabled() {
-	  if( document.getElementById("disabled").style.display=='none' ){
-	      document.getElementById("disabled").style.display = '';
-	  }else{
-	      document.getElementById("disabled").style.display = 'none';
-	  }
-      }
-    </script>
+    <script src="toggle.js"></script>
+    <script src="{{ url_for('static',filename='sort_table.js') }}"></script>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
   </head>
-  <style>
-    #default-table {
-	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-	border-collapse: collapse;
-	width: 100%;
-    }
-
-    #default-table td, #default-table th {
-	border: 1px solid #ddd;
-	padding: 8px;
-    }
-
-    #default-table tr:nth-child(even){
-	background-color: #f2f2f2;
-    }
-
-    #default-table tr:hover {
-	background-color: #ddd;
-    }
-
-    #default-table th {
-	padding-top: 12px;
-	padding-bottom: 12px;
-	text-align: left;
-	background-color: #E67527;
-	color: white;
-    }
-
-    .enabled {
-	display: block;
-	width: 50%;
-	border: none;
-	background-color: #4CAF50;
-	padding: 14px 28px;
-	font-size: 16px;
-	cursor: pointer;
-	text-align: center;
-    }
-
-    .disabled {
-	display: block;
-	width: 50%;
-	border: none;
-	background-color: red;
-	padding: 14px 28px;
-	font-size: 16px;
-	cursor: pointer;
-	text-align: center;
-	align: right;
-    }
-
-    .navbar {
-	overflow: hidden;
-	position: fixed;
-	top: 0;
-	width: 100%;
-	background-color: darkgrey
-    }
-
-    .navbar a {
-	float: left;
-	display: block;
-	text-align: center;
-	padding: 14px 16px;
-	text-decoration: none;
-    }
-
-    .main {
-	margin-top: 30px;
-    }
-
-    .button {
-	background-color: #E67527;
-	border: none;
-	color: white;
-	padding: 10px 28px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-    }
-
-    input[type=text] {
-	padding: 8px 20px;
-	margin: 8px 0;
-	box-sizing: border-box;
-    }
-  </style>
-
   <body style="background-color:#d0d0d0;text-align:left">
     <form action="" method="post" novalidate>
       <div class="navbar">
@@ -152,11 +12,11 @@
 
 	{{ form.hidden_tag() }}
 	{% with messages = get_flashed_messages() %}
-	  {% if messages %}
-	    {% for message in messages %}
+	{% if messages %}
+	{% for message in messages %}
 	<font color="red"><b>{{ message }}</b></font>
-	    {% endfor %}
-	  {% endif %}
+	{% endfor %}
+	{% endif %}
 	{% endwith %}
 
       </div>
@@ -164,13 +24,14 @@
 	<br/><br/>
 	<table id="default-table">
 	  <tr>
-	    <th><span onclick="sortTable(0)">Select &#8595;</span></th>
+	    <th><span onclick="sortTable(0)">&nbsp;</span></th>
 	    <th><span onclick="sortTable(1)">Username &#8595;</span></th>
 	    <th><span onclick="sortTable(2)">VLAN &#8595;</span></th>
 	    <th><span onclick="sortTable(3)">Switch IP address &#8595;</span></th>
 	    <th><span onclick="sortTable(4)">Switch port &#8595;</span></th>
 	    <th><span onclick="sortTable(5)">Status &#8595;</span></th>
 	    <th><span onclick="sortTable(7)">Last reply &#8595;</span></th>
+	    <th><span onclick="sortTable(8)">Last request &#8595;</span></th>
 	  </tr>
 
 	  {% for user in users %}
@@ -203,12 +64,19 @@
 	      Disabled
 	    </td>
 	    {% endif %}
-	    <td>
-	      {% if user.reason %}
+	    {% if user.reason != "User accepted" and user.reason != "" %}
+	      <td bgcolor="orange">
+	    {% else %}
+	      <td>
+	    {% endif %}
+	    {% if user.reason %}
 	      {{ user.reason }}
-	      {% else %}
-	      None
-	      {% endif %}
+	    {% else %}
+	    &nbsp;
+	    {% endif %}
+	    </td>
+	    <td>
+	      {{ user.authdate }}
 	    </td>
 	  </tr>
 	  {% endfor %}
