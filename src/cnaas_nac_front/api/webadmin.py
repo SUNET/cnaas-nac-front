@@ -29,16 +29,16 @@ class UserForm(FlaskForm):
     disable = SubmitField('Disable user(s)')
     set_vlan_btn = SubmitField('Set VLAN')
     set_vlan = StringField()
+    set_comment_btn = SubmitField('Set comment')
+    set_comment = StringField()
     bounce_btn = SubmitField('Bounce port(s)')
-    move_btn = SubmitField('Change port')
 
 
-def get_users(api_url, token, username=''):
+def get_users(api_url, username=''):
     if username != '':
         api_url += '/{}'.format(username)
     try:
         res = requests.get(api_url,
-                           headers={'Authorization': 'Bearer ' + token},
                            verify=False)
         json = res.json()
     except Exception as e:
@@ -50,7 +50,7 @@ def get_users(api_url, token, username=''):
     return {}
 
 
-def add_user(api_url, token, username, password, vlan):
+def add_user(api_url, username, password, vlan):
     try:
         user = {
             'username': username,
@@ -59,10 +59,9 @@ def add_user(api_url, token, username, password, vlan):
         }
 
         res = requests.post(api_url, json=user,
-                            headers={'Authorization': 'Bearer ' + token},
                             verify=False)
         json = res.json()
-    except Exception as e:
+    except Exception:
         return {}
 
     if 'data' in json:
@@ -70,14 +69,12 @@ def add_user(api_url, token, username, password, vlan):
     return {}
 
 
-def delete_user(api_url, token, username):
+def delete_user(api_url, username):
     try:
         res = requests.delete('{}/{}'.format(api_url, username),
-                              headers={'Authorization': 'Bearer ' + token},
                               verify=False)
         json = res.json()
-    except Exception as e:
-        print(str(e))
+    except Exception:
         return {}
 
     if 'data' in json:
@@ -85,15 +82,13 @@ def delete_user(api_url, token, username):
     return {}
 
 
-def enable_user(api_url, token, username):
+def enable_user(api_url, username):
     try:
         user = {'enabled': True}
         res = requests.put('{}/{}'.format(api_url, username), json=user,
-                           headers={'Authorization': 'Bearer ' + token},
                            verify=False)
         json = res.json()
-    except Exception as e:
-        print(str(e))
+    except Exception:
         return {}
 
     if 'data' in json:
@@ -101,15 +96,13 @@ def enable_user(api_url, token, username):
     return {}
 
 
-def disable_user(api_url, token, username):
+def disable_user(api_url, username):
     try:
         user = {'enabled': False}
         res = requests.put('{}/{}'.format(api_url, username), json=user,
-                           headers={'Authorization': 'Bearer ' + token},
                            verify=False)
         json = res.json()
-    except Exception as e:
-        print(str(e))
+    except Exception:
         return {}
 
     if 'data' in json:
@@ -117,51 +110,40 @@ def disable_user(api_url, token, username):
     return {}
 
 
-def vlan_user(api_url, token, username, vlan):
+def vlan_user(api_url, username, vlan):
     try:
         user = {'vlan': vlan}
         res = requests.put('{}/{}'.format(api_url, username), json=user,
-                           headers={'Authorization': 'Bearer ' + token},
                            verify=False)
         json = res.json()
-    except Exception as e:
-        print(str(e))
-        return {}
-
-    if 'data' in json:
-        return json['data']
-    return {}
-
-
-def move_user(api_url, token, username):
-    try:
-        user = {'move': True}
-        res = requests.put('{}/{}'.format(api_url, username), json=user,
-                           headers={'Authorization': 'Bearer ' + token},
-                           verify=False)
-        json = res.json()
-    except Exception as e:
-        print(str(e))
-        return {}
-
-    if 'data' in json:
-        return json['data']
-    return {}
-
-
-def get_jwt_token():
-    try:
-        token = os.environ['JWT_AUTH_TOKEN']
     except Exception:
-        raise ValueError('Could not find JWT token')
-    return token
+        return {}
+
+    if 'data' in json:
+        return json['data']
+    return {}
+
+
+def comment_user(api_url, username, comment):
+    print(comment)
+    try:
+        user = {'comment': comment}
+        res = requests.put('{}/{}'.format(api_url, username), json=user,
+                           verify=False)
+        json = res.json()
+    except Exception:
+        return {}
+
+    if 'data' in json:
+        return json['data']
+    return {}
 
 
 def get_api_url():
     try:
         url = os.environ['AUTH_API_URL']
     except Exception:
-        raise ValueError('Could not find API URL')
+        return None
     return url
 
 
@@ -169,7 +151,7 @@ def get_nms_url():
     try:
         url = os.environ['NMS_API_URL']
     except Exception:
-        raise ValueError('Could not find NMS API URL')
+        return None
     return url
 
 
@@ -224,14 +206,29 @@ def bounce_port(api_url, nms_url, token, username):
     return 'Port bounced: ' + message
 
 
+def get_jwt_token():
+    try:
+        token = os.environ['JWT_AUTH_TOKEN']
+    except Exception:
+        return None
+    return token
+
+
 class WebAdmin(Resource):
     @classmethod
     def index(cls):
         api_url = get_api_url()
         nms_url = get_nms_url()
         token = get_jwt_token()
-        users = get_users(api_url, token)
+        users = get_users(api_url)
         form = UserForm()
+
+        if api_url is None:
+            flash('Authentication API URL not configured')
+        if nms_url is None:
+            flash('NMS API URL not configured')
+        if token is None:
+            flash('NMS API token not configured')
 
         if request.method == 'POST':
             result = request.form
@@ -241,19 +238,19 @@ class WebAdmin(Resource):
                 password = result['password']
                 vlan = result['vlan']
 
-                add_user(api_url, token, username, password, vlan)
+                add_user(api_url, username, password, vlan)
             elif 'delete' in result:
                 selected = request.form.getlist('selected')
                 for user in selected:
-                    delete_user(api_url, token, user)
+                    delete_user(api_url, user)
             elif 'enable' in result:
                 selected = request.form.getlist('selected')
                 for user in selected:
-                    enable_user(api_url, token, user)
+                    enable_user(api_url, user)
             elif 'disable' in result:
                 selected = request.form.getlist('selected')
                 for user in selected:
-                    disable_user(api_url, token, user)
+                    disable_user(api_url, user)
             elif 'bounce_btn' in result:
                 selected = request.form.getlist('selected')
                 if len(selected) > 1:
@@ -269,11 +266,12 @@ class WebAdmin(Resource):
                 if set_vlan != "" and set_vlan:
                     selected = request.form.getlist('selected')
                     for user in selected:
-                        vlan_user(api_url, token, user, set_vlan)
-            elif 'move_btn' in result:
+                        vlan_user(api_url, user, set_vlan)
+            elif 'set_comment_btn' in result:
+                set_comment = result['set_comment']
                 selected = request.form.getlist('selected')
                 for user in selected:
-                    move_user(api_url, token, user)
+                    comment_user(api_url, user, set_comment)
 
             return redirect('/admin')
 
