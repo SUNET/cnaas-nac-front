@@ -1,27 +1,29 @@
 <html>
   <head>
     <title>CNaaS</title>
-    <script src="toggle.js"></script>
     <script src="{{ url_for('static',filename='sort_table.js') }}"></script>
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
   </head>
   <body style="background-color:#d0d0d0;text-align:left">
-    <form action="" method="post" novalidate>
+    <form action="" method="post">
+      {{ form.hidden_tag() }}
       <div class="navbar">
-	{{ form.set_vlan_btn(class_="button") }} {{ form.set_vlan(class_="input") }} {{ form.delete(class_="button") }} {{ form.enable(class_="button") }} {{ form.disable(class_="button") }} {{ form.bounce_btn(class_="button") }}
-
-	{{ form.hidden_tag() }}
+	{{ form.delete(class_="button") }}
+	{{ form.enable(class_="button") }}
+	{{ form.disable(class_="button") }}
+	{{ form.bounce_btn(class_="button") }}
+	{{ form.set_vlan_btn(class_="button") }} {{ form.set_vlan(class_="input") }}
+	{{ form.set_comment_btn(class_="button") }}
+	{{ form.set_comment(class_="input") }}
+      </div>
+      <div class="main">
 	{% with messages = get_flashed_messages() %}
 	{% if messages %}
 	{% for message in messages %}
-	<font color="red"><b>{{ message }}</b></font>
+	<font color="red"><b>{{ message }}</b></font><br/>
 	{% endfor %}
 	{% endif %}
 	{% endwith %}
-
-      </div>
-      <div class="main">
-	<br/><br/>
 	<table id="default-table">
 	  <tr>
 	    <th><span onclick="sortTable(0)">&nbsp;</span></th>
@@ -32,6 +34,7 @@
 	    <th><span onclick="sortTable(5)">Status &#8595;</span></th>
 	    <th><span onclick="sortTable(7)">Last reply &#8595;</span></th>
 	    <th><span onclick="sortTable(8)">Last request &#8595;</span></th>
+	    <th><span onclick="sortTable(9)">Comment</span></th>
 	  </tr>
 
 	  {% for user in users %}
@@ -65,29 +68,25 @@
 	    </td>
 	    {% endif %}
 	    {% if user.reason != "User accepted" and user.reason != "" %}
-	      <td bgcolor="orange">
-	    {% else %}
-	      <td>
-	    {% endif %}
-	    {% if user.reason %}
+	    <td bgcolor="orange">
+	      {% else %}
+	    <td>
+	      {% endif %}
+	      {% if user.reason %}
 	      {{ user.reason }}
-	    {% else %}
-	    &nbsp;
-	    {% endif %}
+	      {% else %}
+	      &nbsp;
+	      {% endif %}
 	    </td>
 	    <td>
 	      {{ user.authdate }}
 	    </td>
+	    <td>
+	      {{ user.comment }}
+	    </td>
 	  </tr>
 	  {% endfor %}
 	</table>
-	<hr/>
-	<p>
-	  Username: {{ form.username(size=32) }}
-	  Password: {{ form.password(size=32) }}
-	  VLAN: {{ form.vlan(size=32) }}
-	  {{ form.submit() }}
-	</p>
       </div>
     </form>
   </body>
