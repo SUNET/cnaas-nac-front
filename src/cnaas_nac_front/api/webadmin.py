@@ -24,17 +24,20 @@ class UserForm(FlaskForm):
     vlan = StringField('VLAN',  validators=[DataRequired()])
     selected = BooleanField('selectfield', default=False)
     submit = SubmitField('Add user')
-    delete = SubmitField('Delete user(s)')
-    enable = SubmitField('Enable user(s)')
-    disable = SubmitField('Disable user(s)')
+    delete = SubmitField('Delete')
+    enable = SubmitField('Enable')
+    disable = SubmitField('Disable')
     set_vlan_btn = SubmitField('Set VLAN')
     set_vlan = StringField()
     set_comment_btn = SubmitField('Set comment')
     set_comment = StringField()
     bounce_btn = SubmitField('Bounce port(s)')
+    replication_btn = SubmitField('Replication')
 
 
 def get_users(api_url, username=''):
+    api_url += '/auth'
+
     if username != '':
         api_url += '/{}'.format(username)
     try:
@@ -147,88 +150,69 @@ def get_api_url():
     return url
 
 
-def get_nms_url():
+def get_coa_secret():
     try:
-        url = os.environ['NMS_API_URL']
+        secret = os.environ['AUTH_COA_SECRET']
     except Exception:
         return None
-    return url
+    return secret
 
 
-def bounce_port(api_url, nms_url, token, username):
-    user_data = get_users(api_url, token, username=username)
+def bounce_port(api_url, username):
+    nas_port_id = None
+    nas_ip_address = None
+    secret = get_coa_secret()
 
-    if username not in user_data:
-        return 'Invalid response from auth API'
-    if 'nas_ip_address' not in user_data[username]:
-        return 'Could not find switch IP address'
-    if 'nas_port_id' not in user_data[username]:
-        return 'Could not find switch port'
+    if secret is None:
+        return 'Could not find CoA secret'
 
-    nas_ip_address = user_data[username]['nas_ip_address']
-    nas_port_id = user_data[username]['nas_port_id']
+    res = requests.get(api_url + '/auth/' + username,
+                       verify=False)
 
-    try:
-        url = nms_url
-        url += 'devices?filter[management.ip]={}'.format(nas_ip_address)
-        res = requests.get(url, headers={'Authorization': 'Bearer ' + token},
-                           verify=False)
-        json = res.json()
+    json_data = res.json()
 
-        if json['data']['devices'] == []:
-            return 'Could not find switch management IP'
-        if 'hostname' not in json['data']['devices'][0]:
-            return 'Could not find switch hostname'
+    if 'data' not in json_data:
+        return 'Bounce: Could not find user'
 
-    except Exception as e:
-        return 'Could not get management IP: ' + str(e)
+    if len(json_data['data']) > 1:
+        return 'Bounce: Returned more than one user, this is impossible!'
 
-    hostname = json['data']['devices'][0]['hostname']
+    for user in json_data['data']:
+        if 'nas_ip_address' in user and user['nas_ip_address']:
+            nas_ip_address = user['nas_ip_address']
+        if 'nas_port_id' in user and user['nas_port_id']:
+            nas_port_id = user['nas_port_id']
 
-    try:
-        url = nms_url + 'device/{}/interface_status'.format(hostname)
-        res = requests.put(url, headers={'Authorization': 'Bearer ' + token},
-                           verify=False,
-                           json={'bounce_interfaces': [nas_port_id]})
-        json = res.json()
+    coa_json = {
+        'nas_ip_address': nas_ip_address,
+        'nas_port_id': nas_port_id,
+        'secret': secret
+    }
 
-        if json['status'] == 'error':
-            message = json['message']
-        else:
-            message = json['data']
+    res = requests.post(api_url + '/coa', json=coa_json,
+                        verify=False)
 
-        if res.status_code != 200:
-            return 'Failed to bounce port: ' + message
+    json_data = res.json()
 
-    except Exception as e:
-        return 'Failed to bounce port: ' + str(e)
+    if 'data' in json_data:
+        data = json_data['data']
+    elif 'error' in json_data:
+        data = json_data['error']
+    else:
+        data = 'Unknown port bounce result'
 
-    return 'Port bounced: ' + message
-
-
-def get_jwt_token():
-    try:
-        token = os.environ['JWT_AUTH_TOKEN']
-    except Exception:
-        return None
-    return token
+    return data
 
 
 class WebAdmin(Resource):
     @classmethod
     def index(cls):
         api_url = get_api_url()
-        nms_url = get_nms_url()
-        token = get_jwt_token()
         users = get_users(api_url)
         form = UserForm()
 
         if api_url is None:
             flash('Authentication API URL not configured')
-        if nms_url is None:
-            flash('NMS API URL not configured')
-        if token is None:
-            flash('NMS API token not configured')
 
         if request.method == 'POST':
             result = request.form
@@ -253,13 +237,14 @@ class WebAdmin(Resource):
                     disable_user(api_url, user)
             elif 'bounce_btn' in result:
                 selected = request.form.getlist('selected')
+
                 if len(selected) > 1:
                     flash('You can only bounce one port.')
                 elif len(selected) == 0:
                     flash('Please select a port to bounce.')
                 else:
                     for user in selected:
-                        message = bounce_port(api_url, nms_url, token, user)
+                        message = bounce_port(api_url, user)
                         flash('Port bounce: ' + message)
             elif 'set_vlan_btn' in result:
                 set_vlan = result['set_vlan']
