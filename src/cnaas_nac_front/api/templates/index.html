@@ -3,6 +3,15 @@
     <title>CNaaS</title>
     <script src="{{ url_for('static',filename='sort_table.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <script>
+                    window.alert("{{ message }}");
+                </script>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
   </head>
   <body style="background-color:#d0d0d0;text-align:left">
     <form action="" method="post">
@@ -17,13 +26,6 @@
 	{{ form.set_comment(class_="input") }}
       </div>
       <div class="main">
-	{% with messages = get_flashed_messages() %}
-	{% if messages %}
-	{% for message in messages %}
-	<font color="red"><b>{{ message }}</b></font><br/>
-	{% endfor %}
-	{% endif %}
-	{% endwith %}
 	<table id="default-table">
 	  <tr>
 	    <th><span onclick="sortTable(0)">&nbsp;</span></th>
@@ -36,7 +38,6 @@
 	    <th><span onclick="sortTable(8)">Last request &#8595;</span></th>
 	    <th><span onclick="sortTable(9)">Comment</span></th>
 	  </tr>
-
 	  {% for user in users %}
 	  {% if users.active %}
 	  <tr id="enabled">
