@@ -54,6 +54,7 @@ body {
 }
 
 .button {
+    border-radius: 10px;
     color: white;
     background-color: #E67400;
     border: none;
@@ -68,10 +69,11 @@ body {
 .button {
     transition-duration: 0.4s;
     font-weight: bold;
-    font-size: 20px;    
+    font-size: 20px;
 }
 
 .button:hover {
+    border-radius: 10px;
     background-color: darkgrey;
     color: white;
 }
@@ -84,6 +86,7 @@ body {
 }
 
 .navbar input {
+    border-radius: 10px;
     padding: 6px 20px;
     text-align: center;
     text-decoration: none;
