@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  nac_front:
+    build: ./frontend/
+    ports:
+      - 2443:443
+    environment:
+      - AUTH_API_URL=https://nac_api/api/v1.0
+      - AUTH_COA_SECRET
+    networks:
+      - cnaas
+
+networks:
+  cnaas:
+    driver: bridge
+    name: cnaas
+    ipam:
+      config:
+      - subnet: 172.31.0.0/24
+    driver_opts:
+      com.docker.network.bridge.name: br-cnaas    
