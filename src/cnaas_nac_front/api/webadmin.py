@@ -61,7 +61,7 @@ def add_user(api_url, username, password, vlan):
             'vlan': vlan
         }
 
-        res = requests.post(api_url, json=user,
+        res = requests.post(api_url + '/auth', json=user,
                             verify=False)
         json = res.json()
     except Exception:
@@ -74,7 +74,7 @@ def add_user(api_url, username, password, vlan):
 
 def delete_user(api_url, username):
     try:
-        res = requests.delete('{}/{}'.format(api_url, username),
+        res = requests.delete('{}/auth/{}'.format(api_url, username),
                               verify=False)
         json = res.json()
     except Exception:
@@ -88,7 +88,7 @@ def delete_user(api_url, username):
 def enable_user(api_url, username):
     try:
         user = {'enabled': True}
-        res = requests.put('{}/{}'.format(api_url, username), json=user,
+        res = requests.put('{}/auth/{}'.format(api_url, username), json=user,
                            verify=False)
         json = res.json()
     except Exception:
@@ -102,7 +102,7 @@ def enable_user(api_url, username):
 def disable_user(api_url, username):
     try:
         user = {'enabled': False}
-        res = requests.put('{}/{}'.format(api_url, username), json=user,
+        res = requests.put('{}/auth/{}'.format(api_url, username), json=user,
                            verify=False)
         json = res.json()
     except Exception:
@@ -116,7 +116,7 @@ def disable_user(api_url, username):
 def vlan_user(api_url, username, vlan):
     try:
         user = {'vlan': vlan}
-        res = requests.put('{}/{}'.format(api_url, username), json=user,
+        res = requests.put('{}/auth/{}'.format(api_url, username), json=user,
                            verify=False)
         json = res.json()
     except Exception:
@@ -131,7 +131,7 @@ def comment_user(api_url, username, comment):
     print(comment)
     try:
         user = {'comment': comment}
-        res = requests.put('{}/{}'.format(api_url, username), json=user,
+        res = requests.put('{}/auth/{}'.format(api_url, username), json=user,
                            verify=False)
         json = res.json()
     except Exception:
