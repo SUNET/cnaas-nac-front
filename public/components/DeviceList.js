@@ -1,21 +1,36 @@
 import React from "react";
 import { Button, Select, Input, Icon, Pagination, Checkbox } from "semantic-ui-react";
 import DeviceSearchForm from "./DeviceSearchForm";
-import DeviceEnableForm from "./DeviceEnableForm";
 import checkResponseStatus from "../utils/checkResponseStatus";
 
 class DeviceList extends React.Component {
-    state = {
-	sortField: "id",
-	filterField: null,
-	filterValue: null,
-	hostname_sort: "",
-	device_type_sort: "",
-	synchronized_sort: "",
-	devicesData: [],
-	activePage: 1,
-	totalPages: 1
-    };
+    constructor() {
+	super();
+	this.state = {
+	    sortField: "id",
+	    filterField: null,
+	    filterValue: null,
+	    hostname_sort: "",
+	    device_type_sort: "",
+	    synchronized_sort: "",
+	    devicesData: [],
+	    activePage: 1,
+	    totalPages: 1,
+	    checkedItems: {},
+	};
+
+	this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+	let newState = this.state;
+
+	this.setState(newState);
+	newState['checkedItems'][event.target.name] = event.target.checked;
+	this.setState(newState);
+
+	console.log(this.state.checkedItems);
+    }
 
     getDevicesData = options => {
 	if (options === undefined) options = {};
@@ -110,7 +125,6 @@ class DeviceList extends React.Component {
 	    .then(response => checkResponseStatus(response))
 	    .then(response => response.json())
 	    .then(data => {
-		console.log("this should be data", data);
 		{
 		    this.setState(
 			{
@@ -134,6 +148,64 @@ class DeviceList extends React.Component {
 	} else {
 	    e.target.closest("tr").nextElementSibling.hidden = true;
 	}
+    }
+
+    updateDeviceEnable = object => {
+	const credentials = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpYXQiOjE1NzEwNTk2MTgsIm5iZiI6MTU3MTA1OTYxOCwianRpIjoiNTQ2MDk2YTUtZTNmOS00NzFlLWE2NTctZWFlYTZkNzA4NmVhIiwic3ViIjoiYWRtaW4iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.Sfffg9oZg_Kmoq7Oe8IoTcbuagpP6nuUXOQzqJpgDfqDq_GM_4zGzt7XxByD4G0q8g4gZGHQnV14TpDer2hJXw";
+	let jsonData = {"enabled": true};
+
+	Object.keys(this.state.checkedItems).forEach(function(key) {
+	    fetch(process.env.API_URL + "/auth/" + key, {
+		method: "PUT",
+		headers: {
+		    Authorization: `Bearer ${credentials}`,
+		    "Content-Type": "application/json"
+		},
+		body: JSON.stringify(jsonData)
+	    })
+		.then(response => checkResponseStatus(response))
+		.then(response => response.json())
+		.then(data => {
+		    {
+			console.log(data);
+		    }
+		});
+	});
+    };
+
+    updateDeviceDisable = object => {
+	const credentials = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpYXQiOjE1NzEwNTk2MTgsIm5iZiI6MTU3MTA1OTYxOCwianRpIjoiNTQ2MDk2YTUtZTNmOS00NzFlLWE2NTctZWFlYTZkNzA4NmVhIiwic3ViIjoiYWRtaW4iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.Sfffg9oZg_Kmoq7Oe8IoTcbuagpP6nuUXOQzqJpgDfqDq_GM_4zGzt7XxByD4G0q8g4gZGHQnV14TpDer2hJXw";
+	let jsonData = {"enabled": false};
+
+	Object.keys(this.state.checkedItems).forEach(function(key) {
+	    fetch(process.env.API_URL + "/auth/" + key, {
+		method: "PUT",
+		headers: {
+		    Authorization: `Bearer ${credentials}`,
+		    "Content-Type": "application/json"
+		},
+		body: JSON.stringify(jsonData)
+	    })
+		.then(response => checkResponseStatus(response))
+		.then(response => response.json())
+		.then(data => {
+		    {
+			console.log(data);
+		    }
+		});
+	});
+    };
+
+    handleEnable = object => {
+	this.updateDeviceEnable();
+	this.getDevicesData();
+	this.forceUpdate();
+    }
+
+    handleDisable = object => {
+	this.updateDeviceDisable();
+	this.getDevicesData();
+	this.forceUpdate();
     }
 
     render() {
@@ -161,6 +233,9 @@ class DeviceList extends React.Component {
 			<input
 			    type="checkbox"
 			    value={items.username}
+			    onChange={this.handleChange}
+			    name={items.username}
+			    checked={this.state.check}
 			/>
 		    </td>
 		    <td key="1">
@@ -226,7 +301,10 @@ class DeviceList extends React.Component {
 		    <DeviceSearchForm searchAction={this.getDevicesData} />
 		</div>
 		<div id="enable">
-		    <DeviceEnableForm />
+		    <Button onClick={this.handleEnable}>Enable</Button>
+		</div>
+		<div id="disable">
+		    <Button onClick={this.handleDisable}>Disable</Button>
 		</div>
 		<div id="device_list">
 		    <div id="data">
