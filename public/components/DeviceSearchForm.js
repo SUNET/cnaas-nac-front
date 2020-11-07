@@ -5,7 +5,7 @@ import { Button, Select, Input, Icon } from 'semantic-ui-react'
 class DeviceSearchForm extends React.Component {
   state = {
       searchText: "",
-      searchField: "hostname"
+      searchField: "username"
   };
 
   updateSearchText(e) {
@@ -37,16 +37,12 @@ class DeviceSearchForm extends React.Component {
 
   render() {
     const searchOptions = [
-      { 'key': 'hostname', 'value': 'hostname', 'text': 'Hostname' },
-      { 'key': 'id', 'value': 'id', 'text': 'ID' },
-      { 'key': 'management_ip', 'value': 'management_ip', 'text': 'Management IP' },
-      { 'key': 'serial', 'value': 'serial', 'text': 'Serial number' },
-      { 'key': 'ztp_mac', 'value': 'ztp_mac', 'text': 'MAC' },
-      { 'key': 'platform', 'value': 'platform', 'text': 'Platform' },
-      { 'key': 'vendor', 'value': 'vendor', 'text': 'Vendor' },
-      { 'key': 'model', 'value': 'model', 'text': 'Hardware model' },
-      { 'key': 'os_version', 'value': 'os_version', 'text': 'OS version' },
-      { 'key': 'state', 'value': 'state', 'text': 'State' },
+      { 'key': 'username', 'value': 'username', 'text': 'Username' },
+      { 'key': 'vlan', 'value': 'vlan', 'text': 'VLAN' },
+      { 'key': 'nasip', 'value': 'nasip', 'text': ' NAS IP address' },
+      { 'key': 'nasport', 'value': 'nasport', 'text': 'NAS port ID' },
+      { 'key': 'reason', 'value': 'reason', 'text': 'Reason' },
+      { 'key': 'comment', 'value': 'comment', 'text': 'Comment' },
     ]
 
     return (
@@ -56,7 +52,7 @@ class DeviceSearchForm extends React.Component {
           icon={<Icon name='delete' link onClick={this.clearSearch.bind(this)}/>}
           value={this.state.searchText}
         />
-        <Select compact options={searchOptions} defaultValue='hostname' onChange={this.updateSearchField.bind(this)} />
+        <Select compact options={searchOptions} defaultValue='username' onChange={this.updateSearchField.bind(this)} />
         <Button type='submit'>Search</Button>
       </form>
     );

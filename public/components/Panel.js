@@ -83,13 +83,8 @@ class Panel extends React.Component {
         />
         <Route
           exact
-          path="/devices"
+          path="/clients"
           render={props => <DeviceList logout={this.logout} />}
-        />
-        <Route
-          exact
-          path="/config-change"
-          render={props => <ConfigChange logout={this.logout} />}
         />
       </div>
     );

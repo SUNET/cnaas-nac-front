@@ -1,64 +1,64 @@
 body {
-  height: calc(100vh - 4px);
-  background: #fff;
-  font-family: "Karla", sans-serif;
-  font-size: 14px;
-  color: #003049;
-  font-weight: 700;
-  line-height: 1.2;
+    height: calc(100vh - 4px);
+    background: #fff;
+    font-family: "Karla", sans-serif;
+    font-size: 14px;
+    color: #003049;
+    font-weight: 700;
+    line-height: 1.2;
 }
 
 #root {
-  height: calc(100% - 4px);
+    height: calc(100% - 4px);
 }
 
 .container {
-  height: calc(100% - 4px);
-  display: flex;
-  flex-direction: column;
+    height: calc(100% - 4px);
+    display: flex;
+    flex-direction: column;
 }
 
 header {
-  border-bottom: #ff4500 solid 1px;
-  display: flex;
+    border-bottom: #ff4500 solid 1px;
+    display: flex;
 }
 
 nav {
-  flex: 1;
-  margin: 16px;
+    flex: 1;
+    margin: 16px;
 }
 
 nav ul {
-  display: flex;
-  justify-content: flex-end;
+    display: flex;
+    justify-content: flex-end;
 }
 
 nav li {
-  margin-right: 16px;
+    margin-right: 16px;
 }
 
 a {
-  text-transform: Captalize;
-  color: #003049;
-  text-decoration: none;
+    text-transform: Captalize;
+    color: #003049;
+    text-decoration: none;
 }
 
 h1,
 h2 {
-  font-size: 24px;
-  margin: 32px 0;
-  line-height: 1.2;
+    font-size: 24px;
+    margin: 32px 0;
+    line-height: 1.2;
 }
 
 h2:first-child {
-  margin-top: 32px;
+    margin-top: 32px;
 }
 
 p {
-  font-size: 16px;
-  margin: 16px 0;
-  line-height: 1.2;
-  font-weight: 400;
+    font-size: 16px;
+    margin: 16px 0;
+    line-height: 1.2;
+    font-weight: 400;
 }
 
 /* p:first-child {
@@ -66,221 +66,224 @@ p {
 } */
 
 button {
-  background: #ff4500;
-  font-family: "Montserrat", sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 1px;
+    background: #ff4500;
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
 
-  border: transparent solid 1px;
-  border-radius: 20px;
+    border: transparent solid 1px;
+    border-radius: 20px;
 
-  padding: 16px 32px;
-  margin: 16px;
+    padding: 16px 32px;
+    margin: 16px;
 }
 
 button:hover {
-  border: #ff4500 solid 1px;
-  background: #ffe7dd;
-  color: #ff4500;
+    border: #ff4500 solid 1px;
+    background: #ffe7dd;
+    color: #ff4500;
 }
 
 button:disabled {
-  background: #cccccc;
+    background: #cccccc;
 }
 
 section {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
 }
 
 /* long-term maybe panel can be removed */
 #panel {
-  padding: 16px;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
+    padding: 16px;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
 }
 
 footer {
-  border-top: #ff4500 solid 1px;
-  display: flex;
-  padding: 16px;
+    border-top: #ff4500 solid 1px;
+    display: flex;
+    padding: 16px;
 }
 
 /* task styles */
 .task-container {
-  border: solid gray 1px;
-  margin: 16px 0;
-  padding-bottom: 16px;
+    border: solid gray 1px;
+    margin: 16px 0;
+    padding-bottom: 16px;
 }
 
 .task-container h2,
 .task-container p {
-  padding: 0 16px;
+    padding: 0 16px;
 }
 
 .task-container p {
-  font-size: 20px;
-  font-weight: 400;
+    font-size: 20px;
+    font-weight: 400;
 }
 
 .task-container .heading {
-  display: flex;
-  justify-content: space-between;
-  background-color: #f4f4f4;
+    display: flex;
+    justify-content: space-between;
+    background-color: #f4f4f4;
 }
 
 .task-container .close {
-  background: transparent;
-  border: none;
-  text-transform: capitalize;
-  color: #ff4500;
+    background: transparent;
+    border: none;
+    text-transform: capitalize;
+    color: #ff4500;
 }
 
 .task-container .close:hover {
-  background-color: transparent;
-  border: none;
-  border-radius: 0;
-  text-decoration: underline;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    text-decoration: underline;
 }
 
 .task-collapsable {
-  margin-top: 16px;
+    margin-top: 16px;
 }
 
 .task-collapsable .info {
-  display: flex;
-  align-items: baseline;
+    display: flex;
+    align-items: baseline;
 }
 
 .active {
-  color: #ff4500;
-  text-decoration: underline;
+    color: #ff4500;
+    text-decoration: underline;
 }
 
 table,
 thead,
 tbody {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 tr {
-  display: flex;
-  border-bottom: solid white 1px;
+    display: flex;
+    border-bottom: solid white 1px;
 }
 
 thead {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  background-color: lightgray;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    background-color: lightgray;
 }
 
 tbody {
-  font-size: 16px;
-  font-weight: 400;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 th,
 td {
-  display: flex;
-  flex: 1;
-  padding: 16px;
+    display: flex;
+    flex: 1;
+    padding: 16px;
 }
 
 /* progress bar styles */
 
 #progressbar {
-  margin: 16px;
+    margin: 16px;
 }
 
 progress {
-  display: flex;
-  width: calc(100% - 32px);
-  border-radius: 10px;
+    display: flex;
+    width: calc(100% - 32px);
+    border-radius: 10px;
 }
 
 progress::-webkit-progress-bar {
-  border-radius: 3px;
-  background-color: #ffe7dd;
+    border-radius: 3px;
+    background-color: #ffe7dd;
 }
 progress::-webkit-progress-value {
-  border-radius: 3px;
-  background-color: #ff4500;
+    border-radius: 3px;
+    background-color: #ff4500;
 }
 
 progress::-moz-progress-bar {
-  border-radius: 3px;
-  background-color: yellow;
+    border-radius: 3px;
+    background-color: yellow;
 }
 
 /* DeviceList styles */
 
 #search {
-  padding: 16px 0;
+    padding: 16px 0;
 }
 
 #device_list {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: 16px 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 16px 0;
 }
 
 #data {
-  height: 100%;
-  margin: 16px 0;
-  background: lightgray;
+    height: 100%;
+    margin: 16px 0;
+    /*  background: lightgray; */
 }
 
 #data .device_details_row {
-  background: white;
+    background: white;
 }
 
 #data .device_details_row td {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    background-color: lightgrey;
 }
 
 #data .device_details_table {
-  width: 100%;
-  table-layout: fixed;
+    width: 100%;
+    table-layout: fixed;
+    background-color: lightgrey;
 }
 
 #data .device_details_table td {
-  padding: 4px;
+    padding: 4px;
+    background-color: lightgrey;
 }
 
 /* error styles */
 .error {
-  color: #ff4500;
+    color: #ff4500;
 }
 
 /* diff box styles */
 #diff-box {
-  background-color: #ececec;
-  color: #ff4500;
-  margin: 0 1rem;
+    background-color: #ececec;
+    color: #ff4500;
+    margin: 0 1rem;
 }
 
 #diff-box li {
-  margin: 1rem 0;
+    margin: 1rem 0;
 }
 
 #diff-box li .device-name {
-  background-color: lightgray;
+    background-color: white;
 }
 
 #diff-box .device-name {
-  color: #003049;
-  padding: 1rem;
-  margin: 0;
+    color: #003049;
+    padding: 1rem;
+    margin: 0;
 }
 
 #diff-box pre {
-  padding-left: 1rem;
+    padding-left: 1rem;
 }
