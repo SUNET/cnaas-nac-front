@@ -196,6 +196,27 @@ class DeviceList extends React.Component {
 	});
     };
 
+    updateDeviceRemove = object => {
+	const credentials = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpYXQiOjE1NzEwNTk2MTgsIm5iZiI6MTU3MTA1OTYxOCwianRpIjoiNTQ2MDk2YTUtZTNmOS00NzFlLWE2NTctZWFlYTZkNzA4NmVhIiwic3ViIjoiYWRtaW4iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.Sfffg9oZg_Kmoq7Oe8IoTcbuagpP6nuUXOQzqJpgDfqDq_GM_4zGzt7XxByD4G0q8g4gZGHQnV14TpDer2hJXw";
+
+	Object.keys(this.state.checkedItems).forEach(function(key) {
+	    console.log('Removing ' + key);
+	    fetch(process.env.API_URL + "/auth/" + key, {
+		method: "DELETE",
+		headers: {
+		    Authorization: `Bearer ${credentials}`
+		},
+	    })
+		.then(response => checkResponseStatus(response))
+		.then(response => response.json())
+		.then(data => {
+		    {
+			console.log('Remove responded: ' + data);
+		    }
+		});
+	});
+    };
+
     handleEnable = object => {
 	this.updateDeviceEnable();
 	this.getDevicesData();
@@ -204,6 +225,18 @@ class DeviceList extends React.Component {
 
     handleDisable = object => {
 	this.updateDeviceDisable();
+	this.getDevicesData();
+	this.forceUpdate();
+    }
+
+    handleRemove = object => {
+	this.updateDeviceRemove();
+	this.getDevicesData();
+	this.forceUpdate();
+    }
+
+    handleBounce = object => {
+	this.updateDeviceRemove();
 	this.getDevicesData();
 	this.forceUpdate();
     }
@@ -228,7 +261,7 @@ class DeviceList extends React.Component {
 		);
 	    }
 	    return [
-		<tr key={index} onClick={this.clickRow.bind(this)}>
+		<tr key={index}>
 		    <td key="0">
 			<input
 			    type="checkbox"
@@ -239,7 +272,7 @@ class DeviceList extends React.Component {
 			/>
 		    </td>
 		    <td key="1">
-			<Icon name="angle down" />
+			<Icon name="angle down" onClick={this.clickRow.bind(this)}/>
 			{items.username}
 		    </td>
 		    <td key="2">{items.authdate}</td>
@@ -297,14 +330,15 @@ class DeviceList extends React.Component {
 
 	return (
 	    <section>
-		<div id="search">
-		    <DeviceSearchForm searchAction={this.getDevicesData} />
-		</div>
-		<div id="enable">
-		    <Button onClick={this.handleEnable}>Enable</Button>
-		</div>
-		<div id="disable">
-		    <Button onClick={this.handleDisable}>Disable</Button>
+		<div>
+		    <div id="action">
+			<Button onClick={this.handleEnable}>Enable</Button>&nbsp;
+			<Button onClick={this.handleDisable}>Disable</Button>
+			<Button onClick={this.handleRemove}>Remove</Button>
+		    </div>
+		    <div id="search">
+			<DeviceSearchForm searchAction={this.getDevicesData} />&nbsp;
+		    </div>
 		</div>
 		<div id="device_list">
 		    <div id="data">
