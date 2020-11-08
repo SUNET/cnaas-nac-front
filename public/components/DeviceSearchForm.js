@@ -3,65 +3,67 @@ import PropTypes from 'prop-types'
 import { Button, Select, Input, Icon } from 'semantic-ui-react'
 
 class DeviceSearchForm extends React.Component {
-  state = {
-      searchText: "",
-      searchField: "username"
-  };
+    state = {
+	searchText: "",
+	searchField: "username"
+    };
 
-  updateSearchText(e) {
-    const val = e.target.value;
-    this.setState({
-      searchText: val
-    });
-  }
+    updateSearchText(e) {
+	const val = e.target.value;
+	this.setState({
+	    searchText: val
+	});
+    }
 
-  updateSearchField(e, option) {
-    const val = option.value;
-    this.setState({
-      searchField: val
-    });
-  }
+    updateSearchField(e, option) {
+	const val = option.value;
+	this.setState({
+	    searchField: val
+	});
+    }
 
-  clearSearch(e) {
-    this.setState({
-      searchText: ""
-    });
-    this.props.searchAction({ filterField: null, filterValue: null });
-  }
+    clearSearch(e) {
+	this.setState({
+	    searchText: ""
+	});
+	this.props.searchAction({ filterField: null, filterValue: null });
+    }
 
-  submitSearch(e) {
-    e.preventDefault();
-    console.log("search submitted: "+this.state.searchText+" "+this.state.searchField);
-    this.props.searchAction({ filterField: this.state.searchField, filterValue: this.state.searchText});
-  }
+    submitSearch(e) {
+	e.preventDefault();
+	console.log("search submitted: "+this.state.searchText+" "+this.state.searchField);
+	this.props.searchAction({ filterField: this.state.searchField, filterValue: this.state.searchText});
+    }
 
-  render() {
-    const searchOptions = [
-      { 'key': 'username', 'value': 'username', 'text': 'Username' },
-      { 'key': 'vlan', 'value': 'vlan', 'text': 'VLAN' },
-      { 'key': 'nasip', 'value': 'nasip', 'text': ' NAS IP address' },
-      { 'key': 'nasport', 'value': 'nasport', 'text': 'NAS port ID' },
-      { 'key': 'reason', 'value': 'reason', 'text': 'Reason' },
-      { 'key': 'comment', 'value': 'comment', 'text': 'Comment' },
-    ]
+    render() {
+	const searchOptions = [
+	    { 'key': 'username', 'value': 'username', 'text': 'Username' },
+	    { 'key': 'vlan', 'value': 'vlan', 'text': 'VLAN' },
+	    { 'key': 'nasip', 'value': 'nasip', 'text': ' NAS IP address' },
+	    { 'key': 'nasport', 'value': 'nasport', 'text': 'NAS port ID' },
+	    { 'key': 'reason', 'value': 'reason', 'text': 'Reason' },
+	    { 'key': 'comment', 'value': 'comment', 'text': 'Comment' },
+	]
 
-    return (
-      <form onSubmit={this.submitSearch.bind(this)}>
-        <Input type='text' placeholder='Search...' action
-          onChange={this.updateSearchText.bind(this)}
-          icon={<Icon name='delete' link onClick={this.clearSearch.bind(this)}/>}
-          value={this.state.searchText}
-        />
-        <Select compact options={searchOptions} defaultValue='username' onChange={this.updateSearchField.bind(this)} />
-        <Button type='submit'>Search</Button>
-      </form>
-    );
+	return (
+	    <form onSubmit={this.submitSearch.bind(this)}>
+		<Input type='text' placeholder='Search...' action
+		       onChange={this.updateSearchText.bind(this)}
+		       icon={<Icon name='delete' link onClick={this.clearSearch.bind(this)}/>}
+		       value={this.state.searchText}
+		/>
+		&nbsp;&nbsp;
+		<Select options={searchOptions} defaultValue='username' onChange={this.updateSearchField.bind(this)} />
+		&nbsp;&nbsp;
+		<Button type='submit'>Search</Button>
+	    </form>
+	);
 
-  }
+    }
 }
 
 DeviceSearchForm.propTypes = {
-  searchAction: PropTypes.func.isRequired,
+    searchAction: PropTypes.func.isRequired,
 }
 
 export default DeviceSearchForm;
