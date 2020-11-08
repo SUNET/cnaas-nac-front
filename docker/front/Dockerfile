@@ -22,15 +22,6 @@ COPY start-nginx.sh /opt/cnaas/
 # Give nginx some special treatment
 RUN unlink /etc/nginx/sites-enabled/default
 RUN ln -s /etc/nginx/sites-available/nginx_app.conf /etc/nginx/sites-enabled/default
-#RUN chown www-data:www-data /var/log/nginx
-#RUN chown -R  www-data:www-data /var/log/nginx/
-#RUN chown -R www-data:www-data /var/lib/nginx
-#RUN chown www-data:www-data /var/lib/nginx/
-#RUN chown root:www-data /opt/cnaas/start-nginx.sh
-#RUN chmod g+rx /opt/cnaas/start-nginx.sh
-#RUN chown root:www-data /etc/nginx/sites-available/nginx_app.conf
-#RUN chmod g+rw /etc/nginx/sites-available/nginx_app.conf
-
 
 # Expose HTTPS
 EXPOSE 4443

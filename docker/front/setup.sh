@@ -27,8 +27,9 @@ apt-get update && \
 
 # Fetch the code and install dependencies
 cd /opt/cnaas/
-git clone https://github.com/SUNET/cnaas-front.git
+git clone https://github.com/SUNET/cnaas-nac-front.git
 cd cnaas-front/
+git checkout feature.react-ui
 npm i
 #npm run-script build
 #cp dist/* /opt/cnaas/static
