@@ -1,6 +1,5 @@
 import React from "react";
 import DeviceList from "./DeviceList";
-import ConfigChange from "./ConfigChange/ConfigChange";
 import LoginForm from "./LoginForm";
 import { Route } from "react-router-dom";
 import { postData } from "react-router-dom";
