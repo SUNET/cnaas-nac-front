@@ -10,6 +10,7 @@ body {
 
 #root {
     height: calc(100% - 4px);
+    width: 100%;
 }
 
 .container {
@@ -61,10 +62,6 @@ p {
     font-weight: 400;
 }
 
-/* p:first-child {
-  margin-top: 16px;
-} */
-
 button {
     background: #ff4500;
     font-family: "Montserrat", sans-serif;
@@ -91,6 +88,7 @@ button:disabled {
 }
 
 section {
+    text-align: right;
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -164,8 +162,7 @@ footer {
 table,
 thead,
 tbody {
-    display: flex;
-    flex-direction: column;
+    width: 100%;
 }
 
 tr {
@@ -192,43 +189,29 @@ td {
     padding: 16px;
 }
 
-/* progress bar styles */
-
-#progressbar {
-    margin: 16px;
-}
-
-progress {
-    display: flex;
-    width: calc(100% - 32px);
-    border-radius: 10px;
-}
-
-progress::-webkit-progress-bar {
-    border-radius: 3px;
-    background-color: #ffe7dd;
-}
-progress::-webkit-progress-value {
-    border-radius: 3px;
-    background-color: #ff4500;
-}
-
-progress::-moz-progress-bar {
-    border-radius: 3px;
-    background-color: yellow;
-}
-
 /* DeviceList styles */
 
-#search {
+form {
+    display: inline-block;
+    float: right;
+}
+
+#action {
+    display: inline-block;
     padding: 16px 0;
+    position: absolute;
+    left: 1%;
+}
+
+#search {
+    display: inline-block;
+    padding: 16px 0;
+    float: right;
 }
 
 #device_list {
     display: flex;
     flex-direction: column;
-    flex: 1;
-    padding: 16px 0;
 }
 
 #data {
@@ -256,34 +239,4 @@ progress::-moz-progress-bar {
 #data .device_details_table td {
     padding: 4px;
     background-color: lightgrey;
-}
-
-/* error styles */
-.error {
-    color: #ff4500;
-}
-
-/* diff box styles */
-#diff-box {
-    background-color: #ececec;
-    color: #ff4500;
-    margin: 0 1rem;
-}
-
-#diff-box li {
-    margin: 1rem 0;
-}
-
-#diff-box li .device-name {
-    background-color: white;
-}
-
-#diff-box .device-name {
-    color: #003049;
-    padding: 1rem;
-    margin: 0;
-}
-
-#diff-box pre {
-    padding-left: 1rem;
 }
