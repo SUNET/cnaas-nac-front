@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Select, Input, Icon, Pagination, Checkbox } from "semantic-ui-react";
 import DeviceSearchForm from "./DeviceSearchForm";
 import checkResponseStatus from "../utils/checkResponseStatus";
+import Modal from "./Modal";
 
 class DeviceList extends React.Component {
     constructor() {
@@ -17,9 +18,15 @@ class DeviceList extends React.Component {
 	    activePage: 1,
 	    totalPages: 1,
 	    checkedItems: {},
+	    showVlanModal: false,
+	    showCommentModal: false,
+	    vlanText: "",
+	    commentText: "",
 	};
 
 	this.handleChange = this.handleChange.bind(this);
+	this.setVlanText = this.setVlanText.bind(this);
+	this.setCommentText = this.setCommentText.bind(this);
     }
 
     handleChange(event) {
@@ -30,6 +37,24 @@ class DeviceList extends React.Component {
 	this.setState(newState);
 
 	console.log(this.state.checkedItems);
+    }
+
+    setVlanText(event) {
+	let newState = this.state;
+
+	this.setState(newState);
+	newState['vlanText'] = event.target.value;
+	this.setState(newState);
+    }
+
+    setCommentText(event) {
+	let newState = this.state;
+
+	this.setState(newState);
+	newState['commentText'] = event.target.value;
+	this.setState(newState);
+
+	console.log(this.state.commentText);
     }
 
     getDevicesData = options => {
@@ -106,7 +131,7 @@ class DeviceList extends React.Component {
 	];
 	if (filterField != null && filterValue != null) {
 	    filterParams =
-		"filter[" +
+		"?filter[" +
 		filterField +
 		"]" +
 		"=" +
@@ -155,6 +180,7 @@ class DeviceList extends React.Component {
 	let jsonData = {"enabled": true};
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
+	    console.log('Enabling ' + key);
 	    fetch(process.env.API_URL + "/auth/" + key, {
 		method: "PUT",
 		headers: {
@@ -178,6 +204,8 @@ class DeviceList extends React.Component {
 	let jsonData = {"enabled": false};
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
+	    console.log('Disabling ' + key);
+
 	    fetch(process.env.API_URL + "/auth/" + key, {
 		method: "PUT",
 		headers: {
@@ -241,6 +269,78 @@ class DeviceList extends React.Component {
 	this.forceUpdate();
     }
 
+    showVlanModal = e => {
+	this.setState({
+	    showVlanModal: !this.state.showVlanModal
+	});
+    };
+
+    showCommentModal = e => {
+	this.setState({
+	    showCommentModal: !this.state.showCommentModal
+	});
+    };
+
+    submitVlanModal = e => {
+	let jsonData = {"vlan": this.state.vlanText};
+	const credentials = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpYXQiOjE1NzEwNTk2MTgsIm5iZiI6MTU3MTA1OTYxOCwianRpIjoiNTQ2MDk2YTUtZTNmOS00NzFlLWE2NTctZWFlYTZkNzA4NmVhIiwic3ViIjoiYWRtaW4iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.Sfffg9oZg_Kmoq7Oe8IoTcbuagpP6nuUXOQzqJpgDfqDq_GM_4zGzt7XxByD4G0q8g4gZGHQnV14TpDer2hJXw";
+
+	Object.keys(this.state.checkedItems).forEach(function(key) {
+	    fetch(process.env.API_URL + "/auth/" + key, {
+		method: "PUT",
+		headers: {
+		    Authorization: `Bearer ${credentials}`,
+		    "Content-Type": "application/json"
+		},
+		body: JSON.stringify(jsonData)
+	    })
+		.then(response => checkResponseStatus(response))
+		.then(response => response.json())
+		.then(data => {
+		    {
+			console.log('Update responded: ' + data);
+		    }
+		});
+	});
+
+	this.setState({
+	    vlanText: ""
+	});
+
+	this.getDevicesData();
+	this.forceUpdate();
+    };
+
+    submitCommentModal = e => {
+	let jsonData = {"comment": this.state.vlanText};
+	const credentials = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpYXQiOjE1NzEwNTk2MTgsIm5iZiI6MTU3MTA1OTYxOCwianRpIjoiNTQ2MDk2YTUtZTNmOS00NzFlLWE2NTctZWFlYTZkNzA4NmVhIiwic3ViIjoiYWRtaW4iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.Sfffg9oZg_Kmoq7Oe8IoTcbuagpP6nuUXOQzqJpgDfqDq_GM_4zGzt7XxByD4G0q8g4gZGHQnV14TpDer2hJXw";
+
+	Object.keys(this.state.checkedItems).forEach(function(key) {
+	    fetch(process.env.API_URL + "/auth/" + key, {
+		method: "PUT",
+		headers: {
+		    Authorization: `Bearer ${credentials}`,
+		    "Content-Type": "application/json"
+		},
+		body: JSON.stringify(jsonData)
+	    })
+		.then(response => checkResponseStatus(response))
+		.then(response => response.json())
+		.then(data => {
+		    {
+			console.log('Update responded: ' + data);
+		    }
+		});
+	});
+
+	this.setState({
+	    vlanText: ""
+	});
+
+	this.getDevicesData();
+	this.forceUpdate();
+    };
+
     render() {
 	let deviceInfo = "";
 
@@ -249,20 +349,16 @@ class DeviceList extends React.Component {
 	    let clientStatus = "";
 	    if (items.active === true) {
 		clientStatus = (
-		    <td key="3">
-			<Icon name="check" color="green" />
-		    </td>
+		    <Icon name="check" color="green" />
 		);
 	    } else {
 		clientStatus = (
-		    <td key="3">
-			<Icon name="delete" color="red" />
-		    </td>
+		    <Icon name="delete" color="red" />
 		);
 	    }
 	    return [
 		<tr key={index}>
-		    <td key="0">
+		    <td key="0" align="left">
 			<input
 			    type="checkbox"
 			    value={items.username}
@@ -271,13 +367,13 @@ class DeviceList extends React.Component {
 			    checked={this.state.check}
 			/>
 		    </td>
-		    <td key="1">
+		    <td key="1" align="left">
 			<Icon name="angle down" onClick={this.clickRow.bind(this)}/>
 			{items.username}
 		    </td>
-		    <td key="2">{items.authdate}</td>
-		    {clientStatus}
-		    <td key="4">{items.active}</td>
+		    <td key="2" align="left">{items.authdate}</td>
+		    <td key="3" align="left">{clientStatus}</td>
+		    <td key="4" align="left">{items.vlan}</td>
 		</tr>,
 		<tr
 		    key={index + "_content"}
@@ -305,10 +401,6 @@ class DeviceList extends React.Component {
 				    <td>{items.nas_port_id}</td>
 				</tr>
 				<tr>
-				    <td>Active</td>
-				    <td>{items.active}</td>
-				</tr>
-				<tr>
 				    <td>Reason</td>
 				    <td>{items.reason}</td>
 				</tr>
@@ -332,9 +424,21 @@ class DeviceList extends React.Component {
 	    <section>
 		<div>
 		    <div id="action">
-			<Button onClick={this.handleEnable}>Enable</Button>&nbsp;
+			<Button onClick={this.handleEnable}>Enable</Button>
 			<Button onClick={this.handleDisable}>Disable</Button>
 			<Button onClick={this.handleRemove}>Remove</Button>
+			<Button onClick={e => this.showVlanModal(e)}>VLAN</Button>
+			<Button onClick={e => this.showCommentModal(e)}>Comment</Button>
+			<Button>Bounce port</Button>
+			<Modal onClose={this.showVlanModal} onSubmit={this.submitVlanModal} show={this.state.showVlanModal}>
+			    Enter VLAN name: {" "}
+			    <input type="text" value={this.state.vlanText} onChange={this.setVlanText} />
+			</Modal>
+			<Modal onClose={this.showCommentModal} onSubmit={this.submitCommentModal} show={this.state.showCommentModal}>
+			    Enter comment: {" "}
+			    <input type="text" value={this.state.commentText} onChange={this.setCommentText} />
+			</Modal>
+
 		    </div>
 		    <div id="search">
 			<DeviceSearchForm searchAction={this.getDevicesData} />&nbsp;
@@ -346,7 +450,7 @@ class DeviceList extends React.Component {
 			    <thead>
 				<tr>
 				    <th>
-					Selected{" "}
+					Select
 				    </th>
 				    <th onClick={() => this.sortHeader("username")}>
 					Username <Icon name="sort" />{" "}
@@ -362,7 +466,13 @@ class DeviceList extends React.Component {
 				    </th>
 				    <th onClick={() => this.sortHeader("active")}>
 					Active <Icon name="sort" />{" "}
-					<div className="sync_status_sort">
+					<div>
+					    {this.state.synchronized_sort}
+					</div>
+				    </th>
+				    <th onClick={() => this.sortHeader("vlan")}>
+					VLAN <Icon name="sort" />{" "}
+					<div>
 					    {this.state.synchronized_sort}
 					</div>
 				    </th>
