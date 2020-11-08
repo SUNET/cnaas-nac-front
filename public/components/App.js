@@ -1,7 +1,6 @@
 import React from "react";
 import Header from "./Header";
 import Panel from "./Panel";
-import Footer from "./Footer";
 
 // needed for routing
 import { Router } from "react-router-dom";
