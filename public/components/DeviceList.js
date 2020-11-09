@@ -374,7 +374,7 @@ class DeviceList extends React.Component {
 		);
 	    }
 	    return [
-		<tr key={index} bgcolor="white">
+		<tr key={index} bgcolor="lightgray">
 		    <td key="0" align="left">
 			<input
 			    type="checkbox"
@@ -391,6 +391,7 @@ class DeviceList extends React.Component {
 		    <td key="2" align="left">{items.authdate}</td>
 		    <td key="3" align="left">{clientStatus}</td>
 		    <td key="4" align="left">{items.vlan}</td>
+		    <td key="5" align="left">{items.reason}</td>
 		</tr>,
 		<tr
 		    key={index + "_content"}
@@ -489,6 +490,12 @@ class DeviceList extends React.Component {
 				    </th>
 				    <th onClick={() => this.sortHeader("vlan")}>
 					VLAN <Icon name="sort" />{" "}
+					<div>
+					    {this.state.synchronized_sort}
+					</div>
+				    </th>
+				    <th onClick={() => this.sortHeader("reason")}>
+					Reason <Icon name="sort" />{" "}
 					<div>
 					    {this.state.synchronized_sort}
 					</div>

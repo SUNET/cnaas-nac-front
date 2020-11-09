@@ -227,16 +227,16 @@ form {
 #data .device_details_row td {
     display: flex;
     flex-direction: column;
-    background-color: lightgrey;
+    background-color: white;
 }
 
 #data .device_details_table {
     width: 100%;
     table-layout: fixed;
-    background-color: lightgrey;
+    background-color: white;
 }
 
 #data .device_details_table td {
     padding: 4px;
-    background-color: lightgrey;
+    background-color: white;
 }
