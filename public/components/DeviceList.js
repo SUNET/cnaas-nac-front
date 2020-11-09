@@ -137,7 +137,7 @@ class DeviceList extends React.Component {
 		"=" +
 		filterValue;
 	}
-	fetch(process.env.API_URL + "/api/v1.0/auth" + filterParams, {
+	fetch(process.env.API_URL + "/api/v1.0/auth/" + filterParams, {
 	    method: "GET",
 	    headers: {
 		Authorization: `Bearer ${credentials}`
