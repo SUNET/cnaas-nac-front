@@ -173,7 +173,7 @@ class DeviceList extends React.Component {
     }
 
     updateDeviceEnable = object => {
-	const credentials = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpYXQiOjE1NzEwNTk2MTgsIm5iZiI6MTU3MTA1OTYxOCwianRpIjoiNTQ2MDk2YTUtZTNmOS00NzFlLWE2NTctZWFlYTZkNzA4NmVhIiwic3ViIjoiYWRtaW4iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.Sfffg9oZg_Kmoq7Oe8IoTcbuagpP6nuUXOQzqJpgDfqDq_GM_4zGzt7XxByD4G0q8g4gZGHQnV14TpDer2hJXw";
+	const credentials = localStorage.getItem("token");
 	let jsonData = {"enabled": true};
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
@@ -197,7 +197,7 @@ class DeviceList extends React.Component {
     };
 
     updateDeviceDisable = object => {
-	const credentials = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpYXQiOjE1NzEwNTk2MTgsIm5iZiI6MTU3MTA1OTYxOCwianRpIjoiNTQ2MDk2YTUtZTNmOS00NzFlLWE2NTctZWFlYTZkNzA4NmVhIiwic3ViIjoiYWRtaW4iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.Sfffg9oZg_Kmoq7Oe8IoTcbuagpP6nuUXOQzqJpgDfqDq_GM_4zGzt7XxByD4G0q8g4gZGHQnV14TpDer2hJXw";
+	const credentials = localStorage.getItem("token");
 	let jsonData = {"enabled": false};
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
@@ -222,7 +222,7 @@ class DeviceList extends React.Component {
     };
 
     updateDeviceRemove = object => {
-	const credentials = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpYXQiOjE1NzEwNTk2MTgsIm5iZiI6MTU3MTA1OTYxOCwianRpIjoiNTQ2MDk2YTUtZTNmOS00NzFlLWE2NTctZWFlYTZkNzA4NmVhIiwic3ViIjoiYWRtaW4iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.Sfffg9oZg_Kmoq7Oe8IoTcbuagpP6nuUXOQzqJpgDfqDq_GM_4zGzt7XxByD4G0q8g4gZGHQnV14TpDer2hJXw";
+	const credentials = localStorage.getItem("token");
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
 	    console.log('Removing ' + key);
@@ -231,6 +231,32 @@ class DeviceList extends React.Component {
 		headers: {
 		    Authorization: `Bearer ${credentials}`
 		},
+	    })
+		.then(response => checkResponseStatus(response))
+		.then(response => response.json())
+		.then(data => {
+		    {
+			console.log('Remove responded: ' + data);
+		    }
+		});
+	});
+    };
+
+    portBounce = object => {
+	const credentials = localStorage.getItem("token");
+
+	Object.keys(this.state.checkedItems).forEach(function(key) {
+	    let jsonData = {"username": key, "secret": process.env.NAS_SECRET}
+
+	    console.log(jsonData);
+
+	    fetch(process.env.API_URL + "/api/v1.0/coa", {
+		method: "POST",
+		headers: {
+		    Authorization: `Bearer ${credentials}`,
+		    "Content-Type": "application/json"
+		},
+		body: JSON.stringify(jsonData)
 	    })
 		.then(response => checkResponseStatus(response))
 		.then(response => response.json())
@@ -260,12 +286,6 @@ class DeviceList extends React.Component {
 	this.forceUpdate();
     }
 
-    handleBounce = object => {
-	this.updateDeviceRemove();
-	this.getDevicesData();
-	this.forceUpdate();
-    }
-
     showVlanModal = e => {
 	this.setState({
 	    showVlanModal: !this.state.showVlanModal
@@ -280,7 +300,7 @@ class DeviceList extends React.Component {
 
     submitVlanModal = e => {
 	let jsonData = {"vlan": this.state.vlanText};
-	const credentials = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpYXQiOjE1NzEwNTk2MTgsIm5iZiI6MTU3MTA1OTYxOCwianRpIjoiNTQ2MDk2YTUtZTNmOS00NzFlLWE2NTctZWFlYTZkNzA4NmVhIiwic3ViIjoiYWRtaW4iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.Sfffg9oZg_Kmoq7Oe8IoTcbuagpP6nuUXOQzqJpgDfqDq_GM_4zGzt7XxByD4G0q8g4gZGHQnV14TpDer2hJXw";
+	const credentials = localStorage.getItem("token");
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
 	    fetch(process.env.API_URL + "/api/v1.0/auth/" + key, {
@@ -309,8 +329,8 @@ class DeviceList extends React.Component {
     };
 
     submitCommentModal = e => {
+	const credentials = localStorage.getItem("token");
 	let jsonData = {"comment": this.state.vlanText};
-	const credentials = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpYXQiOjE1NzEwNTk2MTgsIm5iZiI6MTU3MTA1OTYxOCwianRpIjoiNTQ2MDk2YTUtZTNmOS00NzFlLWE2NTctZWFlYTZkNzA4NmVhIiwic3ViIjoiYWRtaW4iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.Sfffg9oZg_Kmoq7Oe8IoTcbuagpP6nuUXOQzqJpgDfqDq_GM_4zGzt7XxByD4G0q8g4gZGHQnV14TpDer2hJXw";
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
 	    fetch(process.env.API_URL + "/api/v1.0/auth/" + key, {
@@ -426,7 +446,7 @@ class DeviceList extends React.Component {
 			<Button onClick={this.handleRemove}>Remove</Button>
 			<Button onClick={e => this.showVlanModal(e)}>VLAN</Button>
 			<Button onClick={e => this.showCommentModal(e)}>Comment</Button>
-			<Button>Bounce port</Button>
+			<Button onClick={this.portBounce}>Bounce port</Button>
 			<Modal onClose={this.showVlanModal} onSubmit={this.submitVlanModal} show={this.state.showVlanModal}>
 			    Enter VLAN name: {" "}
 			    <input type="text" value={this.state.vlanText} onChange={this.setVlanText} />
