@@ -12,8 +12,6 @@ class DeviceList extends React.Component {
 	    filterField: null,
 	    filterValue: null,
 	    hostname_sort: "",
-	    device_type_sort: "",
-	    synchronized_sort: "",
 	    devicesData: [],
 	    activePage: 1,
 	    totalPages: 1,
@@ -22,6 +20,12 @@ class DeviceList extends React.Component {
 	    showCommentModal: false,
 	    vlanText: "",
 	    commentText: "",
+	    username_sort: "",
+	    authdate_sort: "",
+	    active_sort: "",
+	    vlan_sort: "",
+	    reason_sort: ""
+
 	};
 
 	this.handleChange = this.handleChange.bind(this);
@@ -59,10 +63,13 @@ class DeviceList extends React.Component {
 
     getDevicesData = options => {
 	if (options === undefined) options = {};
+
 	let newState = this.state;
+
 	if (options.sortField !== undefined) {
 	    newState["sortField"] = options.sortField;
 	}
+
 	if (
 	    options.filterField !== undefined &&
 		options.filterValue !== undefined
@@ -70,10 +77,13 @@ class DeviceList extends React.Component {
 	    newState["filterField"] = options.filterField;
 	    newState["filterValue"] = options.filterValue;
 	}
+
 	if (options.pageNum !== undefined) {
 	    newState["activePage"] = options.pageNum;
 	}
+
 	this.setState(newState);
+
 	return this.getDevicesAPIData(
 	    newState["sortField"],
 	    newState["filterField"],
@@ -124,6 +134,7 @@ class DeviceList extends React.Component {
 	const credentials = localStorage.getItem("token");
 	let filterParams = "";
 	let filterFieldOperator = "";
+
 	const stringFields = [
 	    "username",
 	    "vlan",
@@ -134,6 +145,7 @@ class DeviceList extends React.Component {
 	    "authdate",
 	    "comment"
 	];
+
 	if (filterField != null && filterValue != null) {
 	    filterParams =
 		"?filter[" +
@@ -142,6 +154,7 @@ class DeviceList extends React.Component {
 		"=" +
 		filterValue;
 	}
+
 	fetch(process.env.API_URL + "/api/v1.0/auth/" + filterParams + "?sort=" + sortField, {
 	    method: "GET",
 	    headers: {
