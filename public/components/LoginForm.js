@@ -1,4 +1,5 @@
 import React from "react";
+import "./login.css"
 
 class LoginForm extends React.Component {
     state = {
@@ -21,36 +22,14 @@ class LoginForm extends React.Component {
 	    );
 	}
 	return (
-	    <div className="container">
-		<form
-		    onSubmit={event =>
-			this.props.login(this.state.email, this.state.password)
-		    }
-		>
-		    <label className="title">
-			Email
-			<input
-			    type="text"
-			    name="email"
-			    onChange={this.handleInput}
-			    required
-			/>
-		    </label>
-		    <label className="title">
-			Password
-			<input
-			    type="password"
-			    name="password"
-			    onChange={this.handleInput}
-			    required
-			/>
-		    </label>
+	    <form onSubmit={event => this.props.login(this.state.email, this.state.password)}>
+		<div class="login">
+		    <input type="text" name="email" placeholder="Username..." onChange={this.handleInput} required />
+		    <input type="password" placeholder="Password..." name="password" onChange={this.handleInput} required />
 		    <p className="title error">{this.props.errorMessage}</p>
-		    <button className="submit" type="submit">
-			Login
-		    </button>
-		</form>
-	    </div>
+		    <center><button className="submit" type="submit">Login</button></center>
+		</div>
+	    </form>
 	);
     }
 }
