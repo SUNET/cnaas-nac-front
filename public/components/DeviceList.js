@@ -8,7 +8,7 @@ class DeviceList extends React.Component {
     constructor() {
 	super();
 	this.state = {
-	    sortField: "id",
+	    sortField: "username",
 	    filterField: null,
 	    filterValue: null,
 	    hostname_sort: "",
@@ -87,11 +87,15 @@ class DeviceList extends React.Component {
      */
     sortHeader = header => {
 	let newState = this.state;
-	let sortField = "id";
+	let sortField = "username";
 	const oldValue = this.state[header + "_sort"];
+
 	newState["username_sort"] = "";
-	newState["device_type_sort"] = "";
-	newState["synchronized_sort"] = "";
+	newState["authdate_sort"] = "";
+	newState["active_sort"] = "";
+	newState["vlan_sort"] = "";
+	newState["reason_sort"] = "";
+
 	if (oldValue == "" || oldValue == "↑") {
 	    newState[header + "_sort"] = "↓";
 	    sortField = header;
@@ -99,31 +103,32 @@ class DeviceList extends React.Component {
 	    newState[header + "_sort"] = "↑";
 	    sortField = "-" + header;
 	}
+
 	this.setState(newState);
 	this.getDevicesData({ sortField: sortField });
+
 	// Close all expanded table rows when resorting the table
 	var deviceDetails = document.getElementsByClassName("device_details_row");
 	for (var i = 0; i < deviceDetails.length; i++) {
 	    deviceDetails[i].hidden = true;
 	}
+
+	this.forceUpdate();
     };
 
     componentDidMount() {
 	this.getDevicesData();
     }
 
-    getDevicesAPIData = (sortField = "id", filterField, filterValue, pageNum) => {
-	//    const credentials = localStorage.getItem("token");
-	const credentials = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpYXQiOjE1NzEwNTk2MTgsIm5iZiI6MTU3MTA1OTYxOCwianRpIjoiNTQ2MDk2YTUtZTNmOS00NzFlLWE2NTctZWFlYTZkNzA4NmVhIiwic3ViIjoiYWRtaW4iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.Sfffg9oZg_Kmoq7Oe8IoTcbuagpP6nuUXOQzqJpgDfqDq_GM_4zGzt7XxByD4G0q8g4gZGHQnV14TpDer2hJXw";
-	// Build filter part of the URL to only return specific devices from the API
-	// TODO: filterValue should probably be urlencoded?
+    getDevicesAPIData = (sortField = "username", filterField, filterValue, pageNum) => {
+	const credentials = localStorage.getItem("token");
 	let filterParams = "";
 	let filterFieldOperator = "";
 	const stringFields = [
 	    "username",
 	    "vlan",
-	    "nas_ip_address",
-	    "nas_port_id",
+	    "nasip",
+	    "nasid",
 	    "active",
 	    "reason",
 	    "authdate",
@@ -137,7 +142,7 @@ class DeviceList extends React.Component {
 		"=" +
 		filterValue;
 	}
-	fetch(process.env.API_URL + "/api/v1.0/auth/" + filterParams, {
+	fetch(process.env.API_URL + "/api/v1.0/auth/" + filterParams + "?sort=" + sortField, {
 	    method: "GET",
 	    headers: {
 		Authorization: `Bearer ${credentials}`
@@ -478,26 +483,23 @@ class DeviceList extends React.Component {
 				    </th>
 				    <th onClick={() => this.sortHeader("authdate")}>
 					Last seen <Icon name="sort" />{" "}
-					<div className="device_type_sort">
-					    {this.state.device_type_sort}
+					<div className="sort">
+					    {this.state.authdate_sort}
 					</div>
 				    </th>
-				    <th onClick={() => this.sortHeader("active")}>
-					Active <Icon name="sort" />{" "}
-					<div>
-					    {this.state.synchronized_sort}
-					</div>
+				    <th>
+					Active
 				    </th>
 				    <th onClick={() => this.sortHeader("vlan")}>
 					VLAN <Icon name="sort" />{" "}
 					<div>
-					    {this.state.synchronized_sort}
+					    {this.state.vlan_sort}
 					</div>
 				    </th>
 				    <th onClick={() => this.sortHeader("reason")}>
 					Reason <Icon name="sort" />{" "}
 					<div>
-					    {this.state.synchronized_sort}
+					    {this.state.reason_sort}
 					</div>
 				    </th>
 				</tr>
