@@ -8,7 +8,7 @@ class Header extends React.Component {
         <nav>
           <ul>
             <NavLink exact activeClassName="active" to={`/`}>
-              <li>Login</li>
+              <li>Start</li>
             </NavLink>
             <NavLink exact activeClassName="active" to={`/clients`}>
               <li>Clients</li>
