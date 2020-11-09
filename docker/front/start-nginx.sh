@@ -7,9 +7,9 @@ sed -e "s|^\(.*proxy_pass \)CNAAS_API_URL;$|\1$CNAAS_API_URL;|" \
 
 sed -e "s|^\(.*API_URL=\)CNAAS_FRONT_URL$|\1$CNAAS_FRONT_URL|" \
   < /opt/cnaas/.env > /tmp/.env \
-  && cat /tmp/.env > /opt/cnaas/cnaas-front/.env
+  && cat /tmp/.env > /opt/cnaas/cnaas-nac-front/.env
 
-cd /opt/cnaas/cnaas-front
+cd /opt/cnaas/cnaas-nac-front
 npm run-script build
 cp dist/* /opt/cnaas/static
 
