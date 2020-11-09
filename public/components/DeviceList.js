@@ -137,16 +137,13 @@ class DeviceList extends React.Component {
 		"=" +
 		filterValue;
 	}
-	fetch(
-	    process.env.API_URL +
-		"/auth" + filterParams,
-	    {
-		method: "GET",
-		headers: {
-		    Authorization: `Bearer ${credentials}`
-		}
+	fetch(process.env.API_URL + "/api/v1.0/auth" + filterParams, {
+	    method: "GET",
+	    headers: {
+		Authorization: `Bearer ${credentials}`
 	    }
-	)
+	}
+	     )
 	    .then(response => checkResponseStatus(response))
 	    .then(response => response.json())
 	    .then(data => {
@@ -181,7 +178,7 @@ class DeviceList extends React.Component {
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
 	    console.log('Enabling ' + key);
-	    fetch(process.env.API_URL + "/auth/" + key, {
+	    fetch(process.env.API_URL + "/api/v1.0/auth/" + key, {
 		method: "PUT",
 		headers: {
 		    Authorization: `Bearer ${credentials}`,
@@ -206,7 +203,7 @@ class DeviceList extends React.Component {
 	Object.keys(this.state.checkedItems).forEach(function(key) {
 	    console.log('Disabling ' + key);
 
-	    fetch(process.env.API_URL + "/auth/" + key, {
+	    fetch(process.env.API_URL + "/api/v1.0/auth/" + key, {
 		method: "PUT",
 		headers: {
 		    Authorization: `Bearer ${credentials}`,
@@ -229,7 +226,7 @@ class DeviceList extends React.Component {
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
 	    console.log('Removing ' + key);
-	    fetch(process.env.API_URL + "/auth/" + key, {
+	    fetch(process.env.API_URL + "/api/v1.0/auth/" + key, {
 		method: "DELETE",
 		headers: {
 		    Authorization: `Bearer ${credentials}`
@@ -286,7 +283,7 @@ class DeviceList extends React.Component {
 	const credentials = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpYXQiOjE1NzEwNTk2MTgsIm5iZiI6MTU3MTA1OTYxOCwianRpIjoiNTQ2MDk2YTUtZTNmOS00NzFlLWE2NTctZWFlYTZkNzA4NmVhIiwic3ViIjoiYWRtaW4iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.Sfffg9oZg_Kmoq7Oe8IoTcbuagpP6nuUXOQzqJpgDfqDq_GM_4zGzt7XxByD4G0q8g4gZGHQnV14TpDer2hJXw";
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
-	    fetch(process.env.API_URL + "/auth/" + key, {
+	    fetch(process.env.API_URL + "/api/v1.0/auth/" + key, {
 		method: "PUT",
 		headers: {
 		    Authorization: `Bearer ${credentials}`,
@@ -316,7 +313,7 @@ class DeviceList extends React.Component {
 	const credentials = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpYXQiOjE1NzEwNTk2MTgsIm5iZiI6MTU3MTA1OTYxOCwianRpIjoiNTQ2MDk2YTUtZTNmOS00NzFlLWE2NTctZWFlYTZkNzA4NmVhIiwic3ViIjoiYWRtaW4iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.Sfffg9oZg_Kmoq7Oe8IoTcbuagpP6nuUXOQzqJpgDfqDq_GM_4zGzt7XxByD4G0q8g4gZGHQnV14TpDer2hJXw";
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
-	    fetch(process.env.API_URL + "/auth/" + key, {
+	    fetch(process.env.API_URL + "/api/v1.0/auth/" + key, {
 		method: "PUT",
 		headers: {
 		    Authorization: `Bearer ${credentials}`,
