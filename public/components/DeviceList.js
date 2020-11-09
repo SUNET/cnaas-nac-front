@@ -354,7 +354,7 @@ class DeviceList extends React.Component {
 		);
 	    }
 	    return [
-		<tr key={index}>
+		<tr key={index} bgcolor="white">
 		    <td key="0" align="left">
 			<input
 			    type="checkbox"
