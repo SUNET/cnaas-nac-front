@@ -261,15 +261,14 @@ class DeviceList extends React.Component {
     };
 
     portBounce = object => {
+	let jsonData = {"bounce": true};
 	const credentials = localStorage.getItem("token");
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
-	    let jsonData = {"username": key, "secret": process.env.NAS_SECRET}
+	    console.log('Bouncing ' + key);
 
-	    console.log(jsonData);
-
-	    fetch(process.env.API_URL + "/api/v1.0/coa", {
-		method: "POST",
+	    fetch(process.env.API_URL + "/api/v1.0/auth/" + key, {
+		method: "PUT",
 		headers: {
 		    Authorization: `Bearer ${credentials}`,
 		    "Content-Type": "application/json"
@@ -280,7 +279,7 @@ class DeviceList extends React.Component {
 		.then(response => response.json())
 		.then(data => {
 		    {
-			console.log('Remove responded: ' + data);
+			console.log(data);
 		    }
 		});
 	});
