@@ -1,272 +1,320 @@
 body {
-  height: calc(100vh - 4px);
-  background: #fff;
-
-  font-family: "Karla", sans-serif;
-  font-size: 14px;
-  color: #003049;
-  font-weight: 700;
-  line-height: 1.2;
+    height: calc(100vh - 4px);
+    background: #fff;
+    font-family: "Karla", sans-serif;
+    font-size: 14px;
+    color: #003049;
+    font-weight: 700;
+    line-height: 1.2;
 }
 
 #root {
-  height: calc(100% - 4px);
+    height: calc(100% - 4px);
+    width: 100%;
 }
 
 .container {
-  height: calc(100% - 4px);
-  display: flex;
-  flex-direction: column;
+    height: calc(100% - 4px);
+    display: flex;
+    flex-direction: column;
 }
 
 header {
-  border-bottom: #ff4500 solid 1px;
-  display: flex;
+    border-bottom: #ff4500 solid 1px;
+    display: flex;
 }
 
 nav {
-  flex: 1;
-  margin: 16px;
+    flex: 1;
+    margin: 16px;
 }
 
 nav ul {
-  display: flex;
-  justify-content: flex-end;
+    display: flex;
+    justify-content: flex-end;
 }
 
 nav li {
-  margin-right: 16px;
+    margin-right: 16px;
 }
 
 a {
-  text-transform: Captalize;
-  color: #003049;
-  text-decoration: none;
+    text-transform: Captalize;
+    color: #003049;
+    text-decoration: none;
 }
 
 h1,
 h2 {
-  font-size: 24px;
-  margin: 32px 0;
-  line-height: 1.2;
+    font-size: 24px;
+    margin: 32px 0;
+    line-height: 1.2;
 }
 
 h2:first-child {
-  margin-top: 32px;
+    margin-top: 32px;
 }
 
 p {
-  font-size: 16px;
-  margin: 16px 0;
-  line-height: 1.2;
-  font-weight: 400;
-}
-
-p:first-child {
-  margin-top: 16px;
+    font-size: 16px;
+    margin: 16px 0;
+    line-height: 1.2;
+    font-weight: 400;
 }
 
 button {
-  background: #ff4500;
-  font-family: "Montserrat", sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 1px;
+    background: #ff4500;
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
 
-  border: transparent solid 1px;
-  border-radius: 20px;
+    border: transparent solid 1px;
+    border-radius: 20px;
 
-  padding: 16px 32px;
-  margin: 16px;
+    padding: 16px 32px;
+    margin: 16px;
 }
 
 button:hover {
-  border: #ff4500 solid 1px;
-  background: #ffe7dd;
-  color: #ff4500;
+    border: #ff4500 solid 1px;
+    background: #ffe7dd;
+    color: #ff4500;
+}
+
+button:disabled {
+    background: #cccccc;
 }
 
 section {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
+    text-align: right;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
 }
 
 /* long-term maybe panel can be removed */
 #panel {
-  padding: 16px;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
+    padding: 16px;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
 }
 
 footer {
-  border-top: #ff4500 solid 1px;
-  display: flex;
-  padding: 16px;
+    border-top: #ff4500 solid 1px;
+    display: flex;
+    padding: 16px;
 }
 
 /* task styles */
 .task-container {
-  border: solid gray 1px;
-  margin: 16px 0;
-  padding-bottom: 16px;
+    border: solid gray 1px;
+    margin: 16px 0;
+    padding-bottom: 16px;
 }
 
 .task-container h2,
 .task-container p {
-  padding: 0 16px;
+    padding: 0 16px;
 }
 
 .task-container p {
-  padding: 0 16px;
-  font-size: 20px;
-  font-weight: 400;
+    font-size: 20px;
+    font-weight: 400;
 }
 
 .task-container .heading {
-  display: flex;
-  justify-content: space-between;
-  background-color: #f4f4f4;
+    display: flex;
+    justify-content: space-between;
+    background-color: #f4f4f4;
 }
 
 .task-container .close {
-  background: transparent;
-  border: none;
-  text-transform: capitalize;
-  color: #ff4500;
+    background: transparent;
+    border: none;
+    text-transform: capitalize;
+    color: #ff4500;
 }
 
 .task-container .close:hover {
-  background-color: transparent;
-  border: none;
-  border-radius: 0;
-  text-decoration: underline;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    text-decoration: underline;
+}
+
+.task-collapsable {
+    margin-top: 16px;
 }
 
 .task-collapsable .info {
-  display: flex;
-  align-items: baseline;
+    display: flex;
+    align-items: baseline;
 }
 
 .active {
-  color: #ff4500;
-  text-decoration: underline;
+    color: #ff4500;
+    text-decoration: underline;
 }
 
 table,
 thead,
 tbody {
-  display: flex;
-  flex-direction: column;
+    width: 100%;
 }
 
 tr {
-  display: flex;
-  border-bottom: solid white 1px;
+    display: flex;
+    border-bottom: solid white 1px;
 }
 
 thead {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  background-color: lightgray;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    background-color: lightgray;
 }
 
 tbody {
-  font-size: 16px;
-  font-weight: 400;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 th,
 td {
-  display: flex;
-  flex: 1;
-  padding: 16px;
-}
-
-/* progress bar styles */
-
-#progressbar {
-  margin: 16px;
-}
-
-progress {
-  display: flex;
-  width: calc(100% - 32px);
-  border-radius: 10px;
-}
-
-progress::-webkit-progress-bar {
-  border-radius: 3px;
-  background-color: #ffe7dd;
-}
-progress::-webkit-progress-value {
-  border-radius: 3px;
-  background-color: #ff4500;
-}
-
-progress::-moz-progress-bar {
-  border-radius: 3px;
-  background-color: yellow;
+    display: flex;
+    flex: 1;
+    padding: 16px;
 }
 
 /* DeviceList styles */
 
+form {
+    display: inline-block;
+    float: right;
+}
+
+#action {
+    display: inline-block;
+    padding: 16px 0;
+    position: absolute;
+    left: 1%;
+}
+
 #search {
-  padding: 16px 0;
+    display: inline-block;
+    padding: 16px 0;
+    float: right;
 }
 
 #device_list {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: 16px 0;
+    display: flex;
+    flex-direction: column;
 }
 
 #data {
-  height: 100%;
-  margin: 16px 0;
-  background: lightgray;
+    height: 100%;
+    margin: 16px 0;
+    /*  background: lightgray; */
 }
 
 #data .device_details_row {
-  background: white;
+    background: white;
 }
 
 #data .device_details_row td {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
 }
 
 #data .device_details_table {
-  width: 100%;
-  table-layout: fixed;
+    width: 100%;
+    table-layout: fixed;
+    background-color: white;
 }
 
 #data .device_details_table td {
-  padding: 4px;
+    padding: 4px;
+    background-color: white;
 }
 
-/* error styles */
-
-.error {
-  color: #ff4500;
+#login {
+    background: #eceeee;
+    border: 1px solid #42464b;
+    border-radius: 6px;
+    height: 257px;
+    margin: 20px auto 0;
+    width: 350px;
 }
 
-/* diff box styles */
-
-#diff-box {
-  background-color: lightgray;
-  color: red;
-  margin: 0 16px;
+input[type="password"], input[type="text"] {
+    background: url('http://i.minus.com/ibhqW9Buanohx2.png') center left no-repeat, linear-gradient(top, #d6d7d7, #dee0e0);
+    border: 1px solid #a1a3a3;
+    border-radius: 4px;
+    box-shadow: 0 1px #fff;
+    box-sizing: border-box;
+    color: #696969;
+    height: 39px;
+    margin: 31px 0 0 29px;
+    padding-left: 37px;
+    transition: box-shadow 0.3s;
+    width: 280px;
 }
 
-#diff-box pre {
-  white-space: pre-wrap;
-  overflow-wrap: break-word;
-  word-break: break-all;
-  hyphens: auto;
-  padding: 16px;
+#modal {
+    width: 500px;
+    background: white;
+    border: 1px solid #ccc;
+    transition: 1.1s ease-out;
+    box-shadow: -2rem 2rem 2rem rgba(0, 0, 0, 0.2);
+    filter: blur(0);
+    transform: scale(1);
+    opacity: 1;
+    visibility: visible;
+}
+.modal.off {
+    opacity: 0;
+    visibility: hidden;
+    filter: blur(8px);
+    transform: scale(0.33);
+    box-shadow: 1rem 0 0 rgba(0, 0, 0, 0.2);
+}
+@supports (offset-rotation: 0deg) {
+    offset-rotation: 0deg;
+    offset-path: path("M 250,100 S -300,500 -700,-200");
+    .modal.off {
+	offset-distance: 100%;
+    }
+}
+@media (prefers-reduced-motion) {
+    .modal {
+	offset-path: none;
+    }
+}
+.modal h2 {
+    border-bottom: 1px solid #ccc;
+    padding: 1rem;
+    margin: 0;
+}
+.modal .content {
+    padding: 1rem;
+}
+.modal .actions {
+    border-top: 1px solid #ccc;
+    background: #eee;
+    padding: 0.5rem 1rem;
+}
+.modal .actions button {
+    border: 0;
+    background: lightgray;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    line-height: 1;
+}
+#centered-toggle-button {
+    position: absolute;
 }
