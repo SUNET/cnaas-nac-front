@@ -13,7 +13,7 @@ extra_jobs:
   - name: cnaas-nac-front
     builders:
       - docker
-    docker_name: cnaas/nac-frontend
+    docker_name: cnaas/nac-front
     docker_context_dir: docker/frontend
 
   - name: cnaas-nac-front
@@ -21,7 +21,7 @@ extra_jobs:
       branch: master
     builders:
       - docker
-    docker_name: cnaas/nac-frontend
+    docker_name: cnaas/nac-front
     docker_context_dir: docker/frontend
     docker_tags:
       - "v0.1.0"
