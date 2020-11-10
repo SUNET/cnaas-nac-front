@@ -1,4 +1,5 @@
-FROM debian:buster
+FROM ubuntu:latest
+ENV DEBIAN_FRONTEND noninteractive
 
 # Create directories
 RUN mkdir -p /opt/cnaas
