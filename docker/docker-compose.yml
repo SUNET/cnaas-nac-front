@@ -1,21 +1,19 @@
 version: '3.7'
 services:
-  nac_front:
-    build: ./frontend/
+  cnaas_front:
+    build: ./front/
     ports:
-      - 2443:443
+      - 4443:4443
     environment:
-      - AUTH_API_URL=https://nac_api/api/v1.0
-      - AUTH_COA_SECRET
-    networks:
-      - cnaas
+      - GITREPO_ETC
+      - CNAAS_API_URL
+      - CNAAS_AUTH_URL
+      - CNAAS_FRONT_URL
+    volumes:
+      - type: volume
+        source: cnaas-front-cert
+        target: /opt/cnaas/cert
+volumes:
+  cnaas-front-cert:
+    external: true
 
-networks:
-  cnaas:
-    driver: bridge
-    name: cnaas
-    ipam:
-      config:
-      - subnet: 172.31.0.0/24
-    driver_opts:
-      com.docker.network.bridge.name: br-cnaas    
