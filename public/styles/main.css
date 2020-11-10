@@ -241,7 +241,7 @@ form {
     background-color: white;
 }
 
-.login {
+login {
     background: #eceeee;
     border: 1px solid #42464b;
     border-radius: 6px;
@@ -264,7 +264,7 @@ input[type="password"], input[type="text"] {
     width: 280px;
 }
 
-.modal {
+#modal {
     width: 500px;
     background: white;
     border: 1px solid #ccc;

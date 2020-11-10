@@ -16,9 +16,9 @@ export default class Modal extends React.Component {
 	    return null;
 	}
 	return (
-	    <div class="modal" id="modal">
-		<div class="content">{this.props.children}</div>
-		<div class="actions">
+	    <div className="modal" id="modal">
+		<div className="content">{this.props.children}</div>
+		<div className="actions">
 		    <button onClick={this.onSubmit}>OK</button>
 		    <button onClick={this.onClose}>Cancel</button>		    
 		</div>
