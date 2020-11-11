@@ -5,14 +5,11 @@
 disabled: false
 
 git:
-  branch: develop
   extensions:
     shallow_clone: true
 
 extra_jobs:
   - name: cnaas-nac-front
-    git:
-      brach: develop
     builders:
       - docker
     docker_name: cnaas/nac-front

@@ -11,9 +11,8 @@ apt-get update && \
     apt-get -y dist-upgrade && \
     apt-get install -y \
       git \
-      python3-venv \
-      python3-pip \
-      python3-yaml \
+      nodejs \
+      npm \
       iputils-ping \
       procps \
       bind9-host \
@@ -24,20 +23,13 @@ apt-get update && \
       nginx \
       supervisor \
       libssl-dev \
-      emacs-nox \
     && apt-get clean
 
-pip3 install uwsgi
-
-# Start venv
-python3 -m venv /opt/cnaas/venv
-cd /opt/cnaas/venv/
-source bin/activate
-
-/opt/cnaas/venv/bin/pip install -U pip
-pip3 install requests
-
 # Fetch the code and install dependencies
+cd /opt/cnaas/
 git clone https://github.com/SUNET/cnaas-nac-front.git
 cd cnaas-nac-front/
-python3 -m pip install -r requirements.txt
+npm i
+#npm run-script build
+#cp dist/* /opt/cnaas/static
+
