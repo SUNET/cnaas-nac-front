@@ -465,20 +465,19 @@ class DeviceList extends React.Component {
 			<Button onClick={e => this.showVlanModal(e)}>VLAN</Button>
 			<Button onClick={e => this.showCommentModal(e)}>Comment</Button>
 			<Button onClick={this.portBounce}>Bounce port</Button>
-			<Modal onClose={this.showVlanModal} onSubmit={this.submitVlanModal} show={this.state.showVlanModal}>
-			    Enter VLAN name: {" "}
-			    <input type="text" value={this.state.vlanText} onChange={this.setVlanText} />
-			</Modal>
-			<Modal onClose={this.showCommentModal} onSubmit={this.submitCommentModal} show={this.state.showCommentModal}>
-			    Enter comment: {" "}
-			    <input type="text" value={this.state.commentText} onChange={this.setCommentText} />
-			</Modal>
-
 		    </div>
 		    <div id="search">
 			<DeviceSearchForm searchAction={this.getDevicesData} />&nbsp;
 		    </div>
 		</div>
+		<Modal onClose={this.showVlanModal} onSubmit={this.submitVlanModal} show={this.state.showVlanModal}>
+		    Enter VLAN name:
+		    <input type="text" value={this.state.vlanText} onChange={this.setVlanText} />
+		</Modal>
+		<Modal onClose={this.showCommentModal} onSubmit={this.submitCommentModal} show={this.state.showCommentModal}>
+		    Enter comment:
+		    <input type="text" value={this.state.commentText} onChange={this.setCommentText} />
+		</Modal>
 		<div id="device_list">
 		    <div id="data">
 			<table>
