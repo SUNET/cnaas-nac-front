@@ -15,19 +15,34 @@ export default class Modal extends React.Component {
 	if (!this.props.show) {
 	    return null;
 	}
-	return (
-	    <div className="modal" id="modal">
-		<div className="content">{this.props.children}</div>
-		<div className="actions">
-		    <button onClick={this.onSubmit}>OK</button>
-		    <button onClick={this.onClose}>Cancel</button>		    
+
+	if (this.props.messageBox !== "") {
+	    return (
+		<div className="modal" id="modal">
+		    <div className="content">{this.props.children}</div>
+		    <div className="actions">
+			<button onClick={this.onClose}>Close</button>
+		    </div>
 		</div>
-	    </div>
-	);
+	    );
+
+	} else {
+	    return (
+		<div className="modal" id="modal">
+		    <div className="content">{this.props.children}</div>
+		    <div className="actions">
+			<button onClick={this.onSubmit}>OK</button>
+			<button onClick={this.onClose}>Cancel</button>
+		    </div>
+		</div>
+	    );
+	}
     }
 }
+
 Modal.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
-    show: PropTypes.bool.isRequired
+    show: PropTypes.bool.isRequired,
+    messageBox: PropTypes.string.isRequired
 };

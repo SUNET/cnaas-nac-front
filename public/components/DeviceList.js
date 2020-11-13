@@ -470,10 +470,10 @@ class DeviceList extends React.Component {
 			<DeviceSearchForm searchAction={this.getDevicesData} />&nbsp;
 		    </div>
 		</div>
-		<Modal onClose={this.showVlanModal} onSubmit={this.submitVlanModal} show={this.state.showVlanModal}>
+		<Modal onClose={this.showVlanModal} onSubmit={this.submitVlanModal} show={this.state.showVlanModal} messageBox="">
 		    <input type="text" value={this.state.vlanText} onChange={this.setVlanText} placeholder="Enter VLAN here..." />
 		</Modal>
-		<Modal onClose={this.showCommentModal} onSubmit={this.submitCommentModal} show={this.state.showCommentModal}>
+		<Modal onClose={this.showCommentModal} onSubmit={this.submitCommentModal} show={this.state.showCommentModal} messageBox="" >
 		    <input type="text" value={this.state.commentText} onChange={this.setCommentText} placeholder="Enter comment here..." />
 		</Modal>
 		<div id="device_list">
