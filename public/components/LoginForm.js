@@ -23,6 +23,8 @@ class LoginForm extends React.Component {
 	return (
 	    <form onSubmit={event => this.props.login(this.state.email, this.state.password)}>
 		<div id="login">
+		    <br/>
+		    <center><h1>CNaaS NAC</h1></center>
 		    <input type="text" name="email" placeholder="Username..." onChange={this.handleInput} required />
 		    <input type="password" placeholder="Password..." name="password" onChange={this.handleInput} required />
 		    <p className="title error">{this.props.errorMessage}</p>
