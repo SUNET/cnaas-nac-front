@@ -471,12 +471,10 @@ class DeviceList extends React.Component {
 		    </div>
 		</div>
 		<Modal onClose={this.showVlanModal} onSubmit={this.submitVlanModal} show={this.state.showVlanModal}>
-		    Enter VLAN name:
-		    <input type="text" value={this.state.vlanText} onChange={this.setVlanText} />
+		    <input type="text" value={this.state.vlanText} onChange={this.setVlanText} placeholder="Enter VLAN here..." />
 		</Modal>
 		<Modal onClose={this.showCommentModal} onSubmit={this.submitCommentModal} show={this.state.showCommentModal}>
-		    Enter comment:
-		    <input type="text" value={this.state.commentText} onChange={this.setCommentText} />
+		    <input type="text" value={this.state.commentText} onChange={this.setCommentText} placeholder="Enter comment here..." />
 		</Modal>
 		<div id="device_list">
 		    <div id="data">
