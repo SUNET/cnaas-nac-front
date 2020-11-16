@@ -5,10 +5,8 @@ services:
     ports:
       - 4443:4443
     environment:
-      - GITREPO_ETC
       - CNAAS_API_URL
       - CNAAS_AUTH_URL
-      - CNAAS_FRONT_URL
     volumes:
       - type: volume
         source: cnaas-front-cert
