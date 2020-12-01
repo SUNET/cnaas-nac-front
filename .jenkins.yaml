@@ -18,12 +18,10 @@ extra_jobs:
     docker_name: cnaas/nac-front
     docker_context_dir: docker/front
 
-  - name: cnaas-nac-front
+  - name: cnaas-nac-front-master
     git:
       branch: master
     builders:
       - docker
     docker_name: cnaas/nac-front
     docker_context_dir: docker/front
-    docker_tags:
-      - "v0.1.0"
