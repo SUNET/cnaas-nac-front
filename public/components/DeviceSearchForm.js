@@ -31,7 +31,7 @@ class DeviceSearchForm extends React.Component {
 
     submitSearch(e) {
 	e.preventDefault();
-	console.log("search submitted: "+this.state.searchText+" "+this.state.searchField);
+	console.log("Search submitted: " + this.state.searchText + " " + this.state.searchField);
 	this.props.searchAction({ filterField: this.state.searchField, filterValue: this.state.searchText});
     }
 
@@ -58,7 +58,6 @@ class DeviceSearchForm extends React.Component {
 		<Button type='submit'>Search</Button>
 	    </form>
 	);
-
     }
 }
 

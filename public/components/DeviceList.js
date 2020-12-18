@@ -18,6 +18,8 @@ class DeviceList extends React.Component {
 	    checkedItems: {},
 	    showVlanModal: false,
 	    showCommentModal: false,
+	    usernameText: "",
+	    passwordText: "",
 	    vlanText: "",
 	    commentText: "",
 	    username_sort: "",
@@ -29,6 +31,8 @@ class DeviceList extends React.Component {
 	};
 
 	this.handleChange = this.handleChange.bind(this);
+	this.setUsernameText = this.setUsernameText.bind(this);
+	this.setPasswordText = this.setPasswordText.bind(this);
 	this.setVlanText = this.setVlanText.bind(this);
 	this.setCommentText = this.setCommentText.bind(this);
     }
@@ -41,6 +45,22 @@ class DeviceList extends React.Component {
 	this.setState(newState);
 
 	console.log(this.state.checkedItems);
+    }
+
+    setUsernameText(event) {
+	let newState = this.state;
+
+	this.setState(newState);
+	newState['usernameText'] = event.target.value;
+	this.setState(newState);
+    }
+
+    setPasswordText(event) {
+	let newState = this.state;
+
+	this.setState(newState);
+	newState['passwordText'] = event.target.value;
+	this.setState(newState);
     }
 
     setVlanText(event) {
@@ -303,6 +323,12 @@ class DeviceList extends React.Component {
 	this.forceUpdate();
     }
 
+    showAddModal = e => {
+	this.setState({
+	    showAddModal: !this.state.showAddModal
+	});
+    };
+
     showVlanModal = e => {
 	this.setState({
 	    showVlanModal: !this.state.showVlanModal
@@ -345,6 +371,50 @@ class DeviceList extends React.Component {
 	this.forceUpdate();
     };
 
+    submitAddModal = e => {
+	let jsonData = {"username": this.state.usernameText,
+			"password": this.state.passwordText,
+			"vlan": this.state.vlanText,
+			"comment": this.state.commentText
+		       };
+	const credentials = localStorage.getItem("token");
+
+	fetch(process.env.API_URL + "/api/v1.0/auth", {
+	    method: "POST",
+	    headers: {
+		Authorization: `Bearer ${credentials}`,
+		"Content-Type": "application/json"
+	    },
+	    body: JSON.stringify(jsonData)
+	})
+	    .then(response => checkResponseStatus(response))
+	    .then(response => response.json())
+	    .then(data => {
+		{
+		    console.log('Update responded: ' + data);
+		}
+	    });
+
+	this.setState({
+	    usernameText: ""
+	});
+
+	this.setState({
+	    passwordText: ""
+	});
+
+	this.setState({
+	    vlanText: ""
+	});
+
+	this.setState({
+	    commentText: ""
+	});
+
+	this.getDevicesData();
+	this.forceUpdate();
+    };
+
     submitCommentModal = e => {
 	const credentials = localStorage.getItem("token");
 	let jsonData = {"comment": this.state.vlanText};
@@ -368,7 +438,7 @@ class DeviceList extends React.Component {
 	});
 
 	this.setState({
-	    vlanText: ""
+	    commentText: ""
 	});
 
 	this.getDevicesData();
@@ -410,12 +480,7 @@ class DeviceList extends React.Component {
 		    <td key="4" align="left">{items.vlan}</td>
 		    <td key="5" align="left">{items.reason}</td>
 		</tr>,
-		<tr
-		    key={index + "_content"}
-		    colSpan="4"
-		    className="device_details_row"
-		    hidden
-		>
+		<tr key={index + "_content"} colSpan="4" className="device_details_row" hidden>
 		    <td>
 			<table className="device_details_table">
 			    <tbody>
@@ -459,17 +524,32 @@ class DeviceList extends React.Component {
 	    <section>
 		<div>
 		    <div id="action">
-			<Button onClick={this.handleEnable}>Enable</Button>
-			<Button onClick={this.handleDisable}>Disable</Button>
-			<Button onClick={this.handleRemove}>Remove</Button>
-			<Button onClick={e => this.showVlanModal(e)}>VLAN</Button>
-			<Button onClick={e => this.showCommentModal(e)}>Comment</Button>
-			<Button onClick={this.portBounce}>Bounce port</Button>
+			<Button.Group>
+			    <Button onClick={e => this.showAddModal(e)}>Add</Button>
+			    <Button onClick={this.handleRemove}>Remove</Button>
+			</Button.Group>
+			&nbsp;
+			<Button.Group>
+			    <Button onClick={this.handleEnable}>Enable</Button>
+			    <Button onClick={this.handleDisable}>Disable</Button>
+			</Button.Group>
+			&nbsp;
+			<Button.Group>
+			    <Button onClick={e => this.showVlanModal(e)}>VLAN</Button>
+			    <Button onClick={e => this.showCommentModal(e)}>Comment</Button>
+			    <Button onClick={this.portBounce}>Bounce</Button>
+			</Button.Group>
 		    </div>
 		    <div id="search">
 			<DeviceSearchForm searchAction={this.getDevicesData} />&nbsp;
 		    </div>
 		</div>
+		<Modal onClose={this.showAddModal} onSubmit={this.submitAddModal} show={this.state.showAddModal} messageBox="">
+		    <input type="text" value={this.state.usernameText} onChange={this.setUsernameText} placeholder="Username (required)" />
+		    <input type="text" value={this.state.passwordText} onChange={this.setPasswordText} placeholder="Password (optional)" />
+		    <input type="text" value={this.state.vlanText} onChange={this.setVlanText} placeholder="VLAN (optional)" />
+		    <input type="text" value={this.state.commentText} onChange={this.setCommentText} placeholder="Comment (optional)" />
+		</Modal>
 		<Modal onClose={this.showVlanModal} onSubmit={this.submitVlanModal} show={this.state.showVlanModal} messageBox="">
 		    <input type="text" value={this.state.vlanText} onChange={this.setVlanText} placeholder="Enter VLAN here..." />
 		</Modal>

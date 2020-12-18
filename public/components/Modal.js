@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Button, Select, Input, Icon, Pagination, Checkbox } from "semantic-ui-react";
+
 
 export default class Modal extends React.Component {
     onClose = e => {
@@ -18,22 +20,28 @@ export default class Modal extends React.Component {
 
 	if (this.props.messageBox !== "") {
 	    return (
-		<div className="modal" id="modal">
-		    <div className="content">{this.props.children}</div>
-		    <div className="actions">
-			<button onClick={this.onClose}>Close</button>
+		<div id="modal">
+		    <div id="content">{this.props.children}</div>
+		    <div id="actions">
+			<Button onClick={this.onClose}>Close</Button>
 		    </div>
 		</div>
 	    );
 
 	} else {
 	    return (
-		<div className="modal" id="modal">
-		    <div className="content">{this.props.children}</div>
-		    <div className="actions">
-			<button onClick={this.onSubmit}>OK</button>
-			<button onClick={this.onClose}>Cancel</button>
+		<div id="modal">
+		    <div id="content">
+			{this.props.children}
 		    </div>
+		    <br/>
+		    <div id="actions">
+			<center>
+			    <Button onClick={this.onSubmit}>OK</Button>
+			    <Button onClick={this.onClose}>Cancel</Button>
+			</center>
+		    </div>
+		    <br/>
 		</div>
 	    );
 	}
