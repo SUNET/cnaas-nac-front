@@ -5,8 +5,9 @@ services:
     ports:
       - 4443:4443
     environment:
-      - CNAAS_API_URL
-      - CNAAS_AUTH_URL
+      - NAC_API_URL=https://su-nac1.cnaas.io:1443
+      - NAC_FRONT_URL=https://su-nac1.cnaas.io
+      - AUTH_API_URL=https://su-auth.cnaas.io
     volumes:
       - type: volume
         source: cnaas-front-cert

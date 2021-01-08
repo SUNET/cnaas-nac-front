@@ -29,6 +29,7 @@ apt-get update && \
 cd /opt/cnaas/
 git clone https://github.com/SUNET/cnaas-nac-front.git
 cd cnaas-nac-front/
+git checkout feature.environment_cleanup
 npm i
 #npm run-script build
 #cp dist/* /opt/cnaas/static

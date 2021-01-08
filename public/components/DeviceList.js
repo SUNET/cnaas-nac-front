@@ -175,7 +175,7 @@ class DeviceList extends React.Component {
 		filterValue;
 	}
 
-	fetch(process.env.API_URL + "/api/v1.0/auth/" + filterParams + "?sort=" + sortField, {
+	fetch(process.env.NAC_API_URL + "/api/v1.0/auth/" + filterParams + "?sort=" + sortField, {
 	    method: "GET",
 	    headers: {
 		Authorization: `Bearer ${credentials}`
@@ -216,7 +216,7 @@ class DeviceList extends React.Component {
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
 	    console.log('Enabling ' + key);
-	    fetch(process.env.API_URL + "/api/v1.0/auth/" + key, {
+	    fetch(process.env.NAC_API_URL + "/api/v1.0/auth/" + key, {
 		method: "PUT",
 		headers: {
 		    Authorization: `Bearer ${credentials}`,
@@ -241,7 +241,7 @@ class DeviceList extends React.Component {
 	Object.keys(this.state.checkedItems).forEach(function(key) {
 	    console.log('Disabling ' + key);
 
-	    fetch(process.env.API_URL + "/api/v1.0/auth/" + key, {
+	    fetch(process.env.NAC_API_URL + "/api/v1.0/auth/" + key, {
 		method: "PUT",
 		headers: {
 		    Authorization: `Bearer ${credentials}`,
@@ -264,7 +264,7 @@ class DeviceList extends React.Component {
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
 	    console.log('Removing ' + key);
-	    fetch(process.env.API_URL + "/api/v1.0/auth/" + key, {
+	    fetch(process.env.NAC_API_URL + "/api/v1.0/auth/" + key, {
 		method: "DELETE",
 		headers: {
 		    Authorization: `Bearer ${credentials}`
@@ -287,7 +287,7 @@ class DeviceList extends React.Component {
 	Object.keys(this.state.checkedItems).forEach(function(key) {
 	    console.log('Bouncing ' + key);
 
-	    fetch(process.env.API_URL + "/api/v1.0/auth/" + key, {
+	    fetch(process.env.NAC_API_URL + "/api/v1.0/auth/" + key, {
 		method: "PUT",
 		headers: {
 		    Authorization: `Bearer ${credentials}`,
@@ -346,7 +346,7 @@ class DeviceList extends React.Component {
 	const credentials = localStorage.getItem("token");
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
-	    fetch(process.env.API_URL + "/api/v1.0/auth/" + key, {
+	    fetch(process.env.NAC_API_URL + "/api/v1.0/auth/" + key, {
 		method: "PUT",
 		headers: {
 		    Authorization: `Bearer ${credentials}`,
@@ -379,7 +379,7 @@ class DeviceList extends React.Component {
 		       };
 	const credentials = localStorage.getItem("token");
 
-	fetch(process.env.API_URL + "/api/v1.0/auth", {
+	fetch(process.env.NAC_API_URL + "/api/v1.0/auth", {
 	    method: "POST",
 	    headers: {
 		Authorization: `Bearer ${credentials}`,
@@ -420,7 +420,7 @@ class DeviceList extends React.Component {
 	let jsonData = {"comment": this.state.vlanText};
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
-	    fetch(process.env.API_URL + "/api/v1.0/auth/" + key, {
+	    fetch(process.env.NAC_API_URL + "/api/v1.0/auth/" + key, {
 		method: "PUT",
 		headers: {
 		    Authorization: `Bearer ${credentials}`,

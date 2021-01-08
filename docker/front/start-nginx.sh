@@ -1,11 +1,11 @@
 #!/bin/sh
 
-sed -e "s|^\(.*proxy_pass \)CNAAS_API_URL;$|\1$CNAAS_API_URL;|" \
-    -e "s|^\(.*proxy_pass \)CNAAS_AUTH_URL;$|\1$CNAAS_AUTH_URL;|" \
+sed -e "s|^\(.*proxy_pass \)NAC_API_URL;$|\1$NAC_API_URL;|" \
+    -e "s|^\(.*proxy_pass \)AUTH_API_URL;$|\1$AUTH_API_URL;|" \
   < /etc/nginx/sites-available/nginx_app.conf > /tmp/nginx_app.conf.new \
   && cat /tmp/nginx_app.conf.new > /etc/nginx/sites-available/nginx_app.conf
 
-sed -e "s|^\(.*API_URL=\)CNAAS_FRONT_URL$|\1$CNAAS_FRONT_URL|" \
+sed -e "s|^\(.*NAC_API_URL=\)NAC_API_URL$|\1$NAC_API_URL|" \
   < /opt/cnaas/.env > /tmp/.env \
   && cat /tmp/.env > /opt/cnaas/cnaas-nac-front/.env
 
