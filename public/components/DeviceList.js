@@ -417,7 +417,7 @@ class DeviceList extends React.Component {
 
     submitCommentModal = e => {
 	const credentials = localStorage.getItem("token");
-	let jsonData = {"comment": this.state.vlanText};
+	let jsonData = {"comment": this.state.commentText};
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
 	    fetch(process.env.NAC_API_URL + "/api/v1.0/auth/" + key, {
