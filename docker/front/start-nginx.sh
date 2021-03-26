@@ -13,12 +13,10 @@ cd /opt/cnaas/cnaas-nac-front
 npm run-script build
 cp dist/* /opt/cnaas/static
 
-if [ ! -f /opt/cnaas/cert/cnaasfront_combined.crt ]; then
-  echo "WARNING: no cert found, using snakeoil cert"
-  cp /etc/nginx/conf.d/snakeoil.crt /opt/cnaas/cert/cnaasfront_combined.crt
-  cp /etc/nginx/conf.d/snakeoil.key /opt/cnaas/cert/cnaasfront.key
+if [ ! -f /opt/cnaas/certs/nginx_cert.pem ]; then
+  echo "WARNING: No cert found, using snakeoil (self-signed) certificate and key."
+  cp /opt/cnaas/certs/snakeoil_cert.pem /opt/cnaas/certs/nginx_cert.pem
+  cp /opt/cnaas/certs/snakeoil_key.pem /opt/cnaas/certs/nginx_key.pem
 fi
-chown root:root /opt/cnaas/cert/cnaasfront.key
-chmod 600 /opt/cnaas/cert/cnaasfront.key
 
 /usr/sbin/nginx -g "daemon off;"
