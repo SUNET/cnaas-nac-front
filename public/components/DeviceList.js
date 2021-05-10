@@ -212,7 +212,7 @@ class DeviceList extends React.Component {
 
     updateDeviceEnable = object => {
 	const credentials = localStorage.getItem("token");
-	let jsonData = {"enabled": true};
+	let jsonData = {"active": true};
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
 	    console.log('Enabling ' + key);
@@ -236,7 +236,7 @@ class DeviceList extends React.Component {
 
     updateDeviceDisable = object => {
 	const credentials = localStorage.getItem("token");
-	let jsonData = {"enabled": false};
+	let jsonData = {"active": false};
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
 	    console.log('Disabling ' + key);
@@ -530,8 +530,8 @@ class DeviceList extends React.Component {
 			</Button.Group>
 			&nbsp;
 			<Button.Group>
-			    <Button onClick={this.handleEnable}>Enable</Button>
-			    <Button onClick={this.handleDisable}>Disable</Button>
+			    <Button onClick={this.handleEnable}>Active</Button>
+			    <Button onClick={this.handleDisable}>Inactive</Button>
 			</Button.Group>
 			&nbsp;
 			<Button.Group>
