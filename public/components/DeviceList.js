@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Select, Input, Icon, Pagination, Checkbox } from "semantic-ui-react";
 import DeviceSearchForm from "./DeviceSearchForm";
+import DeviceWhenForm from "./DeviceWhenForm";
 import checkResponseStatus from "../utils/checkResponseStatus";
 import Modal from "./Modal";
 
@@ -26,8 +27,8 @@ class DeviceList extends React.Component {
 	    authdate_sort: "",
 	    active_sort: "",
 	    vlan_sort: "",
-	    reason_sort: ""
-
+	    reason_sort: "",
+	    whenField: ""
 	};
 
 	this.handleChange = this.handleChange.bind(this);
@@ -43,8 +44,6 @@ class DeviceList extends React.Component {
 	this.setState(newState);
 	newState['checkedItems'][event.target.name] = event.target.checked;
 	this.setState(newState);
-
-	console.log(this.state.checkedItems);
     }
 
     setUsernameText(event) {
@@ -77,14 +76,16 @@ class DeviceList extends React.Component {
 	this.setState(newState);
 	newState['commentText'] = event.target.value;
 	this.setState(newState);
-
-	console.log(this.state.commentText);
     }
 
     getDevicesData = options => {
 	if (options === undefined) options = {};
 
 	let newState = this.state;
+
+	if (options.whenField !== undefined) {
+	    newState["whenField"] = options.whenField;
+	}
 
 	if (options.sortField !== undefined) {
 	    newState["sortField"] = options.sortField;
@@ -108,7 +109,8 @@ class DeviceList extends React.Component {
 	    newState["sortField"],
 	    newState["filterField"],
 	    newState["filterValue"],
-	    newState["activePage"]
+	    newState["activePage"],
+	    newState["whenField"]
 	);
     };
 
@@ -138,6 +140,7 @@ class DeviceList extends React.Component {
 	this.getDevicesData({ sortField: sortField });
 
 	// Close all expanded table rows when resorting the table
+
 	var deviceDetails = document.getElementsByClassName("device_details_row");
 	for (var i = 0; i < deviceDetails.length; i++) {
 	    deviceDetails[i].hidden = true;
@@ -150,38 +153,33 @@ class DeviceList extends React.Component {
 	this.getDevicesData();
     }
 
-    getDevicesAPIData = (sortField = "username", filterField, filterValue, pageNum) => {
+    getDevicesAPIData = (sortField = "username", filterField, filterValue, pageNum, whenField = "week") => {
 	const credentials = localStorage.getItem("token");
 	let filterParams = "";
 	let filterFieldOperator = "";
-
-	const stringFields = [
-	    "username",
-	    "vlan",
-	    "nasip",
-	    "nasid",
-	    "active",
-	    "reason",
-	    "authdate",
-	    "comment"
-	];
+	let whenParams = "";
 
 	if (filterField != null && filterValue != null) {
 	    filterParams =
-		"?filter[" +
+		"&filter[" +
 		filterField +
 		"]" +
 		"=" +
 		filterValue;
 	}
 
-	fetch(process.env.NAC_API_URL + "/api/v1.0/auth/" + filterParams + "?sort=" + sortField, {
+	if (whenField == "" || whenField == null) {
+	    whenField = "week";
+	}
+
+	whenParams = "&when=" + whenField;
+
+	fetch(process.env.NAC_API_URL + "/api/v1.0/auth"+ "?sort=" + sortField + filterParams + whenParams, {
 	    method: "GET",
 	    headers: {
 		Authorization: `Bearer ${credentials}`
 	    }
-	}
-	     )
+	})
 	    .then(response => checkResponseStatus(response))
 	    .then(response => response.json())
 	    .then(data => {
@@ -189,9 +187,6 @@ class DeviceList extends React.Component {
 		    this.setState(
 			{
 			    devicesData: data.data
-			},
-			() => {
-			    console.log("this is new state", this.state.devicesData);
 			}
 		    );
 		}
@@ -215,7 +210,6 @@ class DeviceList extends React.Component {
 	let jsonData = {"active": true};
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
-	    console.log('Enabling ' + key);
 	    fetch(process.env.NAC_API_URL + "/api/v1.0/auth/" + key, {
 		method: "PUT",
 		headers: {
@@ -226,11 +220,6 @@ class DeviceList extends React.Component {
 	    })
 		.then(response => checkResponseStatus(response))
 		.then(response => response.json())
-		.then(data => {
-		    {
-			console.log(data);
-		    }
-		});
 	});
     };
 
@@ -239,8 +228,6 @@ class DeviceList extends React.Component {
 	let jsonData = {"active": false};
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
-	    console.log('Disabling ' + key);
-
 	    fetch(process.env.NAC_API_URL + "/api/v1.0/auth/" + key, {
 		method: "PUT",
 		headers: {
@@ -251,11 +238,6 @@ class DeviceList extends React.Component {
 	    })
 		.then(response => checkResponseStatus(response))
 		.then(response => response.json())
-		.then(data => {
-		    {
-			console.log(data);
-		    }
-		});
 	});
     };
 
@@ -263,7 +245,6 @@ class DeviceList extends React.Component {
 	const credentials = localStorage.getItem("token");
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
-	    console.log('Removing ' + key);
 	    fetch(process.env.NAC_API_URL + "/api/v1.0/auth/" + key, {
 		method: "DELETE",
 		headers: {
@@ -272,11 +253,6 @@ class DeviceList extends React.Component {
 	    })
 		.then(response => checkResponseStatus(response))
 		.then(response => response.json())
-		.then(data => {
-		    {
-			console.log('Remove responded: ' + data);
-		    }
-		});
 	});
     };
 
@@ -285,8 +261,6 @@ class DeviceList extends React.Component {
 	const credentials = localStorage.getItem("token");
 
 	Object.keys(this.state.checkedItems).forEach(function(key) {
-	    console.log('Bouncing ' + key);
-
 	    fetch(process.env.NAC_API_URL + "/api/v1.0/auth/" + key, {
 		method: "PUT",
 		headers: {
@@ -297,11 +271,6 @@ class DeviceList extends React.Component {
 	    })
 		.then(response => checkResponseStatus(response))
 		.then(response => response.json())
-		.then(data => {
-		    {
-			console.log(data);
-		    }
-		});
 	});
     };
 
@@ -356,11 +325,6 @@ class DeviceList extends React.Component {
 	    })
 		.then(response => checkResponseStatus(response))
 		.then(response => response.json())
-		.then(data => {
-		    {
-			console.log('Update responded: ' + data);
-		    }
-		});
 	});
 
 	this.setState({
@@ -389,11 +353,6 @@ class DeviceList extends React.Component {
 	})
 	    .then(response => checkResponseStatus(response))
 	    .then(response => response.json())
-	    .then(data => {
-		{
-		    console.log('Update responded: ' + data);
-		}
-	    });
 
 	this.setState({
 	    usernameText: ""
@@ -430,11 +389,6 @@ class DeviceList extends React.Component {
 	    })
 		.then(response => checkResponseStatus(response))
 		.then(response => response.json())
-		.then(data => {
-		    {
-			console.log('Update responded: ' + data);
-		    }
-		});
 	});
 
 	this.setState({
@@ -522,84 +476,116 @@ class DeviceList extends React.Component {
 
 	return (
 	    <section>
-		<div>
-		    <div id="action">
-			<Button.Group>
-			    <Button onClick={e => this.showAddModal(e)}>Add</Button>
-			    <Button onClick={this.handleRemove}>Remove</Button>
+		<div id="action">
+		    <Button.Group>
+			<Button onClick={e => this.showAddModal(e)}>
+			    Add
+			</Button>
+			<Button onClick={this.handleRemove}>
+			    Remove
+			</Button>
+		    </Button.Group>
+		    &nbsp;
+		    <Button.Group>
+			<Button onClick={this.handleEnable}>Active</Button>
+			<Button onClick={this.handleDisable}>
+			    Inactive
+			</Button>
+		    </Button.Group>
+		    &nbsp;
+		    <Button.Group>
+			<Button onClick={e => this.showVlanModal(e)}>
+			    VLAN<
+			    /Button>
+			    <Button onClick={e => this.showCommentModal(e)}>
+				Comment
+			    </Button>
+			    <Button onClick={this.portBounce}>
+				Bounce
+			    </Button>
 			</Button.Group>
 			&nbsp;
-			<Button.Group>
-			    <Button onClick={this.handleEnable}>Active</Button>
-			    <Button onClick={this.handleDisable}>Inactive</Button>
-			</Button.Group>
+			<DeviceWhenForm whenAction={this.getDevicesData} />
 			&nbsp;
-			<Button.Group>
-			    <Button onClick={e => this.showVlanModal(e)}>VLAN</Button>
-			    <Button onClick={e => this.showCommentModal(e)}>Comment</Button>
-			    <Button onClick={this.portBounce}>Bounce</Button>
-			</Button.Group>
+			<DeviceSearchForm searchAction={this.getDevicesData} />
+			&nbsp;
+			<Modal onClose={this.showAddModal}
+			       onSubmit={this.submitAddModal}
+			       show={this.state.showAddModal}
+			       messageBox="">
+			    <input type="text" value={this.state.usernameText}
+				   onChange={this.setUsernameText}
+				   placeholder="Username (required)" />
+			    <input type="text" value={this.state.passwordText}
+				   onChange={this.setPasswordText}
+				   placeholder="Password (optional)" />
+			    <input type="text" value={this.state.vlanText}
+				   onChange={this.setVlanText}
+				   placeholder="VLAN (optional)" />
+			    <input type="text" value={this.state.commentText}
+				   onChange={this.setCommentText}
+				   placeholder="Comment (optional)" />
+			</Modal>
+			<Modal onClose={this.showVlanModal}
+			       onSubmit={this.submitVlanModal}
+			       show={this.state.showVlanModal}
+			       messageBox="">
+			    <input type="text" value={this.state.vlanText}
+				   onChange={this.setVlanText}
+				   placeholder="Enter VLAN here..." />
+			</Modal>
+			<Modal onClose={this.showCommentModal}
+			       onSubmit={this.submitCommentModal}
+			       show={this.state.showCommentModal}
+			       messageBox="" >
+			    <input type="text" value={this.state.commentText}
+				   onChange={this.setCommentText} placeholder="Enter comment here..." />
+			</Modal>
 		    </div>
-		    <div id="search">
-			<DeviceSearchForm searchAction={this.getDevicesData} />&nbsp;
+		    <div id="device_list">
+			<div id="data">
+			    <table>
+				<thead>
+				    <tr>
+					<th>
+					    Select
+					</th>
+					<th onClick={() => this.sortHeader("username")}>
+					    Username <Icon name="sort" />{" "}
+					    <div className="username_sort">
+						{this.state.username_sort}
+					    </div>
+					</th>
+					<th onClick={() => this.sortHeader("authdate")}>
+					    Last seen <Icon name="sort" />{" "}
+					    <div className="sort">
+						{this.state.authdate_sort}
+					    </div>
+					</th>
+					<th>
+					    Active
+					</th>
+					<th onClick={() => this.sortHeader("vlan")}>
+					    VLAN <Icon name="sort" />{" "}
+					    <div>
+						{this.state.vlan_sort}
+					    </div>
+					</th>
+					<th onClick={() => this.sortHeader("reason")}>
+					    Reason <Icon name="sort" />{" "}
+					    <div>
+						{this.state.reason_sort}
+					    </div>
+					</th>
+				    </tr>
+				</thead>
+				<tbody>{deviceInfo}</tbody>
+			    </table>
+			</div>
 		    </div>
-		</div>
-		<Modal onClose={this.showAddModal} onSubmit={this.submitAddModal} show={this.state.showAddModal} messageBox="">
-		    <input type="text" value={this.state.usernameText} onChange={this.setUsernameText} placeholder="Username (required)" />
-		    <input type="text" value={this.state.passwordText} onChange={this.setPasswordText} placeholder="Password (optional)" />
-		    <input type="text" value={this.state.vlanText} onChange={this.setVlanText} placeholder="VLAN (optional)" />
-		    <input type="text" value={this.state.commentText} onChange={this.setCommentText} placeholder="Comment (optional)" />
-		</Modal>
-		<Modal onClose={this.showVlanModal} onSubmit={this.submitVlanModal} show={this.state.showVlanModal} messageBox="">
-		    <input type="text" value={this.state.vlanText} onChange={this.setVlanText} placeholder="Enter VLAN here..." />
-		</Modal>
-		<Modal onClose={this.showCommentModal} onSubmit={this.submitCommentModal} show={this.state.showCommentModal} messageBox="" >
-		    <input type="text" value={this.state.commentText} onChange={this.setCommentText} placeholder="Enter comment here..." />
-		</Modal>
-		<div id="device_list">
-		    <div id="data">
-			<table>
-			    <thead>
-				<tr>
-				    <th>
-					Select
-				    </th>
-				    <th onClick={() => this.sortHeader("username")}>
-					Username <Icon name="sort" />{" "}
-					<div className="username_sort">
-					    {this.state.username_sort}
-					</div>
-				    </th>
-				    <th onClick={() => this.sortHeader("authdate")}>
-					Last seen <Icon name="sort" />{" "}
-					<div className="sort">
-					    {this.state.authdate_sort}
-					</div>
-				    </th>
-				    <th>
-					Active
-				    </th>
-				    <th onClick={() => this.sortHeader("vlan")}>
-					VLAN <Icon name="sort" />{" "}
-					<div>
-					    {this.state.vlan_sort}
-					</div>
-				    </th>
-				    <th onClick={() => this.sortHeader("reason")}>
-					Reason <Icon name="sort" />{" "}
-					<div>
-					    {this.state.reason_sort}
-					</div>
-				    </th>
-				</tr>
-			    </thead>
-			    <tbody>{deviceInfo}</tbody>
-			</table>
-		    </div>
-		</div>
-	    </section>
-	);
-    }
-}
+		</section>
+		);
+		}
+		}
 
-export default DeviceList;
+		export default DeviceList;
