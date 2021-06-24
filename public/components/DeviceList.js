@@ -507,8 +507,6 @@ class DeviceList extends React.Component {
 			&nbsp;
 			<DeviceWhenForm whenAction={this.getDevicesData} />
 			&nbsp;
-			<DeviceSearchForm searchAction={this.getDevicesData} />
-			&nbsp;
 			<Modal onClose={this.showAddModal}
 			       onSubmit={this.submitAddModal}
 			       show={this.state.showAddModal}
@@ -541,6 +539,10 @@ class DeviceList extends React.Component {
 			    <input type="text" value={this.state.commentText}
 				   onChange={this.setCommentText} placeholder="Enter comment here..." />
 			</Modal>
+		    </div>
+		    <div id="search">
+			&nbsp;
+			<DeviceSearchForm searchAction={this.getDevicesData} />
 		    </div>
 		    <div id="device_list">
 			<div id="data">
