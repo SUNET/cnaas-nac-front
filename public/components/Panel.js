@@ -23,8 +23,7 @@ class Panel extends React.Component {
   login = (email, password) => {
     event.preventDefault();
     console.log("this is email: ", email);
-    const url = process.env.NAC_FRONT_URL + "/api/v1.0/auth";
-    fetch(url, {
+    fetch(process.env.AUTH_API_URL, {
       method: "POST",
       headers: {"Authorization": 'Basic ' + btoa(email + ":" + password) }
     })

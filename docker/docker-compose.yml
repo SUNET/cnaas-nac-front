@@ -6,7 +6,6 @@ services:
       - 4443:4443
     environment:
       - NAC_API_URL=
-      - NAC_FRONT_URL=
       - AUTH_API_URL=
     volumes:
       - type: volume
