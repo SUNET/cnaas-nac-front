@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "parcel index.html",
+    "start": "parcel public/index.html",
     "test": "jest --watch",
-    "build": "parcel build index.js"
+    "build": "parcel build public/index.html"
   },
   "keywords": [],
   "author": "",
