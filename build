@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+npm run build
+docker exec docker-cnaas_front-1 sh -c "rm /opt/cnaas/static/*"
+docker cp dist/. docker-cnaas_front-1:/opt/cnaas/static
+docker exec docker-cnaas_front-1 nginx -s reload
