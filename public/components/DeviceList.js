@@ -150,7 +150,22 @@ class DeviceList extends React.Component {
     };
 
     componentDidMount() {
-	this.getDevicesData();
+        // Create SSE object
+        var es = new EventSource("https://localhost:4430/events");
+
+        // Listen for message events from server
+        es.addEventListener('rejected_update', event => {
+            console.log(`Rejected: ${event.data}`);
+            this.getDevicesData();
+        });
+
+        es.addEventListener('accepted_update', event => {
+            console.log(`Accepted: ${event.data}`);
+            this.getDevicesData();
+        });
+
+        // Initial data
+        this.getDevicesData();
     }
 
     getDevicesAPIData = (sortField = "username", filterField, filterValue, pageNum, whenField = "week") => {
