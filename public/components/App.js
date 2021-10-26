@@ -13,12 +13,30 @@ import "../styles/main.css";
 export const history = createBrowserHistory();
 
 class App extends React.Component {
+    state = {
+        token: localStorage.getItem("token")
+    };
+
+    setToken = token => {
+        localStorage.setItem("token", token);
+        this.setState({ token: token });
+    };
+
+    clearToken = () => {
+        localStorage.removeItem("token");
+        this.setState({ token: null });
+    };
+
     render() {
         return (
             <div className="container">
                 <Router history={history}>
                     <Header />
-                    <Panel />
+                    <Panel
+                        token={this.state.token}
+                        setToken={this.setToken}
+                        clearToken={this.clearToken}
+                    />
                 </Router>
             </div>
         );

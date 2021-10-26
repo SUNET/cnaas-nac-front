@@ -17,28 +17,14 @@ function btoaUTF16(sString) {
 }
 
 class Panel extends React.Component {
-    state = {
-        token: localStorage.getItem("token")
-    };
-
-    setToken = token => {
-        localStorage.setItem("token", token);
-        this.setState({ token: token });
-    };
-
-    clearToken = () => {
-        localStorage.removeItem("token");
-        this.setState({ token: null });
-    };
-
     render() {
         console.log("this is props (in panel)", this.props);
-        if (this.state.token === null) {
+        if (this.props.token === null) {
             return (
                 <div id="panel">
                     <LoginForm
-                        setToken={this.setToken}
-                        clearToken={this.clearToken}
+                        setToken={this.props.setToken}
+                        clearToken={this.props.clearToken}
                     />
                 </div>
             );
@@ -49,7 +35,7 @@ class Panel extends React.Component {
                 <Switch>
                     <Route exact path="/">
                         You have successfully logged in
-                        <Button onClick={this.clearToken}>Log out</Button>
+                        <Button onClick={this.props.clearToken}>Log out</Button>
                     </Route>
                     <Route exact path="/clients">
                         <DeviceList />
