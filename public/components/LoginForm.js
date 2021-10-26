@@ -1,5 +1,7 @@
 import React from "react";
 
+import checkResponseStatus from "../utils/checkResponseStatus";
+
 class LoginForm extends React.Component {
     state = {
         email: "",
@@ -12,20 +14,36 @@ class LoginForm extends React.Component {
         });
     };
 
+    login = event => {
+        event.preventDefault();
+        console.log("this is email: ", this.state.email);
+        fetch(process.env.AUTH_API_URL, {
+            method: "POST",
+            headers: {
+                Authorization:
+                    "Basic " +
+                    btoa(this.state.email + ":" + this.state.password)
+            }
+        })
+            .then(response => checkResponseStatus(response))
+            .then(response => response.json())
+            .then(data => {
+                console.log("this is token: ", data["access_token"]);
+                this.props.setToken(data["access_token"]);
+            })
+            .catch(error => {
+                console.log(`Login error: ${error}`);
+                this.props.clearToken();
+            });
+    };
+
+    logout = () => {
+        this.props.clearToken();
+    };
+
     render() {
-        if (this.props.show !== true) {
-            return (
-                <div align="center">
-                    <h1>You have successfully logged in!</h1>
-                </div>
-            );
-        }
         return (
-            <form
-                onSubmit={event =>
-                    this.props.login(this.state.email, this.state.password)
-                }
-            >
+            <form onSubmit={this.login}>
                 <div id="login">
                     <br />
                     <center>

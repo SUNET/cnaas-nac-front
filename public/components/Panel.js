@@ -3,7 +3,7 @@ import DeviceList from "./DeviceList";
 import LoginForm from "./LoginForm";
 import { Route, Switch } from "react-router-dom";
 import { postData } from "react-router-dom";
-import checkResponseStatus from "../utils/checkResponseStatus";
+import { Button } from "semantic-ui-react";
 
 // passible base64 encode function?
 function btoaUTF16(sString) {
@@ -18,69 +18,41 @@ function btoaUTF16(sString) {
 
 class Panel extends React.Component {
     state = {
-        token: null,
-        showLoginForm: true
-        // errorMessage: ""
+        token: localStorage.getItem("token")
     };
 
-    login = (email, password) => {
-        event.preventDefault();
-        console.log("this is email: ", email);
-        fetch(process.env.AUTH_API_URL, {
-            method: "POST",
-            headers: { Authorization: "Basic " + btoa(email + ":" + password) }
-        })
-            .then(response => checkResponseStatus(response))
-            .then(response => response.json())
-            .then(data => {
-                console.log("this is token: ", data["access_token"]);
-                this.setState(
-                    {
-                        showLoginForm: false,
-                        token: data["access_token"]
-                    },
-                    () => {
-                        localStorage.setItem("token", this.state.token);
-                    }
-                );
-            })
-            .catch(error => {
-                this.setState(
-                    {
-                        showLoginForm: false
-                    },
-                    () => {
-                        localStorage.removeItem("token");
-                        this.setState({
-                            showLoginForm: true
-                        });
-                    }
-                );
-            });
+    setToken = token => {
+        localStorage.setItem("token", token);
+        this.setState({ token: token });
     };
 
-    logout = () => {
+    clearToken = () => {
         localStorage.removeItem("token");
-        this.setState({
-            showLoginForm: true,
-            errorMessage: "you have logged out"
-        });
+        this.setState({ token: null });
     };
 
     render() {
         console.log("this is props (in panel)", this.props);
+        if (this.state.token === null) {
+            return (
+                <div id="panel">
+                    <LoginForm
+                        setToken={this.setToken}
+                        clearToken={this.clearToken}
+                    />
+                </div>
+            );
+        }
+
         return (
             <div id="panel">
                 <Switch>
                     <Route exact path="/">
-                        <LoginForm
-                            login={this.login}
-                            logout={this.logout}
-                            show={this.state.showLoginForm}
-                        />
+                        You have successfully logged in
+                        <Button onClick={this.clearToken}>Log out</Button>
                     </Route>
                     <Route exact path="/clients">
-                        <DeviceList logout={this.logout} />
+                        <DeviceList />
                     </Route>
                 </Switch>
             </div>
