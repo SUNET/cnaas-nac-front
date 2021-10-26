@@ -35,7 +35,6 @@ class Panel extends React.Component {
                 <Switch>
                     <Route exact path="/">
                         You have successfully logged in
-                        <Button onClick={this.props.clearToken}>Log out</Button>
                     </Route>
                     <Route exact path="/clients">
                         <DeviceList />

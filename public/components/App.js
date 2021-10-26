@@ -31,7 +31,10 @@ class App extends React.Component {
         return (
             <div className="container">
                 <Router history={history}>
-                    <Header />
+                    <Header
+                        isLoggedIn={this.state.token !== null}
+                        clearToken={this.clearToken}
+                    />
                     <Panel
                         token={this.state.token}
                         setToken={this.setToken}

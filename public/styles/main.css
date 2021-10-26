@@ -22,6 +22,11 @@ body {
 header {
     border-bottom: #ff4500 solid 1px;
     display: flex;
+    align-items: center;
+}
+
+header #logout {
+    margin-left: 16px;
 }
 
 nav {
