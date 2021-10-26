@@ -1,7 +1,7 @@
 import React from "react";
 import DeviceList from "./DeviceList";
 import LoginForm from "./LoginForm";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { postData } from "react-router-dom";
 import checkResponseStatus from "../utils/checkResponseStatus";
 
@@ -71,22 +71,18 @@ class Panel extends React.Component {
         console.log("this is props (in panel)", this.props);
         return (
             <div id="panel">
-                <Route
-                    exact
-                    path="/"
-                    render={props => (
+                <Switch>
+                    <Route exact path="/">
                         <LoginForm
                             login={this.login}
                             logout={this.logout}
                             show={this.state.showLoginForm}
                         />
-                    )}
-                />
-                <Route
-                    exact
-                    path="/clients"
-                    render={props => <DeviceList logout={this.logout} />}
-                />
+                    </Route>
+                    <Route exact path="/clients">
+                        <DeviceList logout={this.logout} />
+                    </Route>
+                </Switch>
             </div>
         );
     }
