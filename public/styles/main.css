@@ -250,8 +250,11 @@ form {
     width: 350px;
 }
 
-input[type="password"], input[type="text"] {
-    background: url('http://i.minus.com/ibhqW9Buanohx2.png') center left no-repeat, linear-gradient(top, #d6d7d7, #dee0e0);
+input[type="password"],
+input[type="text"] {
+    background: url("http://i.minus.com/ibhqW9Buanohx2.png") center left
+            no-repeat,
+        linear-gradient(top, #d6d7d7, #dee0e0);
     border: 1px solid #a1a3a3;
     border-radius: 4px;
     box-shadow: 0 1px #fff;
@@ -294,13 +297,13 @@ input[type="password"], input[type="text"] {
     offset-rotation: 0deg;
     offset-path: path("M 250,100 S -300,500 -700,-200");
     .modal.off {
-	offset-distance: 100%;
+        offset-distance: 100%;
     }
 }
 
 @media (prefers-reduced-motion) {
     .modal {
-	offset-path: none;
+        offset-path: none;
     }
 }
 

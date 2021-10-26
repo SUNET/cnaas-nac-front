@@ -13,16 +13,16 @@ import "../styles/main.css";
 export const history = createBrowserHistory();
 
 class App extends React.Component {
-  render() {
-    return (
-      <div className="container">
-        <Router history={history}>
-          <Header />
-          <Panel />
-        </Router>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div className="container">
+                <Router history={history}>
+                    <Header />
+                    <Panel />
+                </Router>
+            </div>
+        );
+    }
 }
 
 export default App;
