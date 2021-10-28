@@ -4,7 +4,6 @@ body {
     font-family: "Karla", sans-serif;
     font-size: 14px;
     color: #003049;
-    font-weight: 700;
     line-height: 1.2;
 }
 
@@ -165,6 +164,10 @@ footer {
 }
 
 /* DeviceList styles */
+
+#device_list_container {
+    font-weight: 700;
+}
 
 #device_list table,
 #device_list thead,

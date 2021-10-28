@@ -511,7 +511,7 @@ class DeviceList extends React.Component {
         });
 
         return (
-            <section>
+            <section id="device_list_container">
                 <div id="action">
                     <Button.Group>
                         <Button onClick={e => this.showAddModal(e)}>Add</Button>
