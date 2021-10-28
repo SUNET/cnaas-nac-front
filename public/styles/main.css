@@ -164,41 +164,36 @@ footer {
     text-decoration: underline;
 }
 
-table,
-thead,
-tbody {
+/* DeviceList styles */
+
+#device_list table,
+#device_list thead,
+#device_list tbody {
     width: 100%;
 }
 
-tr {
+#device_list tr {
     display: flex;
     border-bottom: solid white 1px;
 }
 
-thead {
+#device_list thead {
     font-size: 14px;
     font-weight: 700;
     text-transform: uppercase;
     background-color: lightgray;
 }
 
-tbody {
+#device_list tbody {
     font-size: 14px;
     font-weight: 400;
 }
 
-th,
-td {
+#device_list th,
+#device_list td {
     display: flex;
     flex: 1;
     padding: 16px;
-}
-
-/* DeviceList styles */
-
-form {
-    display: inline-block;
-    float: right;
 }
 
 #action {
@@ -211,6 +206,11 @@ form {
 #search {
     display: inline-block;
     padding: 16px 0;
+    float: right;
+}
+
+#search form {
+    display: inline-block;
     float: right;
 }
 
