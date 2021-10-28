@@ -229,6 +229,10 @@ form {
     background: white;
 }
 
+#data .device_details_row.hidden {
+    display: none;
+}
+
 #data .device_details_row td {
     display: flex;
     flex-direction: column;

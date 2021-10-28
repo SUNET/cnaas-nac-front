@@ -151,7 +151,7 @@ class DeviceList extends React.Component {
         var deviceDetails =
             document.getElementsByClassName("device_details_row");
         for (var i = 0; i < deviceDetails.length; i++) {
-            deviceDetails[i].hidden = true;
+            deviceDetails[i].classList.add("hidden");
         }
 
         this.forceUpdate();
@@ -227,12 +227,7 @@ class DeviceList extends React.Component {
      * Handle expand/collapse of device details when clicking a row in the table
      */
     clickRow(e) {
-        const curState = e.target.closest("tr").nextElementSibling.hidden;
-        if (curState) {
-            e.target.closest("tr").nextElementSibling.hidden = false;
-        } else {
-            e.target.closest("tr").nextElementSibling.hidden = true;
-        }
+        e.target.closest("tr").nextElementSibling.classList.toggle("hidden");
     }
 
     updateDeviceEnable = object => {
@@ -475,8 +470,7 @@ class DeviceList extends React.Component {
                 <tr
                     key={index + "_content"}
                     colSpan="4"
-                    className="device_details_row"
-                    hidden
+                    className="device_details_row hidden"
                 >
                     <td>
                         <table className="device_details_table">
