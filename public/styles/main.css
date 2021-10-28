@@ -336,3 +336,25 @@ input[type="text"] {
 #centered-toggle-button {
     position: absolute;
 }
+
+/* DeviceMonitor styles */
+
+#device-monitor {
+    display: flex;
+    justify-content: center;
+}
+
+#device-monitor > div:nth-child(2) {
+    margin-left: 4em;
+}
+
+#device-monitor th,
+#device-monitor td {
+    border: 1px solid black;
+    padding: 0.5em;
+    padding-right: 1em;
+}
+
+#device-monitor .header {
+    font-size: 1.5em;
+}

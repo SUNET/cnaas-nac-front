@@ -4,6 +4,7 @@ import LoginForm from "./LoginForm";
 import { Route, Switch } from "react-router-dom";
 import { postData } from "react-router-dom";
 import { Button } from "semantic-ui-react";
+import DeviceMonitor from "./DeviceMonitor";
 
 class Panel extends React.Component {
     render() {
@@ -23,7 +24,7 @@ class Panel extends React.Component {
             <div id="panel">
                 <Switch>
                     <Route exact path="/">
-                        You have successfully logged in
+                        <DeviceMonitor />
                     </Route>
                     <Route exact path="/clients">
                         <DeviceList />
