@@ -11,6 +11,16 @@ class DeviceMonitor extends React.Component {
                     <div id="accepted">
                         <div className="header">Accepted clients</div>
                         <List clients={this.props.accepted} />
+                        {this.props.acceptedCleared.length > 0 && (
+                            <React.Fragment>
+                                <hr />
+                                <div class="cleared">
+                                    <List
+                                        clients={this.props.acceptedCleared}
+                                    />
+                                </div>
+                            </React.Fragment>
+                        )}
                     </div>
                     <div id="rejected">
                         <div className="header">Rejected clients</div>

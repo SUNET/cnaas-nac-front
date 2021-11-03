@@ -33,8 +33,8 @@ class Panel extends React.Component {
         };
     }
 
-    rejectListener = this.makeListener("rejected");
     acceptListener = this.makeListener("accepted");
+    rejectListener = this.makeListener("rejected");
     eventSource = new EventSource("https://localhost:4430/events");
 
     componentDidMount() {
@@ -64,6 +64,8 @@ class Panel extends React.Component {
     clear = () => {
         console.log("clear");
         this.setState((state, props) => ({
+            acceptedCleared: state.accepted,
+            accepted: [],
             rejectedCleared: state.rejected,
             rejected: []
         }));
