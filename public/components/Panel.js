@@ -26,7 +26,7 @@ class Panel extends React.Component {
                 let res = {};
                 res[type] = [
                     [event.data, oldValue + 1],
-                    ...state.rejected.filter(x => x[0] !== event.data)
+                    ...state[type].filter(x => x[0] !== event.data)
                 ];
                 return res;
             });
