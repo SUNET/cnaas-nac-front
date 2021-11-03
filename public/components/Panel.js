@@ -10,10 +10,12 @@ class Panel extends React.Component {
         super(props);
 
         this.state = {
-            accepted: [],
-            rejected: [],
-            acceptedCleared: [],
-            rejectedCleared: []
+            deviceMonitor: {
+                accepted: [],
+                rejected: [],
+                acceptedCleared: [],
+                rejectedCleared: []
+            }
         };
     }
 
@@ -21,14 +23,18 @@ class Panel extends React.Component {
         return event => {
             // NOTE: O(n)
             this.setState((state, props) => {
-                let old = state[type].find(x => x[0] === event.data);
+                let old = state.deviceMonitor[type].find(
+                    x => x[0] === event.data
+                );
                 let oldValue = old === undefined ? 0 : old[1];
-                let res = {};
+                let res = Object.assign({}, state.deviceMonitor);
                 res[type] = [
                     [event.data, oldValue + 1],
-                    ...state[type].filter(x => x[0] !== event.data)
+                    ...state.deviceMonitor[type].filter(
+                        x => x[0] !== event.data
+                    )
                 ];
-                return res;
+                return { deviceMonitor: res };
             });
         };
     }
@@ -64,10 +70,12 @@ class Panel extends React.Component {
     clear = () => {
         console.log("clear");
         this.setState((state, props) => ({
-            acceptedCleared: state.accepted,
-            accepted: [],
-            rejectedCleared: state.rejected,
-            rejected: []
+            deviceMonitor: {
+                acceptedCleared: state.deviceMonitor.accepted,
+                accepted: [],
+                rejectedCleared: state.deviceMonitor.rejected,
+                rejected: []
+            }
         }));
     };
 
@@ -78,11 +86,8 @@ class Panel extends React.Component {
                 <Switch>
                     <Route exact path="/">
                         <DeviceMonitor
-                            accepted={this.state.accepted}
-                            rejected={this.state.rejected}
-                            acceptedCleared={this.state.acceptedCleared}
-                            rejectedCleared={this.state.rejectedCleared}
                             clear={this.clear}
+                            {...this.state.deviceMonitor}
                         />
                     </Route>
                     <Route exact path="/clients">
