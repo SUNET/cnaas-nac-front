@@ -28,7 +28,7 @@ class DeviceMonitor extends React.Component {
                         {this.props.rejectedCleared.length > 0 && (
                             <React.Fragment>
                                 <hr />
-                                <div class="cleared">
+                                <div className="cleared">
                                     <List
                                         clients={this.props.rejectedCleared}
                                     />
