@@ -1,41 +1,36 @@
 import React from "react";
+import { Button } from "semantic-ui-react";
 
 class DeviceMonitor extends React.Component {
     constructor(props) {
         super(props);
 
-        // NOTE: Mock data
-        // TODO: Set initial state via API call?
         this.state = {
-            accepted: [
-                { test3: "12" },
-                { test4: "3" },
-                { test2: "3" },
-                { test1: "2" }
-            ],
-            rejected: [
-                { test3: "12" },
-                { test4: "3" },
-                { test2: "3" },
-                { test1: "2" }
-            ]
+            accepted: [],
+            rejected: [],
+            acceptedCleared: [],
+            rejectedCleared: []
         };
     }
 
-    acceptListener = event => {
-        console.log(`Accepted: ${event.data}`);
-        this.setState({
-            accepted: JSON.parse(event.data)["accepted"]
-        });
-    };
+    makeListener(type) {
+        return event => {
+            // NOTE: O(n)
+            this.setState((state, props) => {
+                let old = state[type].find(x => x[0] === event.data);
+                let oldValue = old === undefined ? 0 : old[1];
+                let res = {};
+                res[type] = [
+                    [event.data, oldValue + 1],
+                    ...state.rejected.filter(x => x[0] !== event.data)
+                ];
+                return res;
+            });
+        };
+    }
 
-    rejectListener = event => {
-        console.log(`Rejected: ${event.data}`);
-        this.setState({
-            rejected: JSON.parse(event.data)["rejected"]
-        });
-    };
-
+    rejectListener = this.makeListener("rejected");
+    acceptListener = this.makeListener("accepted");
     eventSource = new EventSource("https://localhost:4430/events");
 
     componentDidMount() {
@@ -60,45 +55,60 @@ class DeviceMonitor extends React.Component {
         );
     }
 
+    clear = () => {
+        console.log("clear");
+        this.setState((state, props) => ({
+            rejectedCleared: state.rejected,
+            rejected: []
+        }));
+    };
+
     render() {
+        console.log(this.state);
         return (
             <div id="device-monitor">
-                <div id="accepted">
-                    <div className="header">Accepted clients</div>
-                    <TopList clients={this.state.accepted} />
+                <div id="left"></div>
+                <div id="content">
+                    <div id="accepted">
+                        <div className="header">Accepted clients</div>
+                        <List clients={this.state.accepted} />
+                    </div>
+                    <div id="rejected">
+                        <div className="header">Rejected clients</div>
+                        <List clients={this.state.rejected} />
+                        {this.state.rejectedCleared.length > 0 && (
+                            <React.Fragment>
+                                <hr />
+                                <div class="cleared">
+                                    <List
+                                        clients={this.state.rejectedCleared}
+                                    />
+                                </div>
+                            </React.Fragment>
+                        )}
+                    </div>
                 </div>
-                <div id="rejected">
-                    <div className="header">Rejected clients</div>
-                    <TopList clients={this.state.rejected} />
+                <div id="right">
+                    <Button id="clear-button" onClick={this.clear}>
+                        Reset
+                    </Button>
                 </div>
             </div>
         );
     }
 }
 
-function TopList(props) {
-    return (
-        <table>
-            <thead>
-                <tr>
-                    <th>Client</th>
-                    <th>Connection attempts</th>
-                </tr>
-            </thead>
-            <tbody>
-                {props.clients
-                    .map(x => Object.entries(x)[0]) // TODO: Change to array of tuples in backend
-                    .map(x => (
-                        <tr key={x[0]}>
-                            <td>{x[0]}</td>
-                            <td>{x[1]}</td>
-                        </tr>
-                    ))}
-            </tbody>
-        </table>
-    );
+function List(props) {
+    return props.clients.map(x => <Row key={x[0]} id={x[0]} n={x[1]} />);
+}
 
-    return JSON.stringify(props.clients);
+function Row(props) {
+    return (
+        <div className="client">
+            <div className="client-name">{props.id}</div>
+            {props.n > 1 && <div className="client-n">{props.n}</div>}
+        </div>
+    );
 }
 
 export default DeviceMonitor;

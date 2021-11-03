@@ -344,7 +344,21 @@ input[type="text"] {
     justify-content: center;
 }
 
-#device-monitor > div:nth-child(2) {
+#device-monitor #left,
+#device-monitor #right {
+    width: 100px;
+}
+
+#device-monitor #right #clear-button {
+    margin-left: 4em;
+}
+
+#device-monitor #content {
+    display: flex;
+    justify-content: center;
+}
+
+#device-monitor #content > div:nth-child(2) {
     margin-left: 4em;
 }
 
@@ -357,4 +371,18 @@ input[type="text"] {
 
 #device-monitor .header {
     font-size: 1.5em;
+    margin-bottom: 0.6em;
+}
+
+#device-monitor .client {
+    display: flex;
+    justify-content: space-between;
+}
+
+#device-monitor .client-n {
+    color: grey;
+}
+
+#device-monitor .cleared {
+    color: grey;
 }
