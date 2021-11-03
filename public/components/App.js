@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "./Header";
 import Panel from "./Panel";
+import LoginForm from "./LoginForm";
 
 // needed for routing
 import { Router } from "react-router-dom";
@@ -28,13 +29,21 @@ class App extends React.Component {
     };
 
     render() {
+        if (this.state.token === null) {
+            return (
+                <div id="panel">
+                    <LoginForm
+                        setToken={this.setToken}
+                        clearToken={this.clearToken}
+                    />
+                </div>
+            );
+        }
+
         return (
             <div className="container">
                 <Router history={history}>
-                    <Header
-                        isLoggedIn={this.state.token !== null}
-                        clearToken={this.clearToken}
-                    />
+                    <Header clearToken={this.clearToken} />
                     <Panel
                         token={this.state.token}
                         setToken={this.setToken}

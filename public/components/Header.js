@@ -5,15 +5,13 @@ class Header extends React.Component {
     render() {
         return (
             <header>
-                {this.props.isLoggedIn && (
-                    <a
-                        id="logout"
-                        style={{ cursor: "pointer" }}
-                        onClick={this.props.clearToken}
-                    >
-                        Log out
-                    </a>
-                )}
+                <a
+                    id="logout"
+                    style={{ cursor: "pointer" }}
+                    onClick={this.props.clearToken}
+                >
+                    Log out
+                </a>
                 <nav>
                     <ul>
                         <NavLink exact activeClassName="active" to={`/`}>
