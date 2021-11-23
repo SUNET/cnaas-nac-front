@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Select, Input, Icon, Pagination, Checkbox } from "semantic-ui-react";
 import DeviceSearchForm from "./DeviceSearchForm";
 import DeviceWhenForm from "./DeviceWhenForm";
+import DeviceTypeForm from "./DeviceTypeForm";
 import checkResponseStatus from "../utils/checkResponseStatus";
 import Modal from "./Modal";
 
@@ -28,7 +29,8 @@ class DeviceList extends React.Component {
 	    active_sort: "",
 	    vlan_sort: "",
 	    reason_sort: "",
-	    whenField: ""
+	    whenField: "",
+	    typeField: ""
 	};
 
 	this.handleChange = this.handleChange.bind(this);
@@ -87,6 +89,10 @@ class DeviceList extends React.Component {
 	    newState["whenField"] = options.whenField;
 	}
 
+	if (options.typeField !== undefined) {
+	    newState["typeField"] = options.typeField;
+	}
+
 	if (options.sortField !== undefined) {
 	    newState["sortField"] = options.sortField;
 	}
@@ -110,7 +116,8 @@ class DeviceList extends React.Component {
 	    newState["filterField"],
 	    newState["filterValue"],
 	    newState["activePage"],
-	    newState["whenField"]
+	    newState["whenField"],
+	    newState["typeField"]
 	);
     };
 
@@ -153,11 +160,12 @@ class DeviceList extends React.Component {
 	this.getDevicesData();
     }
 
-    getDevicesAPIData = (sortField = "username", filterField, filterValue, pageNum, whenField = "week") => {
+    getDevicesAPIData = (sortField = "username", filterField, filterValue, pageNum, whenField = "week", typeField = "all") => {
 	const credentials = localStorage.getItem("token");
 	let filterParams = "";
 	let filterFieldOperator = "";
 	let whenParams = "";
+	let typeParams = "";
 
 	if (filterField != null && filterValue != null) {
 	    filterParams =
@@ -172,9 +180,14 @@ class DeviceList extends React.Component {
 	    whenField = "week";
 	}
 
-	whenParams = "&when=" + whenField;
+	if (typeField == "" || typeField == null) {
+	    typeField = "all";
+	}
 
-	fetch(process.env.NAC_API_URL + "/api/v1.0/auth"+ "?sort=" + sortField + filterParams + whenParams, {
+	whenParams = "&when=" + whenField;
+	typeParams = "&type=" + typeField;
+
+	fetch(process.env.NAC_API_URL + "/api/v1.0/auth"+ "?sort=" + sortField + filterParams + whenParams + typeParams, {
 	    method: "GET",
 	    headers: {
 		Authorization: `Bearer ${credentials}`
@@ -506,6 +519,8 @@ class DeviceList extends React.Component {
 			</Button.Group>
 			&nbsp;
 			<DeviceWhenForm whenAction={this.getDevicesData} />
+			&nbsp;
+			<DeviceTypeForm typeAction={this.getDevicesData} />
 			&nbsp;
 			<Modal onClose={this.showAddModal}
 			       onSubmit={this.submitAddModal}
