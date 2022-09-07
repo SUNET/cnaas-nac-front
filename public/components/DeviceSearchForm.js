@@ -39,8 +39,8 @@ class DeviceSearchForm extends React.Component {
 	const searchOptions = [
 	    { 'key': 'username', 'value': 'username', 'text': 'Username' },
 	    { 'key': 'vlan', 'value': 'vlan', 'text': 'VLAN' },
-	    { 'key': 'nasip', 'value': 'nasip', 'text': ' NAS IP address' },
-	    { 'key': 'nasport', 'value': 'nasport', 'text': 'NAS port ID' },
+	    { 'key': 'nasip', 'value': 'nasip', 'text': ' NAS IP' },
+	    { 'key': 'nasport', 'value': 'nasport', 'text': 'NAS port' },
 	    { 'key': 'reason', 'value': 'reason', 'text': 'Reason' },
 	    { 'key': 'comment', 'value': 'comment', 'text': 'Comment' },
 	]
@@ -55,7 +55,7 @@ class DeviceSearchForm extends React.Component {
 		&nbsp;&nbsp;
 		<Select options={searchOptions} defaultValue='username' onChange={this.updateSearchField.bind(this)} />
 		&nbsp;&nbsp;
-		<Button type='submit'>Search</Button>
+		<Button type='submit'>🔍</Button>
 	    </form>
 	);
     }

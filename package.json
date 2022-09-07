@@ -30,6 +30,8 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
+    "fs": "^0.0.1-security",
+    "js-file-download": "^0.4.12",
     "jsonwebtoken": "^8.5.1",
     "parcel": "^1.12.4",
     "react": "^16.12.0",

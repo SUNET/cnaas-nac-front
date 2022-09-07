@@ -21,9 +21,9 @@ class DeviceTypeForm extends React.Component {
 
     render() {
 	const typeOptions = [
-	    { 'key': 'eap', 'value': 'eap', 'text': 'Other clients' },
-	    { 'key': 'mab', 'value': 'mab', 'text': 'MAB clients' },
-	    { 'key': 'all', 'value': 'all', 'text': 'All clients' },
+	    { 'key': 'eap', 'value': 'eap', 'text': 'EAP' },
+	    { 'key': 'mab', 'value': 'mab', 'text': 'MAB' },
+	    { 'key': 'all', 'value': 'all', 'text': 'All' },
 	]
 
 	return (

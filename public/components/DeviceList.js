@@ -1,10 +1,12 @@
 import React from "react";
 import { Button, Select, Input, Icon, Pagination, Checkbox } from "semantic-ui-react";
 import DeviceSearchForm from "./DeviceSearchForm";
+import DeviceSaveForm from "./DeviceSaveForm";
 import DeviceWhenForm from "./DeviceWhenForm";
 import DeviceTypeForm from "./DeviceTypeForm";
 import checkResponseStatus from "../utils/checkResponseStatus";
 import Modal from "./Modal";
+import fileDownload from 'js-file-download'
 
 class DeviceList extends React.Component {
     constructor() {
@@ -269,6 +271,18 @@ class DeviceList extends React.Component {
 	});
     };
 
+    saveToCsv = object => {
+	const credentials = localStorage.getItem("token");
+
+	fetch(process.env.NAC_API_URL + "/api/v1.0/auth", {
+	    method: "GET",
+	    headers: {
+		Authorization: `Bearer ${credentials}`,
+		"Cotent-Type": "text/csv"
+	    }
+	});
+    };
+    
     portBounce = object => {
 	let jsonData = {"bounce": true};
 	const credentials = localStorage.getItem("token");
@@ -305,6 +319,13 @@ class DeviceList extends React.Component {
 	this.forceUpdate();
     }
 
+    handleSave = object => {
+	const credentials = localStorage.getItem("token");
+	const url = process.env.NAC_API_URL + "/api/v1.0/export/" + credentials;
+
+	window.location.replace(url);
+    }
+    
     showAddModal = e => {
 	this.setState({
 	    showAddModal: !this.state.showAddModal
@@ -491,18 +512,23 @@ class DeviceList extends React.Component {
 	    <section>
 		<div id="action">
 		    <Button.Group>
-			<Button onClick={e => this.showAddModal(e)}>
-			    Add
+			<Button onClick={e => this.showAddModal(e)} title="Add user(s)">
+			    ➕
 			</Button>
-			<Button onClick={this.handleRemove}>
-			    Remove
+			<Button onClick={this.handleRemove} title="Remove user(s)">
+			    ➖
+			</Button>
+			<Button onClick={this.handleSave} title="Export user(s) to CSV">
+			    💾
 			</Button>
 		    </Button.Group>
 		    &nbsp;
 		    <Button.Group>
-			<Button onClick={this.handleEnable}>Active</Button>
-			<Button onClick={this.handleDisable}>
-			    Inactive
+			<Button onClick={this.handleEnable}>
+			    <Icon name="check" color="green" title="Enable user(s)"/>
+			</Button>
+			<Button onClick={this.handleDisable} title="Disable user(s)">
+			    <Icon name="delete" color="red" />
 			</Button>
 		    </Button.Group>
 		    &nbsp;
@@ -556,7 +582,7 @@ class DeviceList extends React.Component {
 			</Modal>
 		    </div>
 		    <div id="search">
-			&nbsp;
+
 			<DeviceSearchForm searchAction={this.getDevicesData} />
 		    </div>
 		    <div id="device_list">
@@ -604,5 +630,5 @@ class DeviceList extends React.Component {
 		);
 		}
 		}
-
+		
 		export default DeviceList;

@@ -21,11 +21,11 @@ class DeviceWhenForm extends React.Component {
 
     render() {
 	const whenOptions = [
-	    { 'key': 'hour', 'value': 'hour', 'text': 'Last hour' },
-	    { 'key': 'day', 'value': 'day', 'text': 'Last day' },
-	    { 'key': 'week', 'value': 'week', 'text': 'Last week' },
-	    { 'key': 'month', 'value': 'month', 'text': ' Last month' },
-	    { 'key': 'year', 'value': 'year', 'text': 'Last year' },
+	    { 'key': 'hour', 'value': 'hour', 'text': 'Hour' },
+	    { 'key': 'day', 'value': 'day', 'text': 'Day' },
+	    { 'key': 'week', 'value': 'week', 'text': 'Week' },
+	    { 'key': 'month', 'value': 'month', 'text': ' Month' },
+	    { 'key': 'year', 'value': 'year', 'text': 'Year' },
 	    { 'key': 'all', 'value': 'all', 'text': 'All' },
 	]
 
