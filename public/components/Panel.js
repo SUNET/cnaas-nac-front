@@ -22,7 +22,7 @@ class Panel extends React.Component {
 
     login = (email, password) => {
 	event.preventDefault();
-	console.log("this is email: ", email);
+
 	const url = process.env.NAC_FRONT_URL + "/api/v1.0/auth";
 	fetch(url, {
 	    method: "POST",
@@ -31,7 +31,6 @@ class Panel extends React.Component {
 	    .then(response => checkResponseStatus(response))
 	    .then(response => response.json())
 	    .then(data => {
-		console.log("this is token: ", data['access_token']);
 		this.setState(
 		    {
 			showLoginForm: false,
@@ -66,7 +65,6 @@ class Panel extends React.Component {
     };
 
     render() {
-	console.log("this is props (in panel)", this.props);
 	return (
 	    <div id="panel">
 		<Route

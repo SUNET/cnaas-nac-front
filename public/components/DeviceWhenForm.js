@@ -14,8 +14,6 @@ class DeviceWhenForm extends React.Component {
 	    whenField: val
 	});
 
-	console.log("updateWhenField, whenField=" + this.state.whenField);
-	
 	this.props.whenAction({whenField: val});
     }
 

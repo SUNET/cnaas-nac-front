@@ -14,8 +14,6 @@ class DeviceTypeForm extends React.Component {
 	    typeField: val
 	});
 
-	console.log("updateTypeField, typeField=" + this.state.typeField);
-
 	this.props.typeAction({typeField: val});
     }
 
