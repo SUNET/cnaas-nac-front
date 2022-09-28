@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Select, Input, Icon, Pagination, Checkbox } from "semantic-ui-react";
 import DeviceSearchForm from "./DeviceSearchForm";
-import DeviceSaveForm from "./DeviceSaveForm";
 import DeviceWhenForm from "./DeviceWhenForm";
 import DeviceTypeForm from "./DeviceTypeForm";
 import checkResponseStatus from "../utils/checkResponseStatus";
