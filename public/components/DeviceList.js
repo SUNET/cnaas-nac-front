@@ -19,6 +19,7 @@ class DeviceList extends React.Component {
 	    activePage: 1,
 	    totalPages: 1,
 	    checkedItems: {},
+	    showAddModal: false,
 	    showVlanModal: false,
 	    showCommentModal: false,
 	    usernameText: "",
@@ -31,7 +32,8 @@ class DeviceList extends React.Component {
 	    vlan_sort: "",
 	    reason_sort: "",
 	    whenField: "",
-	    typeField: ""
+	    typeField: "",
+	    check: false
 	};
 
 	this.handleChange = this.handleChange.bind(this);
@@ -42,6 +44,8 @@ class DeviceList extends React.Component {
     }
 
     handleChange(event) {
+	console.log("handleChange");
+
 	let newState = this.state;
 
 	this.setState(newState);
@@ -281,7 +285,7 @@ class DeviceList extends React.Component {
 	    }
 	});
     };
-    
+
     portBounce = object => {
 	let jsonData = {"bounce": true};
 	const credentials = localStorage.getItem("token");
@@ -324,7 +328,7 @@ class DeviceList extends React.Component {
 
 	window.location.replace(url);
     }
-    
+
     showAddModal = e => {
 	this.setState({
 	    showAddModal: !this.state.showAddModal
@@ -436,8 +440,10 @@ class DeviceList extends React.Component {
 	let deviceInfo = "";
 
 	const devicesData = this.state.devicesData;
+
 	deviceInfo = devicesData.map((items, index) => {
 	    let clientStatus = "";
+
 	    if (items.active === true) {
 		clientStatus = (
 		    <Icon name="check" color="green" />
@@ -447,15 +453,16 @@ class DeviceList extends React.Component {
 		    <Icon name="delete" color="red" />
 		);
 	    }
+
 	    return [
 		<tr key={index} bgcolor="lightgray">
 		    <td key="0" align="left">
-			<input
-			    type="checkbox"
-			    value={items.username}
-			    onChange={this.handleChange}
-			    name={items.username}
-			    checked={this.state.check}
+			<input type="checkbox"
+			       value={items.username}
+			       onChange={this.handleChange}
+			       onClick={this.handleChange}
+			       name={items.username}
+			       defaultChecked={this.state.check}
 			/>
 		    </td>
 		    <td key="1" align="left">
@@ -533,101 +540,101 @@ class DeviceList extends React.Component {
 		    &nbsp;
 		    <Button.Group>
 			<Button onClick={e => this.showVlanModal(e)}>
-			    VLAN<
-			    /Button>
-			    <Button onClick={e => this.showCommentModal(e)}>
-				Comment
-			    </Button>
-			    <Button onClick={this.portBounce}>
-				Bounce
-			    </Button>
-			</Button.Group>
-			&nbsp;
-			<DeviceWhenForm whenAction={this.getDevicesData} />
-			&nbsp;
-			<DeviceTypeForm typeAction={this.getDevicesData} />
-			&nbsp;
-			<Modal onClose={this.showAddModal}
-			       onSubmit={this.submitAddModal}
-			       show={this.state.showAddModal}
-			       messageBox="">
-			    <input type="text" value={this.state.usernameText}
-				   onChange={this.setUsernameText}
-				   placeholder="Username (required)" />
-			    <input type="text" value={this.state.passwordText}
-				   onChange={this.setPasswordText}
-				   placeholder="Password (optional)" />
-			    <input type="text" value={this.state.vlanText}
-				   onChange={this.setVlanText}
-				   placeholder="VLAN (optional)" />
-			    <input type="text" value={this.state.commentText}
-				   onChange={this.setCommentText}
-				   placeholder="Comment (optional)" />
-			</Modal>
-			<Modal onClose={this.showVlanModal}
-			       onSubmit={this.submitVlanModal}
-			       show={this.state.showVlanModal}
-			       messageBox="">
-			    <input type="text" value={this.state.vlanText}
-				   onChange={this.setVlanText}
-				   placeholder="Enter VLAN here..." />
-			</Modal>
-			<Modal onClose={this.showCommentModal}
-			       onSubmit={this.submitCommentModal}
-			       show={this.state.showCommentModal}
-			       messageBox="" >
-			    <input type="text" value={this.state.commentText}
-				   onChange={this.setCommentText} placeholder="Enter comment here..." />
-			</Modal>
+			    VLAN
+			</Button>
+			<Button onClick={e => this.showCommentModal(e)}>
+			    Comment
+			</Button>
+			<Button onClick={this.portBounce}>
+			    Bounce
+			</Button>
+		    </Button.Group>
+		    &nbsp;
+		    <DeviceWhenForm whenAction={this.getDevicesData} />
+		    &nbsp;
+		    <DeviceTypeForm typeAction={this.getDevicesData} />
+		    &nbsp;
+		    <Modal onClose={this.showAddModal}
+			   onSubmit={this.submitAddModal}
+			   show={this.state.showAddModal}
+			   messageBox="">
+			<input type="text" value={this.state.usernameText}
+			       onChange={this.setUsernameText}
+			       placeholder="Username (required)" />
+			<input type="text" value={this.state.passwordText}
+			       onChange={this.setPasswordText}
+			       placeholder="Password (optional)" />
+			<input type="text" value={this.state.vlanText}
+			       onChange={this.setVlanText}
+			       placeholder="VLAN (optional)" />
+			<input type="text" value={this.state.commentText}
+			       onChange={this.setCommentText}
+			       placeholder="Comment (optional)" />
+		    </Modal>
+		    <Modal onClose={this.showVlanModal}
+			   onSubmit={this.submitVlanModal}
+			   show={this.state.showVlanModal}
+			   messageBox="">
+			<input type="text" value={this.state.vlanText}
+			       onChange={this.setVlanText}
+			       placeholder="Enter VLAN here..." />
+		    </Modal>
+		    <Modal onClose={this.showCommentModal}
+			   onSubmit={this.submitCommentModal}
+			   show={this.state.showCommentModal}
+			   messageBox="" >
+			<input type="text" value={this.state.commentText}
+			       onChange={this.setCommentText}
+			       placeholder="Enter comment here..." />
+		    </Modal>
+		</div>
+		<div id="search">
+		    <DeviceSearchForm searchAction={this.getDevicesData} />
+		</div>
+		<div id="device_list">
+		    <div id="data">
+			<table>
+			    <thead>
+				<tr>
+				    <th>
+					Select
+				    </th>
+				    <th onClick={() => this.sortHeader("username")}>
+					Username <Icon name="sort" />{" "}
+					<div className="username_sort">
+					    {this.state.username_sort}
+					</div>
+				    </th>
+				    <th onClick={() => this.sortHeader("authdate")}>
+					Last seen <Icon name="sort" />{" "}
+					<div className="sort">
+					    {this.state.authdate_sort}
+					</div>
+				    </th>
+				    <th>
+					Active
+				    </th>
+				    <th onClick={() => this.sortHeader("vlan")}>
+					VLAN <Icon name="sort" />{" "}
+					<div>
+					    {this.state.vlan_sort}
+					</div>
+				    </th>
+				    <th onClick={() => this.sortHeader("reason")}>
+					Reason <Icon name="sort" />{" "}
+					<div>
+					    {this.state.reason_sort}
+					</div>
+				    </th>
+				</tr>
+			    </thead>
+			    <tbody>{deviceInfo}</tbody>
+			</table>
 		    </div>
-		    <div id="search">
+		</div>
+	    </section>
+	);
+    }
+}
 
-			<DeviceSearchForm searchAction={this.getDevicesData} />
-		    </div>
-		    <div id="device_list">
-			<div id="data">
-			    <table>
-				<thead>
-				    <tr>
-					<th>
-					    Select
-					</th>
-					<th onClick={() => this.sortHeader("username")}>
-					    Username <Icon name="sort" />{" "}
-					    <div className="username_sort">
-						{this.state.username_sort}
-					    </div>
-					</th>
-					<th onClick={() => this.sortHeader("authdate")}>
-					    Last seen <Icon name="sort" />{" "}
-					    <div className="sort">
-						{this.state.authdate_sort}
-					    </div>
-					</th>
-					<th>
-					    Active
-					</th>
-					<th onClick={() => this.sortHeader("vlan")}>
-					    VLAN <Icon name="sort" />{" "}
-					    <div>
-						{this.state.vlan_sort}
-					    </div>
-					</th>
-					<th onClick={() => this.sortHeader("reason")}>
-					    Reason <Icon name="sort" />{" "}
-					    <div>
-						{this.state.reason_sort}
-					    </div>
-					</th>
-				    </tr>
-				</thead>
-				<tbody>{deviceInfo}</tbody>
-			    </table>
-			</div>
-		    </div>
-		</section>
-		);
-		}
-		}
-		
-		export default DeviceList;
+export default DeviceList;
