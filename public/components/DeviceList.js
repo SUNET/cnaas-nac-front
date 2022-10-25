@@ -33,6 +33,7 @@ class DeviceList extends React.Component {
 	    reason_sort: "",
 	    whenField: "",
 	    typeField: "",
+	    typeCondition: "",
 	    check: false
 	};
 
@@ -94,18 +95,12 @@ class DeviceList extends React.Component {
 	    newState["whenField"] = options.whenField;
 	}
 
-	if (options.typeField !== undefined) {
-	    newState["typeField"] = options.typeField;
-	}
-
 	if (options.sortField !== undefined) {
 	    newState["sortField"] = options.sortField;
 	}
 
-	if (
-	    options.filterField !== undefined &&
-		options.filterValue !== undefined
-	) {
+	if (options.filterField !== undefined &&
+	    options.filterValue !== undefined) {
 	    newState["filterField"] = options.filterField;
 	    newState["filterValue"] = options.filterValue;
 	}
@@ -165,12 +160,11 @@ class DeviceList extends React.Component {
 	this.getDevicesData();
     }
 
-    getDevicesAPIData = (sortField = "username", filterField, filterValue, pageNum, whenField = "week", typeField = "all") => {
+    getDevicesAPIData = (sortField = "username", filterField, filterValue, pageNum, whenField = "week") => {
 	const credentials = localStorage.getItem("token");
 	let filterParams = "";
 	let filterFieldOperator = "";
 	let whenParams = "";
-	let typeParams = "";
 
 	if (filterField != null && filterValue != null) {
 	    filterParams =
@@ -185,14 +179,11 @@ class DeviceList extends React.Component {
 	    whenField = "week";
 	}
 
-	if (typeField == "" || typeField == null) {
-	    typeField = "all";
-	}
-
 	whenParams = "&when=" + whenField;
-	typeParams = "&type=" + typeField;
 
-	fetch(process.env.NAC_API_URL + "/api/v1.0/auth"+ "?sort=" + sortField + filterParams + whenParams + typeParams, {
+	console.log("filterParams=" + filterParams);
+	
+	fetch(process.env.NAC_API_URL + "/api/v1.0/auth"+ "?sort=" + sortField + filterParams + whenParams, {
 	    method: "GET",
 	    headers: {
 		Authorization: `Bearer ${credentials}`
