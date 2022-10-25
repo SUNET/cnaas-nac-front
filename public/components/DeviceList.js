@@ -33,6 +33,8 @@ class DeviceList extends React.Component {
 	    reason_sort: "",
 	    whenField: "",
 	    typeField: "",
+	    fromDate: "",
+	    toDate: "",
 	    check: false
 	};
 
@@ -41,11 +43,11 @@ class DeviceList extends React.Component {
 	this.setPasswordText = this.setPasswordText.bind(this);
 	this.setVlanText = this.setVlanText.bind(this);
 	this.setCommentText = this.setCommentText.bind(this);
+	this.setFromDate = this.setFromDate.bind(this);
+	this.setToDate = this.setToDate.bind(this);
     }
 
     handleChange(event) {
-	console.log("handleChange");
-
 	let newState = this.state;
 
 	this.setState(newState);
@@ -82,6 +84,22 @@ class DeviceList extends React.Component {
 
 	this.setState(newState);
 	newState['commentText'] = event.target.value;
+	this.setState(newState);
+    }
+
+    setToDate(event) {
+	let newState = this.state;
+
+	this.setState(newState);
+	newState['toDate'] = event.target.value;
+	this.setState(newState);
+    }
+
+    setFromDate(event) {
+	let newState = this.state;
+
+	this.setState(newState);
+	newState['fromDate'] = event.target.value;
 	this.setState(newState);
     }
 
@@ -376,8 +394,11 @@ class DeviceList extends React.Component {
 	let jsonData = {"username": this.state.usernameText,
 			"password": this.state.passwordText,
 			"vlan": this.state.vlanText,
-			"comment": this.state.commentText
+			"comment": this.state.commentText,
+			"access_start": this.state.fromDate,
+			"access_stop": this.state.toDate
 		       };
+
 	const credentials = localStorage.getItem("token");
 
 	fetch(process.env.NAC_API_URL + "/api/v1.0/auth", {
@@ -506,7 +527,14 @@ class DeviceList extends React.Component {
 				    <td>Comment</td>
 				    <td>{items.comment}</td>
 				</tr>
-
+				<tr>
+				    <td>Access start</td>
+				    <td>{items.access_start}</td>
+				</tr>
+				<tr>
+				    <td>Access stop</td>
+				    <td>{items.access_stop}</td>
+				</tr>
 			    </tbody>
 			</table>
 		    </td>
@@ -570,6 +598,12 @@ class DeviceList extends React.Component {
 			<input type="text" value={this.state.commentText}
 			       onChange={this.setCommentText}
 			       placeholder="Comment (optional)" />
+			<input type="text" value={this.state.fromDate}
+			       onChange={this.setFromDate}
+			       placeholder="Start, 2022-07-22 12:00 (optional)" />
+			<input type="text" value={this.state.toDate}
+			       onChange={this.setToDate}
+			       placeholder="End, 2022-07-23 12:00 (optional)" />
 		    </Modal>
 		    <Modal onClose={this.showVlanModal}
 			   onSubmit={this.submitVlanModal}
