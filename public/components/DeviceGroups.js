@@ -238,6 +238,11 @@ class DeviceGroups extends React.Component {
 			<option>Field</option>
 			<option value="username">Username</option>
 			<option value="nasport">NAS port</option>
+			<option value="vlan">VLAN</option>
+			<option value="nasip">NAS IP address</option>
+			<option value="nasport">NAS port</option>
+			<option value="reason">Reason</option>
+			<option value="comment">Comment</option>
 		    </select>
 
 		    <input type="text" value={this.state.conditionText}
