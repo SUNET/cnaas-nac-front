@@ -1,31 +1,44 @@
 import React from "react";
 import PropTypes from 'prop-types'
 import { Button, Select, Input, Icon } from 'semantic-ui-react'
+import checkResponseStatus from "../utils/checkResponseStatus";
 
 class DeviceTypeForm extends React.Component {
-    state = {
-	typeField: ""
-    };
+    constructor() {
+	super();
+
+	this.state = {
+	    typeOptions: []
+	}
+
+	const credentials = localStorage.getItem("token");
+
+	fetch(process.env.NAC_API_URL + "/api/v1.0/groups?type=ui", {
+	    method: "GET",
+	    headers: {
+		Authorization: `Bearer ${credentials}`
+	    }
+	})
+	    .then(response => checkResponseStatus(response))
+	    .then(response => response.json())
+	    .then(data => {
+		{
+		    this.setState(
+			{
+			    typeOptions: data.data
+			}
+		    );
+		}
+	    });
+    }
 
     updateTypeField(e, option) {
-	const val = option.value;
-
-	this.setState({
-	    typeField: val
-	});
-
-	this.props.typeAction({typeField: val});
+	this.props.typeAction({groupName: option.value});
     }
 
     render() {
-	const typeOptions = [
-	    { 'key': 'eap', 'value': 'eap', 'text': 'EAP' },
-	    { 'key': 'mab', 'value': 'mab', 'text': 'MAB' },
-	    { 'key': 'all', 'value': 'all', 'text': 'All' },
-	]
-
 	return (
-	    <Select options={typeOptions} defaultValue='all' onChange={this.updateTypeField.bind(this)} />
+	    <Select options={this.state.typeOptions} defaultValue='all' onChange={this.updateTypeField.bind(this)} />
 	);
     }
 }

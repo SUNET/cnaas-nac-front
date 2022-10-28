@@ -31,7 +31,7 @@ class DeviceSearchForm extends React.Component {
 
     submitSearch(e) {
 	e.preventDefault();
-	this.props.searchAction({ filterField: this.state.searchField, filterValue: this.state.searchText});
+	this.props.searchAction({filterField: this.state.searchField, filterValue: this.state.searchText});
     }
 
     render() {

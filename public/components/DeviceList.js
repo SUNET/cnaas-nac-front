@@ -108,6 +108,10 @@ class DeviceList extends React.Component {
 
 	let newState = this.state;
 
+	if (options.groupName !== undefined) {
+	    newState["groupName"] = options.groupName;
+	}
+
 	if (options.whenField !== undefined) {
 	    newState["whenField"] = options.whenField;
 	}
@@ -140,7 +144,8 @@ class DeviceList extends React.Component {
 	    newState["filterValue"],
 	    newState["activePage"],
 	    newState["whenField"],
-	    newState["typeField"]
+	    newState["typeField"],
+	    newState["groupName"]
 	);
     };
 
@@ -183,12 +188,13 @@ class DeviceList extends React.Component {
 	this.getDevicesData();
     }
 
-    getDevicesAPIData = (sortField = "username", filterField, filterValue, pageNum, whenField = "week", typeField = "all") => {
+    getDevicesAPIData = (sortField = "username", filterField, filterValue, pageNum, whenField = "week", typeField = "all", groupName = "all") => {
 	const credentials = localStorage.getItem("token");
 	let filterParams = "";
 	let filterFieldOperator = "";
 	let whenParams = "";
 	let typeParams = "";
+	let groupParams = "";
 
 	if (filterField != null && filterValue != null) {
 	    filterParams =
@@ -207,10 +213,15 @@ class DeviceList extends React.Component {
 	    typeField = "all";
 	}
 
+	if (groupName == "" || groupName == null) {
+	    groupName = "all"
+	}
+
 	whenParams = "&when=" + whenField;
 	typeParams = "&type=" + typeField;
+	groupParams = "&group=" + groupName;
 
-	fetch(process.env.NAC_API_URL + "/api/v1.0/auth"+ "?sort=" + sortField + filterParams + whenParams + typeParams, {
+	fetch(process.env.NAC_API_URL + "/api/v1.0/auth"+ "?sort=" + sortField + filterParams + whenParams + typeParams + groupParams, {
 	    method: "GET",
 	    headers: {
 		Authorization: `Bearer ${credentials}`
