@@ -1,6 +1,7 @@
 import React from "react";
 import DeviceList from "./DeviceList";
 import DeviceGroups from "./DeviceGroups";
+import DeviceOui from "./DeviceOui";
 import LoginForm from "./LoginForm";
 import { Route } from "react-router-dom";
 import { postData } from "react-router-dom";
@@ -87,6 +88,11 @@ class Panel extends React.Component {
 		    exact
 		    path="/groups"
 		    render={props => <DeviceGroups logout={this.logout} />}
+		/>
+		<Route
+		    exact
+		    path="/oui"
+		    render={props => <DeviceOui logout={this.logout} />}
 		/>
 	    </div>
 	);

@@ -16,6 +16,9 @@ class Header extends React.Component {
 			<NavLink exact activeClassName="active" to={`/groups`}>
 			    <li>Groups</li>
 			</NavLink>
+			<NavLink exact activeClassName="active" to={`/oui`}>
+			    <li>Auto assign</li>
+			</NavLink>
 		    </ul>
 		</nav>
 	    </header>
