@@ -32,6 +32,7 @@
         "react-router-dom": "^5.1.2"
     },
     "dependencies": {
+        "core-js-compat": "^3.26.0",
         "dotenv": "^8.2.0",
         "fs": "^0.0.1-security",
         "js-file-download": "^0.4.12",
