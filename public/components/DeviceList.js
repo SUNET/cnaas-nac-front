@@ -5,7 +5,8 @@ import DeviceWhenForm from "./DeviceWhenForm";
 import DeviceTypeForm from "./DeviceTypeForm";
 import checkResponseStatus from "../utils/checkResponseStatus";
 import Modal from "./Modal";
-import fileDownload from 'js-file-download'
+import fileDownload from "js-file-download";
+import FileUploadButton from "./FileUpload";
 
 class DeviceList extends React.Component {
     constructor() {
@@ -102,6 +103,7 @@ class DeviceList extends React.Component {
 	newState['fromDate'] = event.target.value;
 	this.setState(newState);
     }
+
 
     getDevicesData = options => {
 	if (options === undefined) options = {};
@@ -225,8 +227,7 @@ class DeviceList extends React.Component {
 	    method: "GET",
 	    headers: {
 		Authorization: `Bearer ${credentials}`
-	    }
-	})
+	    }})
 	    .then(response => checkResponseStatus(response))
 	    .then(response => response.json())
 	    .then(data => {
@@ -468,6 +469,10 @@ class DeviceList extends React.Component {
 	this.forceUpdate();
     };
 
+    handleUploadChange = event => {
+	console.log(event.target.files[0]);
+    };
+
     render() {
 	let deviceInfo = "";
 
@@ -563,6 +568,7 @@ class DeviceList extends React.Component {
 			<Button onClick={this.handleRemove} title="Remove user(s)">
 			    ➖
 			</Button>
+			<FileUploadButton />
 			<Button onClick={this.handleSave} title="Export user(s) to CSV">
 			    💾
 			</Button>
