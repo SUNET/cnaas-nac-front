@@ -568,7 +568,10 @@ class DeviceList extends React.Component {
 			<Button onClick={this.handleRemove} title="Remove user(s)">
 			    ➖
 			</Button>
-			<FileUploadButton />
+		    </Button.Group>
+		    &nbsp;
+		    <Button.Group>
+			<FileUploadButton/>
 			<Button onClick={this.handleSave} title="Export user(s) to CSV">
 			    💾
 			</Button>

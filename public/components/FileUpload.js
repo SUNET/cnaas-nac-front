@@ -26,7 +26,7 @@ class FileUploadButton extends Component {
 		    style={{ display: "none" }}
 		    // multiple={false}
 		/>
-		<Button onClick={() => this.refs.fileInput.click()}>📁</Button>
+		<Button onClick={() => this.refs.fileInput.click()} title="Upload CSV file">📁</Button>
 	    </React.Fragment>
 	);
     }
