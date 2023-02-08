@@ -44,6 +44,7 @@ class LoginForm extends React.Component {
     }
 
     render() {
+	console.log("Render");
 	if (this.props.show !== true || process.env.DISABLE_JWT == 1) {
 	    const acceptData = this.state.acceptData;
 	    const rejectData = this.state.rejectData;
