@@ -1,4 +1,4 @@
-FROM ubuntu:focal
+FROM debian:bookworm
 ENV DEBIAN_FRONTEND noninteractive
 
 # Create directories

@@ -5,8 +5,6 @@ set -x
 
 export DEBIAN_FRONTEND noninteractive
 
-/bin/sed -i s/deb.debian.org/ftp.se.debian.org/g /etc/apt/sources.list
-
 apt-get update && \
     apt-get -y dist-upgrade && \
     apt-get install -y \
@@ -19,7 +17,7 @@ apt-get update && \
       netcat-openbsd \
       net-tools \
       curl \
-      netcat \
+      netcat-traditional \
       nginx \
       supervisor \
       libssl-dev \
