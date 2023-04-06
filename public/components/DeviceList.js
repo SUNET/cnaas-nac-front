@@ -509,7 +509,8 @@ class DeviceList extends React.Component {
 		    <td key="2" align="left">{items.authdate}</td>
 		    <td key="3" align="left">{clientStatus}</td>
 		    <td key="4" align="left">{items.vlan}</td>
-		    <td key="5" align="left">{items.reason}</td>
+		    <td key="5" align="left">{items.vendor}</td>
+		    <td key="6" align="left">{items.reason}</td>
 		</tr>,
 		<tr key={index + "_content"} colSpan="4" className="device_details_row" hidden>
 		    <td>
@@ -673,6 +674,9 @@ class DeviceList extends React.Component {
 					<div>
 					    {this.state.vlan_sort}
 					</div>
+				    </th>
+				    <th>
+					Vendor
 				    </th>
 				    <th onClick={() => this.sortHeader("reason")}>
 					Reason <Icon name="sort" />{" "}
