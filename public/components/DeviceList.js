@@ -511,6 +511,7 @@ class DeviceList extends React.Component {
 		    <td key="4" align="left">{items.vlan}</td>
 		    <td key="5" align="left">{items.vendor}</td>
 		    <td key="6" align="left">{items.reason}</td>
+		    <td key="7" align="left">{items.comment}</td>
 		</tr>,
 		<tr key={index + "_content"} colSpan="4" className="device_details_row" hidden>
 		    <td>
@@ -683,6 +684,9 @@ class DeviceList extends React.Component {
 					<div>
 					    {this.state.reason_sort}
 					</div>
+				    </th>
+				    <th>
+					Comment{" "}
 				    </th>
 				</tr>
 			    </thead>
