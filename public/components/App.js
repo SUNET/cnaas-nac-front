@@ -10,12 +10,71 @@ import "../styles/main.css";
 // import "../styles/prism.css";
 
 class App extends React.Component {
+    state = {
+	loginMessage: "",
+	loggedIn: false,
+    };
+    
+    login = (event, email, password) => {
+	event.preventDefault();
+	const url = `${process.env.API_URL}/api/v1.0/auth`;
+	const loginString = `${email}:${password}`;
+	fetch(url, {
+	    method: "POST",
+	    headers: { Authorization: `Basic ${btoa(loginString)}` },
+	})
+	    .then((response) => checkResponseStatus(response))
+	    .then((response) => response.json())
+	    .then((data) => {
+		localStorage.setItem("token", data.access_token);
+		this.setState({
+		    loginMessage: "Login successful",
+		    loggedIn: true,
+		});
+	    })
+	    .catch((error) => {
+		localStorage.removeItem("token");
+		this.setState({
+		    loginMessage: error.message,
+		    loggedIn: false,
+		});
+		console.log(error);
+	    });
+    };
+    
+    oauthLogin = (event) => {
+	event.preventDefault();
+	const url = `${process.env.API_URL}/api/v1.0/auth/login`;
+	window.location.replace(url);
+    };
+    
+    logout = () => {
+	localStorage.removeItem("token");
+	localStorage.removeItem("permissions");
+	this.setState({
+	    loginMessage: "You have been logged out",
+	    loggedIn: false,
+	});
+    };
+
+    componentDidMount() {
+	if (localStorage.getItem("token") !== null) {
+	    this.setState({ loggedIn: true });
+	}
+    }
+    
     render() {
 	return (
 	    <div className="container">
 		<BrowserRouter>
 		    <Header />
-		    <Panel />
+		    <Panel
+			login={this.login}
+			logout={this.logout}
+			oauthLogin={this.oauthLogin}
+			loginMessage={this.state.loginMessage}
+			loggedIn={this.state.loggedIn}
+		    />
 		</BrowserRouter>
 	    </div>
 	);
