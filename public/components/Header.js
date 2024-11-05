@@ -7,16 +7,16 @@ class Header extends React.Component {
 	    <header>
 		<nav>
 		    <ul>
-			<NavLink exact activeClassName="active" to={`/`}>
+			<NavLink activeclassname="active" to={`/`}>
 			    <li>Start</li>
 			</NavLink>
-			<NavLink exact activeClassName="active" to={`/clients`}>
+			<NavLink activeclassname="active" to={`/clients`}>
 			    <li>Clients</li>
 			</NavLink>
-			<NavLink exact activeClassName="active" to={`/groups`}>
+			<NavLink activeclassname="active" to={`/groups`}>
 			    <li>Groups</li>
 			</NavLink>
-			<NavLink exact activeClassName="active" to={`/oui`}>
+			<NavLink activeclassname="active" to={`/oui`}>
 			    <li>Auto assign</li>
 			</NavLink>
 		    </ul>

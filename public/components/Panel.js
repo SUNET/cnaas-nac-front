@@ -3,9 +3,10 @@ import DeviceList from "./DeviceList";
 import DeviceGroups from "./DeviceGroups";
 import DeviceOui from "./DeviceOui";
 import LoginForm from "./LoginForm";
-import { Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { postData } from "react-router-dom";
 import checkResponseStatus from "../utils/checkResponseStatus";
+import ErrorBoundary from "./ErrorBoundary";
 
 // passible base64 encode function?
 function btoaUTF16 (sString) {
@@ -69,7 +70,6 @@ class Panel extends React.Component {
 	return (
 	    <div id="panel">
 		<Route
-		    exact
 		    path="/"
 		    render={props => (
 			<LoginForm
@@ -79,21 +79,11 @@ class Panel extends React.Component {
 			/>
 		    )}
 		/>
-		<Route
-		    exact
-		    path="/clients"
-		    render={props => <DeviceList logout={this.logout} />}
-		/>
-		<Route
-		    exact
-		    path="/groups"
-		    render={props => <DeviceGroups logout={this.logout} />}
-		/>
-		<Route
-		    exact
-		    path="/oui"
-		    render={props => <DeviceOui logout={this.logout} />}
-		/>
+		<ErrorBoundary>
+		    <Route path="/clients" render={props => <DeviceList logout={this.logout} />} />
+		    <Route path="/groups" render={props => <DeviceGroups logout={this.logout} />} />
+		    <Route path="/oui" render={props => <DeviceOui logout={this.logout} />} />
+		</ErrorBoundary>
 	    </div>
 	);
     }

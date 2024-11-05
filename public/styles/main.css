@@ -281,8 +281,6 @@ select {
 }
 
 @supports (offset-rotation: 0deg) {
-    offset-rotation: 0deg;
-    offset-path: path("M 250,100 S -300,500 -700,-200");
     .modal.off {
 	offset-distance: 100%;
     }
