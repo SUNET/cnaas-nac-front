@@ -1,28 +1,23 @@
 import React from "react";
-import Header from "./Header";
+import { BrowserRouter } from "react-router-dom";
+import AuthContextProvider from "../contexts/AuthContext";
+import Header from "./Header/Header";
 import Panel from "./Panel";
-
 // needed for routing
-import { Router } from "react-router-dom";
-import { createBrowserHistory } from "history";
 import "../styles/reset.css";
 import "../styles/main.css";
 
-// import "../styles/prism.css";
-
-export const history = createBrowserHistory();
-
-class App extends React.Component {
-  render() {
-    return (
-      <div className="container">
-        <Router history={history}>
+function App() {
+  return (
+    <div className="container">
+      <AuthContextProvider>
+        <BrowserRouter>
           <Header />
           <Panel />
-        </Router>
-      </div>
-    );
-  }
+        </BrowserRouter>
+      </AuthContextProvider>
+    </div>
+  );
 }
 
 export default App;
