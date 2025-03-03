@@ -5,20 +5,15 @@
 disabled: false
 
 git:
+  branch: feature_sso_2
   extensions:
     shallow_clone: true
 
 extra_jobs:
-  - name: cnaas-nac-front
+  - name: cnaas-nac-front-sso
     builders:
       - docker
     docker_name: cnaas/nac-front
     docker_context_dir: docker/front
-
-  - name: cnaas-nac-front-master
-    git:
-      branch: master
-    builders:
-      - docker
-    docker_name: cnaas/nac-front
-    docker_context_dir: docker/front
+    docker_tags:
+      - "v2.0"
