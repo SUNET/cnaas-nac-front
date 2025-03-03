@@ -5,12 +5,12 @@
 disabled: false
 
 git:
-    branch: develop
-    extensions:
-      shallow_clone: true
+  branch: develop
+  extensions:
+    shallow_clone: true
 
 slack:
-    room: "cnaas-builds"
+  room: "cnaas-builds"
 
 extra_jobs:
   - name: cnaas-nac-front
