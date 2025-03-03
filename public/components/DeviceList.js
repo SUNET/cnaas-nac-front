@@ -604,7 +604,6 @@ class DeviceList extends React.Component {
 			    Bounce
 			</Button>
 		    </Button.Group>
-
 		    <Modal onClose={this.showAddModal}
 			   onSubmit={this.submitAddModal}
 			   show={this.state.showAddModal}
