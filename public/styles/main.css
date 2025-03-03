@@ -174,7 +174,7 @@ form {
 #action {
     display: inline-block;
     padding: 16px 0;
-    position: absolute;
+    /* position: absolute; */
     left: 1%;
     width: 100%;
 }
@@ -188,11 +188,14 @@ form {
 #device_list {
     display: flex;
     flex-direction: column;
+    flex: 1; /* Take remaining space */
+    overflow: auto; /* Allow scrolling if needed */
 }
 
 #data {
     height: 100%;
     margin: 16px 0;
+    overflow: auto; /* Allow table to scroll if needed */
     /*  background: lightgray; */
 }
 
@@ -310,4 +313,35 @@ select {
 
 #centered-toggle-button {
     position: absolute;
+}
+
+#action {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 16px 0;
+    width: 100%;
+    margin-bottom: 70px;
+}
+
+/* Style for button groups */
+.Button.Group {
+    margin-right: 12px;
+    display: inline-flex;
+}
+
+/* Style for form components to align horizontally */
+.form-container {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Push to the right side */
+}
+
+/* Individual form components */
+.DeviceWhenForm,
+.DeviceTypeForm,
+.DeviceSearchForm {
+    display: inline-flex;
+    margin-left: 12px;
+    vertical-align: middle;
 }

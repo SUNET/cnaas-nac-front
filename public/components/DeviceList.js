@@ -643,13 +643,11 @@ class DeviceList extends React.Component {
 			       onChange={this.setCommentText}
 			       placeholder="Enter comment here..." />
 		    </Modal>
-		    &nbsp;
-		    <DeviceWhenForm whenAction={this.getDevicesData} />
-		    &nbsp;
-		    <DeviceTypeForm typeAction={this.getDevicesData} />
-		    &nbsp;
-		    <DeviceSearchForm searchAction={this.getDevicesData} />
-		    &nbsp;
+		    <div className="form-container">
+			<DeviceWhenForm className="DeviceWhenForm" whenAction={this.getDevicesData} />
+			<DeviceTypeForm className="DeviceTypeForm" typeAction={this.getDevicesData} />
+			<DeviceSearchForm clasName="DeviceSearchForm" searchAction={this.getDevicesData} />
+		    </div>
 		</div>
 		<div id="device_list">
 		    <div id="data">
