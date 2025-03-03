@@ -4,6 +4,14 @@
 
 disabled: false
 
+git:
+    branch: develop
+      extensions:
+            shallow_clone: true
+
+slack:
+    room: "cnaas-builds"
+
 extra_jobs:
   - name: cnaas-nac-front
     git:
@@ -12,3 +20,15 @@ extra_jobs:
       - docker
     docker_name: cnaas/nac-front
     docker_context_dir: docker/front
+    docker_tags:
+      - "v1.0"
+
+  - name: cnaas-nac-front-sso
+    git:
+      brach: feature_sso_2
+    builders:
+      - docker
+    docker_name: cnaas/nac-front
+    docker_context_dir: docker/front
+    docker_tags:
+      - "v2.0"
