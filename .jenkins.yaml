@@ -6,8 +6,8 @@ disabled: false
 
 git:
     branch: develop
-      extensions:
-            shallow_clone: true
+    extensions:
+      shallow_clone: true
 
 slack:
     room: "cnaas-builds"
