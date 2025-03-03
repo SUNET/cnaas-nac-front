@@ -28,7 +28,7 @@ extra_jobs:
       brach: feature_sso_2
     builders:
       - docker
-    docker_name: cnaas/nac-front
+    docker_name: cnaas/nac-front-sso
     docker_context_dir: docker/front
     docker_tags:
       - "v2.0"
