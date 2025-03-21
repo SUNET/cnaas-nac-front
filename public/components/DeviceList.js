@@ -226,7 +226,7 @@ class DeviceList extends React.Component {
 	console.log("Credentials: " + credentials);
 
 	console.log("URL: " + process.env.API_URL + "/api/v1.0/auth" + "?sort=" + sortField + filterParams + whenParams + typeParams + groupParams);
-	
+
 	fetch(process.env.API_URL + "/api/v1.0/auth"+ "?sort=" + sortField + filterParams + whenParams + typeParams + groupParams, {
 	    method: "GET",
 	    headers: {
@@ -604,6 +604,11 @@ class DeviceList extends React.Component {
 			    Bounce
 			</Button>
 		    </Button.Group>
+		    &nbsp;
+		    <DeviceWhenForm whenAction={this.getDevicesData} />
+		    &nbsp;
+		    <DeviceTypeForm typeAction={this.getDevicesData} />
+		    &nbsp;
 		    <Modal onClose={this.showAddModal}
 			   onSubmit={this.submitAddModal}
 			   show={this.state.showAddModal}
@@ -643,11 +648,9 @@ class DeviceList extends React.Component {
 			       onChange={this.setCommentText}
 			       placeholder="Enter comment here..." />
 		    </Modal>
-		    <div className="form-container">
-			<DeviceWhenForm className="DeviceWhenForm" whenAction={this.getDevicesData} />
-			<DeviceTypeForm className="DeviceTypeForm" typeAction={this.getDevicesData} />
-			<DeviceSearchForm clasName="DeviceSearchForm" searchAction={this.getDevicesData} />
-		    </div>
+		</div>
+		<div id="search">
+		    <DeviceSearchForm searchAction={this.getDevicesData} />
 		</div>
 		<div id="device_list">
 		    <div id="data">
